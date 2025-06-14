@@ -52,15 +52,27 @@ function Footer() {
   ];
 
   const contactInfo = [
-    { icon: <Phone fontSize="small" />, text: '+1 (555) 123-4567', href: 'tel:+15551234567' },
-    { icon: <Email fontSize="small" />, text: 'contact@fixmydb.com', href: 'mailto:contact@fixmydb.com' },
-    { icon: <LocationOn fontSize="small" />, text: '123 Database Lane, San Francisco, CA', href: 'https://maps.google.com' }
+    { 
+    icon: <Phone fontSize="small" />, 
+    text: '+91 7675028957', 
+    href: 'tel:+917675028957' 
+  },
+  { 
+    icon: <Email fontSize="small" />, 
+    text: 'saisandeepnaskuri2@gmail.com', 
+    href: 'mailto:saisandeepnaskuri2@gmail.com' 
+  },
+  { 
+    icon: <LocationOn fontSize="small" />, 
+    text: '1-87 Palluru Village, Kunavaram Mandal, Alluri Seetha Rama Raju District, AP 507121', 
+    href: 'https://maps.google.com/?q=1-87+Palluru+Village+Kunavaram+Mandal+Alluri+Seetha+Rama+Raju+District+AP+507121' 
+  }
   ];
 
   const socialLinks = [
-    { icon: <Facebook />, url: '#', label: 'Facebook' },
-    { icon: <Twitter />, url: '#', label: 'Twitter' },
-    { icon: <LinkedIn />, url: '#', label: 'LinkedIn' }
+    { icon: <Facebook />, url: 'https://www.facebook.com/', label: 'Facebook' },
+    { icon: <Twitter />, url: 'https://x.com/', label: 'Twitter' },
+    { icon: <LinkedIn />, url: 'https://www.linkedin.com/in/sai-sandeep-naskuri-388673205/', label: 'LinkedIn' }
   ];
 
   const legalLinks = [
