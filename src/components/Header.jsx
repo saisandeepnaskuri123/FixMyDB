@@ -1,42 +1,39 @@
+import { useState, useEffect } from 'react';
+import Container from '@mui/material/Container';
 import { 
   AppBar, 
   Toolbar, 
   Typography, 
   Button, 
   Box, 
-  Container,
   IconButton,
-  Menu,
-  MenuItem,
-  useTheme,
-  useMediaQuery
+  TextField,
+  InputAdornment,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+  CircularProgress,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { 
   Menu as MenuIcon,
-  AccountCircle,
-  Search,
-  Phone
+  Search as SearchIcon,
+  Close as CloseIcon,
+  Phone as PhoneIcon
 } from '@mui/icons-material';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { searchContent } from '../utils/searchService';
 
 function NavBar() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const navItems = [
     { label: 'Home', path: '/' },
@@ -45,6 +42,38 @@ function NavBar() {
     { label: 'Resources', path: '/resources' },
     { label: 'Contact', path: '/contact' }
   ];
+
+  // Debounced search
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setSearchResults([]);
+      return;
+    }
+
+    setIsSearching(true);
+    const timer = setTimeout(async () => {
+      try {
+        const results = await searchContent(searchQuery);
+        setSearchResults(results);
+      } catch (error) {
+        console.error("Search error:", error);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const handleSearchClose = () => {
+    setSearchQuery('');
+    setSearchResults([]);
+    setSearchOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
 
   return (
     <AppBar 
@@ -92,43 +121,104 @@ function NavBar() {
 
           {/* Desktop Navigation */}
           {!isMobile && (
-            <Box sx={{ flexGrow: 1, display: 'flex' }}>
-              {navItems.map((item) => (
-                <Button
-                  key={item.label}
-                  component={Link}
-                  to={item.path}
-                  sx={{
-                    mx: 1,
-                    color: 'text.primary',
-                    '&:hover': {
-                      color: 'primary.main',
-                      backgroundColor: 'transparent'
-                    }
+            <>
+              <Box sx={{ flexGrow: 1, display: 'flex' }}>
+                {navItems.map((item) => (
+                  <Button
+                    key={item.label}
+                    component={Link}
+                    to={item.path}
+                    sx={{
+                      mx: 1,
+                      color: 'text.primary',
+                      '&:hover': {
+                        color: 'primary.main',
+                        backgroundColor: 'transparent'
+                      }
+                    }}
+                  >
+                    {item.label}
+                  </Button>
+                ))}
+              </Box>
+
+              {/* Search Bar - Desktop */}
+              <Box sx={{ width: 300, mx: 2, position: 'relative' }}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  placeholder="Search documentation..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setSearchOpen(true)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {searchQuery && (
+                          <IconButton 
+                            onClick={handleSearchClose} 
+                            size="small"
+                            edge="end"
+                          >
+                            {isSearching ? <CircularProgress size={20} /> : <CloseIcon />}
+                          </IconButton>
+                        )}
+                      </InputAdornment>
+                    ),
                   }}
-                >
-                  {item.label}
-                </Button>
-              ))}
-            </Box>
+                />
+                {searchOpen && searchResults.length > 0 && (
+                  <Paper 
+                    elevation={3} 
+                    sx={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: 0,
+                      right: 0,
+                      zIndex: theme.zIndex.modal,
+                      mt: 1,
+                      maxHeight: 400,
+                      overflow: 'auto'
+                    }}
+                  >
+                    <List>
+                      {searchResults.map((result) => (
+                        <ListItem 
+                          key={result.id} 
+                          component={Link} 
+                          to={result.path}
+                          onClick={handleSearchClose}
+                          sx={{
+                            '&:hover': {
+                              backgroundColor: 'action.hover'
+                            }
+                          }}
+                        >
+                          <ListItemText
+                            primary={result.title}
+                            secondary={result.type}
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Paper>
+                )}
+              </Box>
+            </>
           )}
 
           {/* Right-side buttons/actions */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton 
-              size="large" 
-              aria-label="search" 
-              color="inherit"
-              sx={{ mr: 1 }}
-            >
-              <Search />
-            </IconButton>
-
             {!isMobile && (
               <>
                 <Button
                   variant="outlined"
-                  startIcon={<Phone />}
+                  startIcon={<PhoneIcon />}
                   sx={{
                     mr: 2,
                     borderWidth: '2px',
@@ -144,6 +234,9 @@ function NavBar() {
                   color="primary"
                   component={Link}
                   to="/contact"
+                  sx={{
+                    minWidth: 120
+                  }}
                 >
                   Get Consultation
                 </Button>
@@ -152,19 +245,83 @@ function NavBar() {
 
             {/* Mobile menu button */}
             {isMobile && (
-              <IconButton
-                size="large"
-                aria-label="menu"
-                aria-controls="mobile-menu"
-                aria-haspopup="true"
-                onClick={toggleMobileMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
+              <>
+                <IconButton
+                  size="large"
+                  aria-label="search"
+                  onClick={() => setSearchOpen(!searchOpen)}
+                  color="inherit"
+                  sx={{ mr: 1 }}
+                >
+                  <SearchIcon />
+                </IconButton>
+                <IconButton
+                  size="large"
+                  aria-label="menu"
+                  aria-controls="mobile-menu"
+                  aria-haspopup="true"
+                  onClick={toggleMobileMenu}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+              </>
             )}
           </Box>
         </Toolbar>
+
+        {/* Mobile Search - appears below */}
+        {isMobile && searchOpen && (
+          <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}>
+            <Box sx={{ position: 'relative' }}>
+              <TextField
+                fullWidth
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {searchQuery && (
+                        <IconButton 
+                          onClick={handleSearchClose} 
+                          size="small"
+                          edge="end"
+                        >
+                          {isSearching ? <CircularProgress size={20} /> : <CloseIcon />}
+                        </IconButton>
+                      )}
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              {searchResults.length > 0 && (
+                <Paper elevation={3} sx={{ mt: 1, maxHeight: 300, overflow: 'auto' }}>
+                  <List>
+                    {searchResults.map((result) => (
+                      <ListItem 
+                        key={result.id} 
+                        component={Link} 
+                        to={result.path}
+                        onClick={handleSearchClose}
+                      >
+                        <ListItemText
+                          primary={result.title}
+                          secondary={result.type}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Paper>
+              )}
+            </Box>
+          </Box>
+        )}
 
         {/* Mobile Menu */}
         {isMobile && mobileMenuOpen && (
@@ -200,7 +357,7 @@ function NavBar() {
               <Button
                 variant="outlined"
                 fullWidth
-                startIcon={<Phone />}
+                startIcon={<PhoneIcon />}
                 sx={{ mr: 1 }}
               >
                 Call

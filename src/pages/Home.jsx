@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography, Card, CardContent, useTheme } from '@mui/material';
+import { Box, Button, Container, Grid, Typography, Card, CardContent, useTheme, Stack } from '@mui/material';
 import { 
   Speed, 
   Security, 
@@ -16,22 +16,26 @@ function Home() {
     {
       icon: <Speed fontSize="large" color="primary" sx={{ fontSize: 50 }} />,
       title: "Performance Tuning",
-      description: "Optimize queries and configurations for maximum database speed"
+      description: "Optimize queries and configurations for maximum database speed and efficiency",
+      color: 'primary'
     },
     {
       icon: <Security fontSize="large" color="primary" sx={{ fontSize: 50 }} />,
       title: "Security Hardening",
-      description: "Protect your data with enterprise-grade security measures"
+      description: "Enterprise-grade security measures to protect your sensitive data",
+      color: 'error'
     },
     {
       icon: <Storage fontSize="large" color="primary" sx={{ fontSize: 50 }} />,
       title: "24/7 Monitoring",
-      description: "Proactive monitoring prevents issues before they occur"
+      description: "Proactive monitoring prevents issues before they impact your business",
+      color: 'warning'
     },
     {
       icon: <Cloud fontSize="large" color="primary" sx={{ fontSize: 50 }} />,
       title: "Cloud Optimization",
-      description: "Reduce AWS/GCP costs while improving performance"
+      description: "Reduce AWS/GCP costs while improving performance and reliability",
+      color: 'success'
     }
   ];
 
@@ -43,33 +47,50 @@ function Home() {
   ];
 
   return (
-    <Box>
+    <Box sx={{ backgroundColor: 'background.default' }}>
       {/* Hero Section */}
       <Box 
         sx={{ 
-          background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, #2d3748 100%)`,
+          background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
           color: 'white',
-          py: 10,
-          textAlign: 'center'
+          py: { xs: 8, md: 12 },
+          textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Typography 
             variant="h2" 
             component="h1" 
             gutterBottom 
             sx={{ 
-              fontWeight: 'bold',
-              mb: 3
+              fontWeight: 800,
+              mb: 3,
+              letterSpacing: '0.5px',
+              lineHeight: 1.2
             }}
           >
             Database Experts at Your Service
           </Typography>
-          <Typography variant="h5" sx={{ mb: 4 }}>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              mb: 4, 
+              maxWidth: 800,
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
             FixMyDB provides specialized database management to optimize performance, 
             enhance security, and reduce infrastructure costs.
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 4 }}>
+          <Stack 
+            direction={{ xs: 'column', sm: 'row' }} 
+            spacing={3} 
+            justifyContent="center"
+            sx={{ mt: 5 }}
+          >
             <Button 
               variant="contained" 
               color="secondary" 
@@ -77,9 +98,17 @@ function Home() {
               component={Link}
               to="/contact"
               sx={{ 
-                px: 4,
+                px: 6,
                 py: 1.5,
-                fontSize: '1.1rem'
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                borderRadius: 2,
+                textTransform: 'none',
+                boxShadow: theme.shadows[4],
+                '&:hover': {
+                  boxShadow: theme.shadows[6],
+                  backgroundColor: theme.palette.secondary.dark
+                }
               }}
             >
               Get Free Consultation
@@ -91,32 +120,51 @@ function Home() {
               component={Link}
               to="/services"
               sx={{ 
-                px: 4,
+                px: 6,
                 py: 1.5,
                 fontSize: '1.1rem',
-                borderWidth: '2px',
+                fontWeight: 600,
+                borderRadius: 2,
+                textTransform: 'none',
+                borderWidth: 2,
                 '&:hover': {
-                  borderWidth: '2px'
+                  borderWidth: 2,
+                  backgroundColor: 'rgba(255,255,255,0.1)'
                 }
               }}
             >
               Our Services
             </Button>
-          </Box>
+          </Stack>
         </Container>
       </Box>
 
       {/* Stats Section */}
-      <Box sx={{ py: 8, bgcolor: 'background.paper' }}>
-        <Container>
-          <Grid container spacing={4} justifyContent="center">
+      <Box sx={{ py: { xs: 6, md: 10 }, backgroundColor: 'background.paper' }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={{ xs: 2, md: 4 }} justifyContent="center">
             {stats.map((stat, index) => (
               <Grid item xs={6} sm={3} key={index}>
-                <Box textAlign="center">
-                  <Typography variant="h3" color="primary" fontWeight="bold">
+                <Box 
+                  textAlign="center"
+                  sx={{
+                    p: 3,
+                    borderRadius: 2,
+                    height: '100%',
+                    backgroundColor: 'background.default'
+                  }}
+                >
+                  <Typography 
+                    variant="h2" 
+                    color="primary" 
+                    fontWeight={800}
+                    sx={{ mb: 1 }}
+                  >
                     {stat.value}
                   </Typography>
-                  <Typography variant="h6">{stat.label}</Typography>
+                  <Typography variant="h6" color="text.secondary">
+                    {stat.label}
+                  </Typography>
                 </Box>
               </Grid>
             ))}
@@ -125,40 +173,70 @@ function Home() {
       </Box>
 
       {/* Services Section */}
-      <Box sx={{ py: 10, bgcolor: 'background.default' }}>
-        <Container>
+      <Box sx={{ py: { xs: 6, md: 10 }, backgroundColor: 'background.default' }}>
+        <Container maxWidth="lg">
           <Typography 
             variant="h3" 
             align="center" 
             gutterBottom 
             sx={{ 
-              fontWeight: 'bold',
-              mb: 8
+              fontWeight: 800,
+              mb: { xs: 4, md: 8 },
+              color: 'text.primary'
             }}
           >
             Our Specialized Services
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={{ xs: 3, md: 4 }}>
             {services.map((service, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <Card 
+                  elevation={3}
                   sx={{ 
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    transition: 'transform 0.3s',
+                    borderRadius: 4,
+                    overflow: 'hidden',
+                    transition: 'all 0.3s ease',
+                    border: '1px solid',
+                    borderColor: 'divider',
                     '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: theme.shadows[6]
+                      transform: 'translateY(-8px)',
+                      boxShadow: theme.shadows[8],
+                      borderColor: theme.palette[service.color].main
                     }
                   }}
                 >
-                  <CardContent sx={{ flexGrow: 1, textAlign: 'center' }}>
-                    <Box sx={{ mb: 2 }}>{service.icon}</Box>
-                    <Typography variant="h5" gutterBottom>
+                  <CardContent 
+                    sx={{ 
+                      flexGrow: 1, 
+                      textAlign: 'center',
+                      p: 4,
+                      '&:last-child': {
+                        pb: 4
+                      }
+                    }}
+                  >
+                    <Box 
+                      sx={{ 
+                        mb: 3,
+                        color: `${service.color}.main`
+                      }}
+                    >
+                      {service.icon}
+                    </Box>
+                    <Typography 
+                      variant="h5" 
+                      gutterBottom 
+                      sx={{ 
+                        fontWeight: 700,
+                        mb: 2
+                      }}
+                    >
                       {service.title}
                     </Typography>
-                    <Typography>
+                    <Typography color="text.secondary">
                       {service.description}
                     </Typography>
                   </CardContent>
@@ -166,7 +244,7 @@ function Home() {
               </Grid>
             ))}
           </Grid>
-          <Box textAlign="center" mt={6}>
+          <Box textAlign="center" mt={{ xs: 4, md: 8 }}>
             <Button 
               variant="outlined" 
               color="primary" 
@@ -177,9 +255,12 @@ function Home() {
                 px: 6,
                 py: 1.5,
                 fontSize: '1.1rem',
-                borderWidth: '2px',
+                fontWeight: 600,
+                borderRadius: 2,
+                textTransform: 'none',
+                borderWidth: 2,
                 '&:hover': {
-                  borderWidth: '2px'
+                  borderWidth: 2
                 }
               }}
             >
@@ -192,18 +273,34 @@ function Home() {
       {/* CTA Section */}
       <Box 
         sx={{ 
-          background: `linear-gradient(to right, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
+          background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
           color: 'white',
-          py: 10,
+          py: { xs: 8, md: 12 },
           textAlign: 'center'
         }}
       >
-        <Container maxWidth="md">
-          <Typography variant="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+        <Container maxWidth="lg">
+          <Typography 
+            variant="h2" 
+            gutterBottom 
+            sx={{ 
+              fontWeight: 800,
+              mb: 3
+            }}
+          >
             Ready to Optimize Your Database?
           </Typography>
-          <Typography variant="h5" sx={{ mb: 4 }}>
-            Our experts are ready to analyze your database and provide customized solutions.
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              mb: 6,
+              maxWidth: 700,
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
+            Our certified database administrators are ready to analyze your database 
+            and provide customized solutions tailored to your needs.
           </Typography>
           <Button 
             variant="contained" 
@@ -212,10 +309,17 @@ function Home() {
             component={Link}
             to="/contact"
             sx={{ 
-              px: 6,
+              px: 8,
               py: 1.5,
               fontSize: '1.1rem',
-              mt: 3
+              fontWeight: 600,
+              borderRadius: 2,
+              textTransform: 'none',
+              boxShadow: theme.shadows[4],
+              '&:hover': {
+                boxShadow: theme.shadows[6],
+                backgroundColor: theme.palette.secondary.dark
+              }
             }}
           >
             Get Started Today

@@ -10,7 +10,9 @@ import {
   AccordionSummary, 
   AccordionDetails,
   useTheme,
-  Chip
+  Chip,
+  Stack,
+  Divider
 } from '@mui/material';
 import { 
   ExpandMore,
@@ -32,7 +34,7 @@ function Services() {
 
   const services = [
     {
-      icon: <Speed fontSize="large" color="primary" />,
+      icon: <Speed fontSize="large" />,
       title: "Performance Optimization",
       description: "Expert tuning for maximum database speed and efficiency",
       features: [
@@ -41,10 +43,11 @@ function Services() {
         "Bottleneck identification",
         "Benchmarking & load testing"
       ],
-      cta: "Boost Performance"
+      cta: "Boost Performance",
+      color: 'primary'
     },
     {
-      icon: <Security fontSize="large" color="primary" />,
+      icon: <Security fontSize="large" />,
       title: "Security Hardening",
       description: "Enterprise-grade database protection",
       features: [
@@ -53,10 +56,11 @@ function Services() {
         "Encryption setup",
         "Compliance auditing"
       ],
-      cta: "Secure Your Data"
+      cta: "Secure Your Data",
+      color: 'error'
     },
     {
-      icon: <Storage fontSize="large" color="primary" />,
+      icon: <Storage fontSize="large" />,
       title: "Managed Database Services",
       description: "24/7 monitoring and maintenance",
       features: [
@@ -65,10 +69,11 @@ function Services() {
         "Backup management",
         "Patch & upgrade management"
       ],
-      cta: "Get Managed"
+      cta: "Get Managed",
+      color: 'warning'
     },
     {
-      icon: <Cloud fontSize="large" color="primary" />,
+      icon: <Cloud fontSize="large" />,
       title: "Cloud Database Solutions",
       description: "Optimized cloud database infrastructure",
       features: [
@@ -77,10 +82,11 @@ function Services() {
         "Migration services",
         "Hybrid cloud setups"
       ],
-      cta: "Cloud Setup"
+      cta: "Cloud Setup",
+      color: 'info'
     },
     {
-      icon: <Assessment fontSize="large" color="primary" />,
+      icon: <Assessment fontSize="large" />,
       title: "Database Audits",
       description: "Comprehensive health check for your databases",
       features: [
@@ -89,10 +95,11 @@ function Services() {
         "Capacity planning",
         "Architecture evaluation"
       ],
-      cta: "Schedule Audit"
+      cta: "Schedule Audit",
+      color: 'success'
     },
     {
-      icon: <Build fontSize="large" color="primary" />,
+      icon: <Build fontSize="large" />,
       title: "Emergency Support",
       description: "Critical issue resolution when you need it most",
       features: [
@@ -101,45 +108,58 @@ function Services() {
         "Data corruption repair",
         "Performance firefighting"
       ],
-      cta: "Get Help Now"
+      cta: "Get Help Now",
+      color: 'secondary'
     }
   ];
 
   const databaseTypes = [
-    { name: "MySQL", color: "primary" },
-    { name: "PostgreSQL", color: "secondary" },
-    { name: "MongoDB", color: "success" },
-    { name: "Redis", color: "error" },
-    { name: "Amazon RDS", color: "warning" },
-    { name: "Microsoft SQL", color: "info" },
-    { name: "MariaDB", color: "primary" },
-    { name: "Oracle", color: "secondary" }
+    { name: "MySQL", icon: <Dns />, color: "primary" },
+    { name: "PostgreSQL", icon: <Dns />, color: "secondary" },
+    { name: "MongoDB", icon: <Storage />, color: "success" },
+    { name: "Redis", icon: <QueryBuilder />, color: "error" },
+    { name: "Amazon RDS", icon: <Cloud />, color: "warning" },
+    { name: "Microsoft SQL", icon: <Dns />, color: "info" },
+    { name: "MariaDB", icon: <Dns />, color: "primary" },
+    { name: "Oracle", icon: <MonetizationOn />, color: "secondary" }
   ];
 
   return (
-    <Box>
+    <Box sx={{ backgroundColor: 'background.default' }}>
       {/* Hero Section */}
       <Box 
         sx={{ 
           background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
           color: 'white',
-          py: 10,
-          textAlign: 'center'
+          py: { xs: 8, md: 12 },
+          textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Typography 
             variant="h2" 
             component="h1" 
             gutterBottom 
             sx={{ 
-              fontWeight: 'bold',
-              mb: 3
+              fontWeight: 800,
+              mb: 3,
+              letterSpacing: '0.5px',
+              lineHeight: 1.2
             }}
           >
             Database Services That Deliver Results
           </Typography>
-          <Typography variant="h5" sx={{ mb: 4 }}>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              mb: 4, 
+              maxWidth: 800,
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
             Comprehensive solutions tailored to your database needs - from optimization 
             to security and everything in between.
           </Typography>
@@ -153,7 +173,15 @@ function Services() {
               px: 6,
               py: 1.5,
               fontSize: '1.1rem',
-              mt: 2
+              fontWeight: 600,
+              borderRadius: 2,
+              textTransform: 'none',
+              boxShadow: theme.shadows[4],
+              mt: 3,
+              '&:hover': {
+                boxShadow: theme.shadows[6],
+                backgroundColor: theme.palette.secondary.dark
+              }
             }}
           >
             Get Custom Solution
@@ -162,133 +190,180 @@ function Services() {
       </Box>
 
       {/* Supported Databases */}
-      <Box sx={{ py: 6, bgcolor: 'background.paper' }}>
-        <Container>
-          <Typography 
-            variant="h4" 
-            align="center" 
-            gutterBottom 
-            sx={{ 
-              fontWeight: 'bold',
-              mb: 4
-            }}
-          >
-            Supported Database Technologies
-          </Typography>
-          <Box sx={{ 
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: 2,
-            maxWidth: 800,
-            mx: 'auto'
-          }}>
-            {databaseTypes.map((db, index) => (
-              <Chip
-                key={index}
-                label={db.name}
-                color={db.color}
-                variant="outlined"
-                sx={{ 
-                  px: 2,
-                  py: 1.5,
-                  fontSize: '1rem',
-                  borderWidth: '2px'
-                }}
-              />
-            ))}
-          </Box>
-        </Container>
-      </Box>
-
-      {/* Services Grid */}
-      <Box sx={{ py: 8, bgcolor: 'background.default' }}>
+      <Box sx={{ py: { xs: 6, md: 8 }, backgroundColor: 'background.paper' }}>
         <Container>
           <Typography 
             variant="h3" 
             align="center" 
             gutterBottom 
             sx={{ 
-              fontWeight: 'bold',
-              mb: 8
+              fontWeight: 700,
+              mb: { xs: 4, md: 6 },
+              color: 'text.primary'
+            }}
+          >
+            Supported Database Technologies
+          </Typography>
+          <Grid container spacing={2} justifyContent="center">
+            {databaseTypes.map((db, index) => (
+              <Grid item key={index}>
+                <Chip
+                  icon={db.icon}
+                  label={db.name}
+                  color={db.color}
+                  variant="outlined"
+                  sx={{ 
+                    px: 3,
+                    py: 1.5,
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    borderWidth: 2,
+                    '& .MuiChip-icon': {
+                      color: `${db.color}.main`
+                    }
+                  }}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* Services Grid */}
+      <Box sx={{ py: { xs: 6, md: 10 }, backgroundColor: 'background.default' }}>
+        <Container>
+          <Typography 
+            variant="h3" 
+            align="center" 
+            gutterBottom 
+            sx={{ 
+              fontWeight: 700,
+              mb: { xs: 6, md: 8 },
+              color: 'text.primary'
             }}
           >
             Our Database Services
           </Typography>
-          <Grid container spacing={4}>
+          <Grid container spacing={{ xs: 3, md: 4 }}>
             {services.map((service, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <Card 
+                  elevation={3}
                   sx={{ 
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
+                    borderRadius: 3,
+                    overflow: 'hidden',
                     transition: 'all 0.3s ease',
                     border: '1px solid',
                     borderColor: 'divider',
                     '&:hover': {
                       transform: 'translateY(-8px)',
                       boxShadow: theme.shadows[8],
-                      borderColor: theme.palette.primary.main
+                      borderColor: theme.palette[service.color].main
                     }
                   }}
                 >
-                  <CardContent sx={{ flexGrow: 1 }}>
+                  <CardContent sx={{ flexGrow: 1, p: 4 }}>
                     <Box 
                       sx={{ 
                         display: 'flex',
                         alignItems: 'center',
-                        mb: 2
+                        mb: 3
                       }}
                     >
-                      <Box sx={{ 
-                        mr: 2,
-                        color: theme.palette.primary.main
-                      }}>
+                      <Box 
+                        sx={{ 
+                          mr: 3,
+                          color: `${service.color}.main`,
+                          backgroundColor: `${service.color}.light`,
+                          borderRadius: '50%',
+                          width: 60,
+                          height: 60,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
                         {service.icon}
                       </Box>
                       <Typography 
                         variant="h5" 
                         component="h3"
-                        sx={{ fontWeight: 'bold' }}
+                        sx={{ 
+                          fontWeight: 700,
+                          color: 'text.primary'
+                        }}
                       >
                         {service.title}
                       </Typography>
                     </Box>
-                    <Typography paragraph sx={{ mb: 2 }}>
+                    <Typography 
+                      variant="body1" 
+                      color="text.secondary"
+                      sx={{ mb: 3 }}
+                    >
                       {service.description}
                     </Typography>
+                    <Divider sx={{ my: 2 }} />
                     <Box sx={{ mb: 3 }}>
                       {service.features.map((feature, i) => (
                         <Box 
                           key={i} 
                           sx={{ 
                             display: 'flex',
-                            alignItems: 'center',
-                            mb: 1
+                            alignItems: 'flex-start',
+                            mb: 2
                           }}
                         >
-                          <Box sx={{ 
-                            width: 8,
-                            height: 8,
-                            borderRadius: '50%',
-                            bgcolor: 'primary.main',
-                            mr: 1.5
-                          }} />
+                          <Box 
+                            sx={{ 
+                              minWidth: 24,
+                              height: 24,
+                              borderRadius: '50%',
+                              backgroundColor: `${service.color}.light`,
+                              color: `${service.color}.main`,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              mr: 2,
+                              mt: '2px'
+                            }}
+                          >
+                            <Box 
+                              component="span" 
+                              sx={{ 
+                                width: 8,
+                                height: 8,
+                                borderRadius: '50%',
+                                backgroundColor: `${service.color}.main`
+                              }} 
+                            />
+                          </Box>
                           <Typography variant="body2">{feature}</Typography>
                         </Box>
                       ))}
                     </Box>
                   </CardContent>
-                  <Box sx={{ p: 2, textAlign: 'center' }}>
+                  <Box sx={{ p: 3, pt: 0 }}>
                     <Button 
                       variant="contained" 
-                      color="primary"
+                      color={service.color}
+                      fullWidth
                       component={Link}
                       to="/contact"
                       sx={{ 
-                        width: '100%',
-                        py: 1.5
+                        py: 1.5,
+                        borderRadius: 2,
+                        fontSize: '1rem',
+                        fontWeight: 600,
+                        textTransform: 'none',
+                        boxShadow: 'none',
+                        '&:hover': {
+                          boxShadow: 'none',
+                          backgroundColor: theme.palette[service.color].dark
+                        }
                       }}
                     >
                       {service.cta}
@@ -302,15 +377,16 @@ function Services() {
       </Box>
 
       {/* FAQ Section */}
-      <Box sx={{ py: 8, bgcolor: 'background.paper' }}>
+      <Box sx={{ py: { xs: 6, md: 10 }, backgroundColor: 'background.paper' }}>
         <Container maxWidth="md">
           <Typography 
             variant="h3" 
             align="center" 
             gutterBottom 
             sx={{ 
-              fontWeight: 'bold',
-              mb: 6
+              fontWeight: 700,
+              mb: { xs: 4, md: 6 },
+              color: 'text.primary'
             }}
           >
             Frequently Asked Questions
@@ -336,10 +412,11 @@ function Services() {
             ].map((item, index) => (
               <Accordion 
                 key={index} 
+                elevation={0}
                 sx={{ 
                   mb: 2,
-                  borderRadius: '8px !important',
-                  boxShadow: 'none',
+                  borderRadius: 2,
+                  overflow: 'hidden',
                   border: '1px solid',
                   borderColor: 'divider',
                   '&:before': {
@@ -350,16 +427,23 @@ function Services() {
                 <AccordionSummary
                   expandIcon={<ExpandMore color="primary" />}
                   sx={{ 
-                    fontWeight: 'bold',
+                    backgroundColor: 'background.default',
                     '& .MuiAccordionSummary-content': {
-                      my: 1.5
+                      my: 2
+                    },
+                    '&:hover': {
+                      backgroundColor: 'action.hover'
                     }
                   }}
                 >
-                  {item.question}
+                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                    {item.question}
+                  </Typography>
                 </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>{item.answer}</Typography>
+                <AccordionDetails sx={{ backgroundColor: 'background.paper' }}>
+                  <Typography variant="body1" color="text.secondary">
+                    {item.answer}
+                  </Typography>
                 </AccordionDetails>
               </Accordion>
             ))}
@@ -372,18 +456,37 @@ function Services() {
         sx={{ 
           background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
           color: 'white',
-          py: 10,
+          py: { xs: 8, md: 12 },
           textAlign: 'center'
         }}
       >
-        <Container maxWidth="md">
-          <Typography variant="h3" gutterBottom sx={{ fontWeight: 'bold' }}>
+        <Container maxWidth="lg">
+          <Typography 
+            variant="h3" 
+            gutterBottom 
+            sx={{ 
+              fontWeight: 800,
+              mb: 3
+            }}
+          >
             Ready to Transform Your Database Performance?
           </Typography>
-          <Typography variant="h5" sx={{ mb: 4 }}>
+          <Typography 
+            variant="h5" 
+            sx={{ 
+              mb: 6,
+              maxWidth: 700,
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
             Contact us today for a free initial consultation and database assessment.
           </Typography>
-          <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', mt: 4 }}>
+          <Stack 
+            direction={{ xs: 'column', sm: 'row' }} 
+            spacing={3} 
+            justifyContent="center"
+          >
             <Button 
               variant="contained" 
               color="secondary" 
@@ -393,7 +496,15 @@ function Services() {
               sx={{ 
                 px: 6,
                 py: 1.5,
-                fontSize: '1.1rem'
+                fontSize: '1.1rem',
+                fontWeight: 600,
+                borderRadius: 2,
+                textTransform: 'none',
+                boxShadow: theme.shadows[4],
+                '&:hover': {
+                  boxShadow: theme.shadows[6],
+                  backgroundColor: theme.palette.secondary.dark
+                }
               }}
             >
               Get Started
@@ -408,15 +519,19 @@ function Services() {
                 px: 6,
                 py: 1.5,
                 fontSize: '1.1rem',
-                borderWidth: '2px',
+                fontWeight: 600,
+                borderRadius: 2,
+                textTransform: 'none',
+                borderWidth: 2,
                 '&:hover': {
-                  borderWidth: '2px'
+                  borderWidth: 2,
+                  backgroundColor: 'rgba(255,255,255,0.1)'
                 }
               }}
             >
               Learn About Us
             </Button>
-          </Box>
+          </Stack>
         </Container>
       </Box>
     </Box>
