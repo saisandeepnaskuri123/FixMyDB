@@ -12,11 +12,18 @@ import {
   Box,
   Typography,
   Alert,
-  CircularProgress
+  CircularProgress,
+  Grid,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import { Send, Phone, Email, WhatsApp } from '@mui/icons-material';
 
 function ContactForm() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -90,12 +97,21 @@ function ContactForm() {
       sx={{ 
         maxWidth: 800,
         mx: 'auto',
-        p: 3,
-        boxShadow: 1,
-        borderRadius: 2
+        p: isMobile ? 2 : 3,
+        boxShadow: isMobile ? 0 : 1,
+        borderRadius: 2,
+        backgroundColor: 'background.paper'
       }}
     >
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
+      <Typography 
+        variant={isMobile ? 'h6' : 'h5'} 
+        gutterBottom 
+        sx={{ 
+          fontWeight: 'bold', 
+          mb: 3,
+          textAlign: isMobile ? 'center' : 'left'
+        }}
+      >
         Request a Free Consultation
       </Typography>
 
@@ -105,7 +121,7 @@ function ContactForm() {
         </Alert>
       )}
 
-      <Grid container spacing={3}>
+      <Grid container spacing={isMobile ? 2 : 3}>
         <Grid item xs={12} sm={6}>
           <TextField
             label="Full Name*"
@@ -113,6 +129,7 @@ function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             fullWidth
+            size={isMobile ? 'small' : 'medium'}
             error={!!errors.name}
             helperText={errors.name}
           />
@@ -124,6 +141,7 @@ function ContactForm() {
             value={formData.company}
             onChange={handleChange}
             fullWidth
+            size={isMobile ? 'small' : 'medium'}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -134,6 +152,7 @@ function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             fullWidth
+            size={isMobile ? 'small' : 'medium'}
             error={!!errors.email}
             helperText={errors.email}
           />
@@ -145,12 +164,13 @@ function ContactForm() {
             value={formData.phone}
             onChange={handleChange}
             fullWidth
+            size={isMobile ? 'small' : 'medium'}
             error={!!errors.phone}
             helperText={errors.phone}
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControl fullWidth error={!!errors.database}>
+          <FormControl fullWidth error={!!errors.database} size={isMobile ? 'small' : 'medium'}>
             <InputLabel>Primary Database*</InputLabel>
             <Select
               name="database"
@@ -179,46 +199,52 @@ function ContactForm() {
             value={formData.message}
             onChange={handleChange}
             multiline
-            rows={4}
+            rows={isMobile ? 3 : 4}
             fullWidth
+            size={isMobile ? 'small' : 'medium'}
             error={!!errors.message}
             helperText={errors.message}
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControl component="fieldset">
+          <FormControl component="fieldset" fullWidth>
             <Typography gutterBottom>Preferred Contact Method*</Typography>
             <RadioGroup
-              row
+              row={!isMobile}
               name="contactMethod"
               value={formData.contactMethod}
               onChange={handleChange}
-              sx={{ gap: 2 }}
+              sx={{ gap: isMobile ? 0 : 2 }}
             >
               <FormControlLabel 
                 value="email" 
-                control={<Radio />} 
+                control={<Radio size={isMobile ? 'small' : 'medium'} />} 
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Email sx={{ mr: 1 }} /> Email
+                    <Email sx={{ mr: 1, fontSize: isMobile ? '1rem' : '1.25rem' }} /> 
+                    <Typography variant={isMobile ? 'body2' : 'body1'}>Email</Typography>
                   </Box>
                 } 
+                sx={{ mr: isMobile ? 2 : 0 }}
               />
               <FormControlLabel 
                 value="phone" 
-                control={<Radio />} 
+                control={<Radio size={isMobile ? 'small' : 'medium'} />} 
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Phone sx={{ mr: 1 }} /> Phone
+                    <Phone sx={{ mr: 1, fontSize: isMobile ? '1rem' : '1.25rem' }} /> 
+                    <Typography variant={isMobile ? 'body2' : 'body1'}>Phone</Typography>
                   </Box>
                 } 
+                sx={{ mr: isMobile ? 2 : 0 }}
               />
               <FormControlLabel 
                 value="whatsapp" 
-                control={<Radio />} 
+                control={<Radio size={isMobile ? 'small' : 'medium'} />} 
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <WhatsApp sx={{ mr: 1 }} /> WhatsApp
+                    <WhatsApp sx={{ mr: 1, fontSize: isMobile ? '1rem' : '1.25rem' }} /> 
+                    <Typography variant={isMobile ? 'body2' : 'body1'}>WhatsApp</Typography>
                   </Box>
                 } 
               />
@@ -230,11 +256,14 @@ function ContactForm() {
             type="submit"
             variant="contained"
             color="primary"
-            size="large"
+            size={isMobile ? 'medium' : 'large'}
             startIcon={isSubmitting ? <CircularProgress size={20} /> : <Send />}
             disabled={isSubmitting}
             fullWidth
-            sx={{ py: 1.5 }}
+            sx={{ 
+              py: isMobile ? 1 : 1.5,
+              fontSize: isMobile ? '0.875rem' : '1rem'
+            }}
           >
             {isSubmitting ? 'Submitting...' : 'Get Free Consultation'}
           </Button>

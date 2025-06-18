@@ -10,7 +10,8 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton,
-  useTheme
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import { 
   Facebook, 
@@ -24,6 +25,7 @@ import {
 
 function Footer() {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const currentYear = new Date().getFullYear();
   
   const services = [
@@ -53,26 +55,26 @@ function Footer() {
 
   const contactInfo = [
     { 
-    icon: <Phone fontSize="small" />, 
-    text: '+91 7675028957', 
-    href: 'tel:+917675028957' 
-  },
-  { 
-    icon: <Email fontSize="small" />, 
-    text: 'saisandeepnaskuri2@gmail.com', 
-    href: 'mailto:saisandeepnaskuri2@gmail.com' 
-  },
-  { 
-    icon: <LocationOn fontSize="small" />, 
-    text: '1-87 Palluru Village, Kunavaram Mandal, Alluri Seetha Rama Raju District, AP 507121', 
-    href: 'https://maps.google.com/?q=1-87+Palluru+Village+Kunavaram+Mandal+Alluri+Seetha+Rama+Raju+District+AP+507121' 
-  }
+      icon: <Phone fontSize={isMobile ? 'small' : 'medium'} />, 
+      text: '+91 7675028957', 
+      href: 'tel:+917675028957' 
+    },
+    { 
+      icon: <Email fontSize={isMobile ? 'small' : 'medium'} />, 
+      text: 'saisandeepnaskuri2@gmail.com', 
+      href: 'mailto:saisandeepnaskuri2@gmail.com' 
+    },
+    { 
+      icon: <LocationOn fontSize={isMobile ? 'small' : 'medium'} />, 
+      text: '1-87 Palluru Village, Kunavaram Mandal, Alluri Seetha Rama Raju District, AP 507121', 
+      href: 'https://maps.google.com/?q=1-87+Palluru+Village+Kunavaram+Mandal+Alluri+Seetha+Rama+Raju+District+AP+507121' 
+    }
   ];
 
   const socialLinks = [
-    { icon: <Facebook />, url: 'https://www.facebook.com/', label: 'Facebook' },
-    { icon: <Twitter />, url: 'https://x.com/', label: 'Twitter' },
-    { icon: <LinkedIn />, url: 'https://www.linkedin.com/in/sai-sandeep-naskuri-388673205/', label: 'LinkedIn' }
+    { icon: <Facebook fontSize={isMobile ? 'small' : 'medium'} />, url: 'https://www.facebook.com/', label: 'Facebook' },
+    { icon: <Twitter fontSize={isMobile ? 'small' : 'medium'} />, url: 'https://x.com/', label: 'Twitter' },
+    { icon: <LinkedIn fontSize={isMobile ? 'small' : 'medium'} />, url: 'https://www.linkedin.com/in/sai-sandeep-naskuri-388673205/', label: 'LinkedIn' }
   ];
 
   const legalLinks = [
@@ -88,33 +90,30 @@ function Footer() {
       sx={{ 
         backgroundColor: 'background.paper',
         color: 'text.secondary',
-        pt: 10,
-        pb: 4,
+        pt: isMobile ? 6 : 10,
+        pb: isMobile ? 3 : 4,
         borderTop: `1px solid ${theme.palette.divider}`,
-        [theme.breakpoints.up('md')]: {
-          pt: 12
-        }
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={{ xs: 4, md: 8 }}>
+        <Grid container spacing={isMobile ? 3 : { xs: 4, md: 8 }}>
           {/* Services Column */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography 
-              variant="h6" 
+              variant={isMobile ? 'subtitle1' : 'h6'} 
               gutterBottom 
               sx={{ 
                 fontWeight: 700, 
                 color: 'text.primary',
                 display: 'flex',
                 alignItems: 'center',
-                mb: 3
+                mb: 2
               }}
             >
               Our Services
               <ArrowForward sx={{ 
                 ml: 1, 
-                fontSize: 20, 
+                fontSize: isMobile ? 16 : 20, 
                 color: 'primary.main',
                 transition: 'transform 0.3s ease',
                 '&:hover': {
@@ -129,7 +128,7 @@ function Footer() {
                   disableGutters 
                   disablePadding 
                   sx={{ 
-                    py: 0.75,
+                    py: 0.5,
                     '&:hover': {
                       '& .MuiListItemText-primary': {
                         color: 'primary.main'
@@ -138,7 +137,7 @@ function Footer() {
                   }}
                 >
                   <ListItemIcon sx={{ 
-                    minWidth: 32,
+                    minWidth: isMobile ? 24 : 32,
                     color: 'primary.main',
                     fontSize: '0.75rem'
                   }}>
@@ -152,6 +151,7 @@ function Footer() {
                         color="inherit"
                         sx={{
                           fontWeight: 500,
+                          fontSize: isMobile ? '0.875rem' : '1rem',
                           transition: 'all 0.2s ease',
                           '&:hover': {
                             color: 'primary.main',
@@ -171,20 +171,20 @@ function Footer() {
           {/* Resources Column */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography 
-              variant="h6" 
+              variant={isMobile ? 'subtitle1' : 'h6'} 
               gutterBottom 
               sx={{ 
                 fontWeight: 700, 
                 color: 'text.primary',
                 display: 'flex',
                 alignItems: 'center',
-                mb: 3
+                mb: 2
               }}
             >
               Resources
               <ArrowForward sx={{ 
                 ml: 1, 
-                fontSize: 20, 
+                fontSize: isMobile ? 16 : 20, 
                 color: 'primary.main',
                 transition: 'transform 0.3s ease',
                 '&:hover': {
@@ -199,7 +199,7 @@ function Footer() {
                   disableGutters 
                   disablePadding 
                   sx={{ 
-                    py: 0.75,
+                    py: 0.5,
                     '&:hover': {
                       '& .MuiListItemText-primary': {
                         color: 'primary.main'
@@ -208,7 +208,7 @@ function Footer() {
                   }}
                 >
                   <ListItemIcon sx={{ 
-                    minWidth: 32,
+                    minWidth: isMobile ? 24 : 32,
                     color: 'primary.main',
                     fontSize: '0.75rem'
                   }}>
@@ -222,6 +222,7 @@ function Footer() {
                         color="inherit"
                         sx={{
                           fontWeight: 500,
+                          fontSize: isMobile ? '0.875rem' : '1rem',
                           transition: 'all 0.2s ease',
                           '&:hover': {
                             color: 'primary.main',
@@ -241,20 +242,20 @@ function Footer() {
           {/* Company Column */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography 
-              variant="h6" 
+              variant={isMobile ? 'subtitle1' : 'h6'} 
               gutterBottom 
               sx={{ 
                 fontWeight: 700, 
                 color: 'text.primary',
                 display: 'flex',
                 alignItems: 'center',
-                mb: 3
+                mb: 2
               }}
             >
               Company
               <ArrowForward sx={{ 
                 ml: 1, 
-                fontSize: 20, 
+                fontSize: isMobile ? 16 : 20, 
                 color: 'primary.main',
                 transition: 'transform 0.3s ease',
                 '&:hover': {
@@ -269,7 +270,7 @@ function Footer() {
                   disableGutters 
                   disablePadding 
                   sx={{ 
-                    py: 0.75,
+                    py: 0.5,
                     '&:hover': {
                       '& .MuiListItemText-primary': {
                         color: 'primary.main'
@@ -278,7 +279,7 @@ function Footer() {
                   }}
                 >
                   <ListItemIcon sx={{ 
-                    minWidth: 32,
+                    minWidth: isMobile ? 24 : 32,
                     color: 'primary.main',
                     fontSize: '0.75rem'
                   }}>
@@ -292,6 +293,7 @@ function Footer() {
                         color="inherit"
                         sx={{
                           fontWeight: 500,
+                          fontSize: isMobile ? '0.875rem' : '1rem',
                           transition: 'all 0.2s ease',
                           '&:hover': {
                             color: 'primary.main',
@@ -311,12 +313,12 @@ function Footer() {
           {/* Contact Column */}
           <Grid item xs={12} sm={6} md={3}>
             <Typography 
-              variant="h6" 
+              variant={isMobile ? 'subtitle1' : 'h6'} 
               gutterBottom 
               sx={{ 
                 fontWeight: 700, 
                 color: 'text.primary',
-                mb: 3
+                mb: 2
               }}
             >
               Contact Us
@@ -328,12 +330,12 @@ function Footer() {
                   disableGutters 
                   disablePadding 
                   sx={{ 
-                    py: 0.75,
+                    py: 0.5,
                     alignItems: 'flex-start'
                   }}
                 >
                   <ListItemIcon sx={{ 
-                    minWidth: 32,
+                    minWidth: isMobile ? 24 : 32,
                     color: 'primary.main',
                     mt: '2px'
                   }}>
@@ -347,6 +349,7 @@ function Footer() {
                         color="inherit"
                         sx={{
                           fontWeight: 500,
+                          fontSize: isMobile ? '0.875rem' : '1rem',
                           transition: 'color 0.2s ease',
                           '&:hover': {
                             color: 'primary.main'
@@ -366,8 +369,8 @@ function Footer() {
               ))}
             </List>
 
-            <Box sx={{ mt: 3 }}>
-              <Typography variant="body2" sx={{ fontWeight: 500, mb: 1.5 }}>
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="body2" sx={{ fontWeight: 500, mb: 1 }}>
                 Follow Us
               </Typography>
               <Box sx={{ display: 'flex', gap: 1 }}>
@@ -376,6 +379,7 @@ function Footer() {
                     key={index}
                     href={social.url}
                     aria-label={social.label}
+                    size={isMobile ? 'small' : 'medium'}
                     sx={{ 
                       color: 'text.secondary',
                       backgroundColor: 'action.hover',
@@ -395,31 +399,29 @@ function Footer() {
         </Grid>
 
         <Divider sx={{ 
-          my: 6, 
+          my: isMobile ? 4 : 6, 
           borderColor: 'divider',
-          [theme.breakpoints.up('md')]: {
-            my: 8
-          }
         }} />
 
         <Box sx={{ 
           display: 'flex', 
-          flexDirection: { xs: 'column-reverse', md: 'row' }, 
+          flexDirection: isMobile ? 'column-reverse' : 'row', 
           justifyContent: 'space-between', 
           alignItems: 'center',
           gap: 2
         }}>
           <Typography variant="body2" sx={{ 
             color: 'text.disabled',
-            textAlign: { xs: 'center', md: 'left' }
+            fontSize: isMobile ? '0.75rem' : '0.875rem',
+            textAlign: isMobile ? 'center' : 'left'
           }}>
             © {currentYear} FixMyDB. All rights reserved.
           </Typography>
           <Box sx={{ 
             display: 'flex', 
-            gap: 3,
+            gap: isMobile ? 1.5 : 3,
             flexWrap: 'wrap',
-            justifyContent: { xs: 'center', md: 'flex-end' }
+            justifyContent: isMobile ? 'center' : 'flex-end'
           }}>
             {legalLinks.map((link, index) => (
               <Link 
@@ -430,6 +432,7 @@ function Footer() {
                 sx={{ 
                   color: 'text.secondary',
                   fontWeight: 500,
+                  fontSize: isMobile ? '0.75rem' : '0.875rem',
                   '&:hover': {
                     color: 'primary.main'
                   },

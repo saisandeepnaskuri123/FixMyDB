@@ -1,9 +1,12 @@
 import { Box, Typography, Button, Container, Grid, useTheme, Stack, Fade } from '@mui/material';
 import { ArrowForward, Phone, CheckCircle } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
+import { useMediaQuery } from '@mui/material';
 
 function HeroSection() {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -22,7 +25,7 @@ function HeroSection() {
       sx={{
         background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
         color: 'white',
-        py: { xs: 8, md: 12 },
+        py: { xs: 6, sm: 8, md: 12 },
         position: 'relative',
         overflow: 'hidden',
         '&::before': {
@@ -35,11 +38,22 @@ function HeroSection() {
           borderRadius: '50%',
           background: 'rgba(255,255,255,0.05)',
           zIndex: 0
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          bottom: -150,
+          left: -150,
+          width: 300,
+          height: 300,
+          borderRadius: '50%',
+          background: 'rgba(255,255,255,0.03)',
+          zIndex: 0
         }
       }}
     >
-      <Container maxWidth="lg">
-        <Grid container spacing={4} alignItems="center">
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+        <Grid container spacing={4} alignItems="center" justifyContent="center">
           <Grid item xs={12} md={6} sx={{ position: 'relative', zIndex: 1 }}>
             <Fade in={loaded} timeout={800}>
               <Typography
@@ -49,7 +63,13 @@ function HeroSection() {
                   fontWeight: 800,
                   lineHeight: 1.2,
                   mb: 3,
-                  fontSize: { xs: '2.5rem', sm: '3rem', md: '3.5rem' },
+                  fontSize: { 
+                    xs: '2rem', 
+                    sm: '2.5rem', 
+                    md: '3rem',
+                    lg: '3.5rem' 
+                  },
+                  textAlign: { xs: 'center', md: 'left' },
                   animation: loaded ? 'fadeInUp 0.8s ease' : 'none'
                 }}
               >
@@ -65,7 +85,12 @@ function HeroSection() {
                   mb: 4,
                   opacity: 0.9,
                   lineHeight: 1.6,
-                  fontSize: { xs: '1.1rem', md: '1.25rem' },
+                  fontSize: { 
+                    xs: '1rem', 
+                    sm: '1.1rem', 
+                    md: '1.25rem' 
+                  },
+                  textAlign: { xs: 'center', md: 'left' },
                   animation: loaded ? 'fadeInUp 0.8s ease' : 'none'
                 }}
               >
@@ -78,19 +103,23 @@ function HeroSection() {
               <Stack 
                 direction={{ xs: 'column', sm: 'row' }} 
                 spacing={2}
-                sx={{ mb: 4 }}
+                sx={{ 
+                  mb: 4,
+                  justifyContent: { xs: 'center', md: 'flex-start' }
+                }}
               >
                 <Button
                   variant="contained"
                   color="secondary"
-                  size="large"
+                  size={isMobile ? 'medium' : 'large'}
                   endIcon={<ArrowForward />}
                   sx={{
-                    px: 4,
-                    py: 1.5,
-                    fontSize: '1.1rem',
+                    px: { xs: 3, sm: 4 },
+                    py: { xs: 1, sm: 1.5 },
+                    fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
                     fontWeight: 600,
                     whiteSpace: 'nowrap',
+                    minWidth: { xs: '100%', sm: 'auto' },
                     '&:hover': {
                       transform: 'translateY(-2px)',
                       boxShadow: theme.shadows[4]
@@ -103,15 +132,16 @@ function HeroSection() {
                 <Button
                   variant="outlined"
                   color="inherit"
-                  size="large"
+                  size={isMobile ? 'medium' : 'large'}
                   startIcon={<Phone />}
                   sx={{
-                    px: 4,
-                    py: 1.5,
-                    fontSize: '1.1rem',
+                    px: { xs: 3, sm: 4 },
+                    py: { xs: 1, sm: 1.5 },
+                    fontSize: { xs: '0.9rem', sm: '1rem', md: '1.1rem' },
                     fontWeight: 600,
                     borderWidth: 2,
                     whiteSpace: 'nowrap',
+                    minWidth: { xs: '100%', sm: 'auto' },
                     '&:hover': {
                       borderWidth: 2,
                       backgroundColor: 'rgba(255,255,255,0.1)',
@@ -126,14 +156,31 @@ function HeroSection() {
             </Fade>
 
             <Fade in={loaded} timeout={800} style={{ transitionDelay: '300ms' }}>
-              <Grid container spacing={2} sx={{ mt: 2 }}>
+              <Grid 
+                container 
+                spacing={2} 
+                sx={{ 
+                  mt: 2,
+                  justifyContent: { xs: 'center', md: 'flex-start' }
+                }}
+              >
                 {features.map((feature, index) => (
                   <Grid item xs={6} sm={6} md={6} key={index}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 1,
+                      justifyContent: { xs: 'center', md: 'flex-start' }
+                    }}>
                       <Box sx={{ color: 'success.main' }}>
                         {feature.icon}
                       </Box>
-                      <Typography variant="body1">{feature.label}</Typography>
+                      <Typography 
+                        variant="body1"
+                        sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
+                      >
+                        {feature.label}
+                      </Typography>
                     </Box>
                   </Grid>
                 ))}
@@ -141,7 +188,11 @@ function HeroSection() {
             </Fade>
           </Grid>
           
-          <Grid item xs={12} md={6} sx={{ position: 'relative' }}>
+          <Grid item xs={12} md={6} sx={{ 
+            position: 'relative',
+            display: 'flex',
+            justifyContent: { xs: 'center', md: 'flex-end' }
+          }}>
             <Fade in={loaded} timeout={800} style={{ transitionDelay: '400ms' }}>
               <Box
                 sx={{
@@ -150,6 +201,8 @@ function HeroSection() {
                   boxShadow: theme.shadows[10],
                   position: 'relative',
                   aspectRatio: '1/0.7',
+                  width: '100%',
+                  maxWidth: { xs: '100%', sm: '80%', md: '100%' },
                   backgroundImage: 'url(/images/dashboard-preview.jpg)',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',

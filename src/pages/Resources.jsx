@@ -1,8 +1,37 @@
 import React from 'react';
-// For example, if it's in src/styles:
-import styles from '../styles/Resources.module.css';
+import { 
+  Box, 
+  Typography, 
+  Grid, 
+  Card, 
+  CardContent, 
+  Chip, 
+  Button, 
+  Container,
+  Stack,
+  Divider,
+  useTheme,
+  useMediaQuery
+} from '@mui/material';
+import {
+  Article,
+  Event,
+  Description,
+  Groups,
+  CheckCircle,
+  Schedule,
+  Person,
+  Download,
+  Link as LinkIcon,
+  ArrowForward
+} from '@mui/icons-material';
+import { Helmet } from 'react-helmet';
 
 const Resources = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
   const resourceData = {
     technicalBlog: [
       {
@@ -11,7 +40,6 @@ const Resources = () => {
         description: "Learn advanced techniques to optimize your React applications with Concurrent Features and the new Suspense API.",
         url: "/blog/react-performance",
         date: "June 15, 2023",
-        icon: "📊",
         readTime: "12 min read",
         tags: ["React", "Frontend"]
       },
@@ -21,7 +49,6 @@ const Resources = () => {
         description: "Best practices for building scalable microservices with Node.js, Docker, and Kubernetes in production environments.",
         url: "/blog/nodejs-microservices",
         date: "July 2, 2023",
-        icon: "⚙️",
         readTime: "15 min read",
         tags: ["Node.js", "Backend"]
       },
@@ -31,7 +58,6 @@ const Resources = () => {
         description: "Modern TypeScript patterns and type safety techniques for large-scale applications.",
         url: "/blog/typescript-best-practices",
         date: "August 10, 2023",
-        icon: "🧩", 
         readTime: "10 min read",
         tags: ["TypeScript", "Fullstack"]
       }
@@ -76,7 +102,6 @@ const Resources = () => {
         industry: "Financial Services",
         summary: "How we scaled a payment processing system to handle 5,000 transactions per second with 99.999% availability.",
         downloadLink: "/case-studies/fintech-scaling",
-        logo: "💳",
         results: "5x throughput improvement",
         technologies: ["Node.js", "Redis", "Kafka"]
       },
@@ -86,7 +111,6 @@ const Resources = () => {
         industry: "Healthcare",
         summary: "Building a HIPAA-compliant data analytics platform processing 10TB of patient data daily.",
         downloadLink: "/case-studies/healthcare-analytics",
-        logo: "🏥",
         results: "80% faster insights delivery",
         technologies: ["Python", "Spark", "Snowflake"]
       },
@@ -96,7 +120,6 @@ const Resources = () => {
         industry: "Retail",
         summary: "Implementing a real-time recommendation system that increased conversion rates by 35%.",
         downloadLink: "/case-studies/ecommerce-personalization",
-        logo: "🛒",
         results: "35% conversion increase",
         technologies: ["React", "GraphQL", "TensorFlow"]
       }
@@ -150,322 +173,646 @@ const Resources = () => {
   };
 
   return (
-    <div className={styles.resourcesContainer}>
-      {/* Hero Header */}
-      <div className={styles.heroHeader}>
-        <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Developer Resources</h1>
-          <p className={styles.heroSubtitle}>
+    <>
+      <Helmet>
+        <title>Developer Resources | FixMyDB</title>
+        <meta name="description" content="Access technical articles, webinars, case studies, documentation, and join our developer community." />
+      </Helmet>
+
+      {/* Hero Section */}
+      <Box
+        sx={{
+          background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+          color: 'white',
+          py: { xs: 8, md: 12 },
+          textAlign: 'center'
+        }}
+      >
+        <Container maxWidth="lg">
+          <Typography
+            variant={isMobile ? 'h3' : 'h2'}
+            component="h1"
+            gutterBottom
+            sx={{
+              fontWeight: 800,
+              mb: 3,
+              lineHeight: 1.2
+            }}
+          >
+            Developer Resources
+          </Typography>
+          <Typography
+            variant={isMobile ? 'h6' : 'h5'}
+            sx={{
+              mb: 4,
+              maxWidth: 800,
+              mx: 'auto',
+              lineHeight: 1.6
+            }}
+          >
             Everything you need to build, learn, and grow as a developer
-          </p>
-        </div>
-      </div>
+          </Typography>
+        </Container>
+      </Box>
 
       {/* Main Content */}
-      <main className={styles.mainContent}>
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 } }}>
         {/* Technical Blog Section */}
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <div>
-              <h2 className={styles.sectionTitle}>
-                <span className={styles.sectionIcon}>📝</span>
+        <Box sx={{ mb: { xs: 8, md: 10 } }}>
+          <Box 
+            sx={{ 
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: 'space-between',
+              alignItems: { xs: 'flex-start', sm: 'center' },
+              mb: 4
+            }}
+          >
+            <Box sx={{ mb: { xs: 2, sm: 0 } }}>
+              <Typography
+                variant={isMobile ? 'h5' : 'h4'}
+                sx={{
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2
+                }}
+              >
+                <Article color="primary" fontSize="large" />
                 Technical Articles
-              </h2>
-              <p className={styles.sectionDescription}>
+              </Typography>
+              <Typography color="text.secondary">
                 Latest insights and tutorials from our engineering team
-              </p>
-            </div>
-            <a href="/blog" className={styles.viewAllLink}>
+              </Typography>
+            </Box>
+            <Button
+              component="a"
+              href="/blog"
+              variant="text"
+              color="primary"
+              endIcon={<ArrowForward />}
+              sx={{
+                fontWeight: 600,
+                textTransform: 'none',
+                fontSize: '1rem'
+              }}
+            >
               View all articles
-              <svg className={styles.linkIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </a>
-          </div>
+            </Button>
+          </Box>
 
-          <div className={styles.resourceGrid}>
+          <Grid container spacing={3}>
             {resourceData.technicalBlog.map(blog => (
-              <div key={blog.id} className={styles.resourceCard}>
-                <div className={styles.cardContent}>
-                  <div className={styles.cardHeader}>
-                    <div className={styles.cardIcon}>{blog.icon}</div>
-                    <div>
-                      <div className={styles.cardMeta}>
-                        <span>{blog.date}</span>
-                        <span className={styles.metaSeparator}>•</span>
-                        <span>{blog.readTime}</span>
-                      </div>
-                      <h3 className={styles.cardTitle}>{blog.title}</h3>
-                    </div>
-                  </div>
-                  <p className={styles.cardDescription}>{blog.description}</p>
-                  {blog.tags && (
-                    <div className={styles.tagsContainer}>
-                      {blog.tags.map(tag => (
-                        <span key={tag} className={styles.tag}>{tag}</span>
-                      ))}
-                    </div>
-                  )}
-                  <a href={blog.url} className={styles.cardLink}>
-                    Read article
-                    <svg className={styles.linkIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
+              <Grid item xs={12} sm={6} md={4} key={blog.id}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-5px)',
+                      boxShadow: theme.shadows[6]
+                    }
+                  }}
+                >
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <Schedule fontSize="small" sx={{ mr: 0.5 }} />
+                        {blog.date}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ ml: 1.5, display: 'flex', alignItems: 'center' }}
+                      >
+                        • {blog.readTime}
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="h6"
+                      component="h3"
+                      gutterBottom
+                      sx={{ fontWeight: 600 }}
+                    >
+                      {blog.title}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{ mb: 2 }}
+                    >
+                      {blog.description}
+                    </Typography>
+                    {blog.tags && (
+                      <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+                        {blog.tags.map(tag => (
+                          <Chip
+                            key={tag}
+                            label={tag}
+                            size="small"
+                            variant="outlined"
+                          />
+                        ))}
+                      </Stack>
+                    )}
+                    <Button
+                      component="a"
+                      href={blog.url}
+                      variant="text"
+                      color="primary"
+                      size="small"
+                      endIcon={<ArrowForward />}
+                      sx={{
+                        fontWeight: 600,
+                        textTransform: 'none',
+                        pl: 0
+                      }}
+                    >
+                      Read article
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-          </div>
-        </section>
+          </Grid>
+        </Box>
 
         {/* Webinars & Events Section */}
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <div>
-              <h2 className={styles.sectionTitle}>
-                <span className={styles.sectionIcon}>🎤</span>
-                Webinars & Events
-              </h2>
-              <p className={styles.sectionDescription}>
-                Upcoming learning opportunities and networking events
-              </p>
-            </div>
-            <a href="/events" className={styles.viewAllLink}>
-              View all events
-              <svg className={styles.linkIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </a>
-          </div>
-
-          <div className={styles.eventsContainer}>
-            {resourceData.webinarsEvents.map(event => (
-              <div 
-                key={event.id} 
-                className={`${styles.eventCard} ${event.featured ? styles.featuredCard : ''}`}
+        <Box sx={{ mb: { xs: 8, md: 10 } }}>
+          <Box 
+            sx={{ 
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: 'space-between',
+              alignItems: { xs: 'flex-start', sm: 'center' },
+              mb: 4
+            }}
+          >
+            <Box sx={{ mb: { xs: 2, sm: 0 } }}>
+              <Typography
+                variant={isMobile ? 'h5' : 'h4'}
+                sx={{
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2
+                }}
               >
-                <div className={styles.eventContent}>
-                  <div className={styles.eventHeader}>
-                    {event.featured && (
-                      <span className={styles.featuredBadge}>Featured Event</span>
-                    )}
-                    <h3 className={styles.eventTitle}>{event.title}</h3>
-                    <div className={styles.eventMeta}>
-                      <svg className={styles.metaIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                      </svg>
-                      <span>{event.date} | {event.time}</span>
-                      <span className={styles.metaSeparator}>•</span>
-                      <span>{event.duration}</span>
-                    </div>
-                  </div>
-                  <p className={styles.eventDescription}>{event.description}</p>
-                  {event.speaker && (
-                    <div className={styles.eventSpeaker}>
-                      <svg className={styles.metaIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                      </svg>
-                      <span>Speaker: {event.speaker}</span>
-                    </div>
-                  )}
-                </div>
-                <div className={styles.eventActions}>
-                  <a href={event.registrationLink} className={styles.primaryButton}>
-                    Register Now
-                    <svg className={styles.buttonIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </a>
-                </div>
-              </div>
+                <Event color="primary" fontSize="large" />
+                Webinars & Events
+              </Typography>
+              <Typography color="text.secondary">
+                Upcoming learning opportunities and networking events
+              </Typography>
+            </Box>
+            <Button
+              component="a"
+              href="/events"
+              variant="text"
+              color="primary"
+              endIcon={<ArrowForward />}
+              sx={{
+                fontWeight: 600,
+                textTransform: 'none',
+                fontSize: '1rem'
+              }}
+            >
+              View all events
+            </Button>
+          </Box>
+
+          <Grid container spacing={3}>
+            {resourceData.webinarsEvents.map(event => (
+              <Grid item xs={12} key={event.id}>
+                <Card
+                  sx={{
+                    borderLeft: event.featured ? `4px solid ${theme.palette.secondary.main}` : 'none',
+                    boxShadow: theme.shadows[2],
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-3px)',
+                      boxShadow: theme.shadows[4]
+                    }
+                  }}
+                >
+                  <CardContent>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', md: 'row' },
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <Box sx={{ mb: { xs: 2, md: 0 } }}>
+                        {event.featured && (
+                          <Chip
+                            label="Featured Event"
+                            color="secondary"
+                            size="small"
+                            sx={{ mb: 1 }}
+                          />
+                        )}
+                        <Typography
+                          variant="h6"
+                          component="h3"
+                          gutterBottom
+                          sx={{ fontWeight: 600 }}
+                        >
+                          {event.title}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                          <Schedule fontSize="small" color="action" sx={{ mr: 1 }} />
+                          <Typography variant="body2" color="text.secondary">
+                            {event.date} | {event.time} • {event.duration}
+                          </Typography>
+                        </Box>
+                        {event.speaker && (
+                          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                            <Person fontSize="small" color="action" sx={{ mr: 1 }} />
+                            <Typography variant="body2" color="text.secondary">
+                              Speaker: {event.speaker}
+                            </Typography>
+                          </Box>
+                        )}
+                        <Typography variant="body1" color="text.secondary">
+                          {event.description}
+                        </Typography>
+                      </Box>
+                      <Button
+                        component="a"
+                        href={event.registrationLink}
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        sx={{
+                          alignSelf: { md: 'center' },
+                          mt: { xs: 2, md: 0 },
+                          minWidth: 160
+                        }}
+                      >
+                        Register Now
+                      </Button>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-          </div>
-        </section>
+          </Grid>
+        </Box>
 
         {/* Case Studies Section */}
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <div>
-              <h2 className={styles.sectionTitle}>
-                <span className={styles.sectionIcon}>📊</span>
+        <Box sx={{ mb: { xs: 8, md: 10 } }}>
+          <Box 
+            sx={{ 
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: 'space-between',
+              alignItems: { xs: 'flex-start', sm: 'center' },
+              mb: 4
+            }}
+          >
+            <Box sx={{ mb: { xs: 2, sm: 0 } }}>
+              <Typography
+                variant={isMobile ? 'h5' : 'h4'}
+                sx={{
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2
+                }}
+              >
+                <Description color="primary" fontSize="large" />
                 Case Studies
-              </h2>
-              <p className={styles.sectionDescription}>
+              </Typography>
+              <Typography color="text.secondary">
                 Real-world examples of our solutions in action
-              </p>
-            </div>
-            <a href="/case-studies" className={styles.viewAllLink}>
+              </Typography>
+            </Box>
+            <Button
+              component="a"
+              href="/case-studies"
+              variant="text"
+              color="primary"
+              endIcon={<ArrowForward />}
+              sx={{
+                fontWeight: 600,
+                textTransform: 'none',
+                fontSize: '1rem'
+              }}
+            >
               View all case studies
-              <svg className={styles.linkIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </a>
-          </div>
+            </Button>
+          </Box>
 
-          <div className={styles.resourceGrid}>
+          <Grid container spacing={3}>
             {resourceData.caseStudies.map(caseStudy => (
-              <div key={caseStudy.id} className={styles.resourceCard}>
-                <div className={styles.cardContent}>
-                  <div className={styles.cardHeader}>
-                    <div className={styles.cardIcon}>{caseStudy.logo}</div>
-                    <div>
-                      <span className={styles.industryTag}>{caseStudy.industry}</span>
-                      <h3 className={styles.cardTitle}>{caseStudy.title}</h3>
-                    </div>
-                  </div>
-                  <p className={styles.cardDescription}>{caseStudy.summary}</p>
-                  {caseStudy.results && (
-                    <div className={styles.resultsBadge}>
-                      <svg className={styles.successIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      {caseStudy.results}
-                    </div>
-                  )}
-                  {caseStudy.technologies && (
-                    <div className={styles.techStack}>
-                      <span className={styles.techLabel}>Tech Stack:</span>
-                      <div className={styles.techTags}>
-                        {caseStudy.technologies.map(tech => (
-                          <span key={tech} className={styles.techTag}>{tech}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  <a href={caseStudy.downloadLink} className={styles.secondaryButton}>
-                    <svg className={styles.buttonIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                    Download Case Study
-                  </a>
-                </div>
-              </div>
+              <Grid item xs={12} sm={6} md={4} key={caseStudy.id}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-5px)',
+                      boxShadow: theme.shadows[6]
+                    }
+                  }}
+                >
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Chip
+                      label={caseStudy.industry}
+                      color="default"
+                      size="small"
+                      variant="outlined"
+                      sx={{ mb: 2 }}
+                    />
+                    <Typography
+                      variant="h6"
+                      component="h3"
+                      gutterBottom
+                      sx={{ fontWeight: 600 }}
+                    >
+                      {caseStudy.title}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{ mb: 2 }}
+                    >
+                      {caseStudy.summary}
+                    </Typography>
+                    {caseStudy.results && (
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                        <CheckCircle color="success" fontSize="small" sx={{ mr: 1 }} />
+                        <Typography variant="body2">
+                          {caseStudy.results}
+                        </Typography>
+                      </Box>
+                    )}
+                    {caseStudy.technologies && (
+                      <Box sx={{ mb: 2 }}>
+                        <Typography variant="caption" color="text.secondary">
+                          Tech Stack:
+                        </Typography>
+                        <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: 'wrap' }}>
+                          {caseStudy.technologies.map(tech => (
+                            <Chip
+                              key={tech}
+                              label={tech}
+                              size="small"
+                              variant="outlined"
+                            />
+                          ))}
+                        </Stack>
+                      </Box>
+                    )}
+                    <Button
+                      component="a"
+                      href={caseStudy.downloadLink}
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      startIcon={<Download />}
+                      sx={{
+                        fontWeight: 600,
+                        textTransform: 'none'
+                      }}
+                    >
+                      Download Case Study
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-          </div>
-        </section>
+          </Grid>
+        </Box>
 
         {/* Documentation Section */}
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <div>
-              <h2 className={styles.sectionTitle}>
-                <span className={styles.sectionIcon}>📚</span>
+        <Box sx={{ mb: { xs: 8, md: 10 } }}>
+          <Box 
+            sx={{ 
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: 'space-between',
+              alignItems: { xs: 'flex-start', sm: 'center' },
+              mb: 4
+            }}
+          >
+            <Box sx={{ mb: { xs: 2, sm: 0 } }}>
+              <Typography
+                variant={isMobile ? 'h5' : 'h4'}
+                sx={{
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2
+                }}
+              >
+                <Description color="primary" fontSize="large" />
                 Documentation
-              </h2>
-              <p className={styles.sectionDescription}>
+              </Typography>
+              <Typography color="text.secondary">
                 Comprehensive guides and API references
-              </p>
-            </div>
-            <a href="/docs" className={styles.viewAllLink}>
+              </Typography>
+            </Box>
+            <Button
+              component="a"
+              href="/docs"
+              variant="text"
+              color="primary"
+              endIcon={<ArrowForward />}
+              sx={{
+                fontWeight: 600,
+                textTransform: 'none',
+                fontSize: '1rem'
+              }}
+            >
               View all documentation
-              <svg className={styles.linkIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </a>
-          </div>
+            </Button>
+          </Box>
 
-          <div className={styles.resourceGrid}>
+          <Grid container spacing={3}>
             {resourceData.documentation.map(doc => (
-              <div key={doc.id} className={styles.resourceCard}>
-                <div className={styles.cardContent}>
-                  <div className={styles.cardHeader}>
-                    <div className={styles.docIconContainer}>
-                      <svg className={styles.docIcon} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <span className={styles.docType}>{doc.type}</span>
-                      <h3 className={styles.cardTitle}>{doc.title}</h3>
-                    </div>
-                  </div>
-                  <div className={styles.docMeta}>
-                    <svg className={styles.metaIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                    </svg>
-                    <span>Version {doc.version}</span>
-                    <span className={styles.metaSeparator}>•</span>
-                    <span>Updated {doc.lastUpdated}</span>
-                  </div>
-                  <p className={styles.cardDescription}>{doc.description}</p>
-                  {doc.languages && (
-                    <div className={styles.languages}>
-                      <span className={styles.languageLabel}>Available in:</span>
-                      <div className={styles.languageTags}>
-                        {doc.languages.map(lang => (
-                          <span key={lang} className={styles.languageTag}>{lang}</span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  <a href={doc.url} className={styles.secondaryButton}>
-                    <svg className={styles.buttonIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5z" clipRule="evenodd" />
-                    </svg>
-                    View Documentation
-                  </a>
-                </div>
-              </div>
+              <Grid item xs={12} sm={6} md={4} key={doc.id}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-5px)',
+                      boxShadow: theme.shadows[6]
+                    }
+                  }}
+                >
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography
+                      variant="overline"
+                      color="text.secondary"
+                      display="block"
+                      gutterBottom
+                    >
+                      {doc.type}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      component="h3"
+                      gutterBottom
+                      sx={{ fontWeight: 600 }}
+                    >
+                      {doc.title}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                      <Schedule fontSize="small" color="action" sx={{ mr: 1 }} />
+                      <Typography variant="body2" color="text.secondary">
+                        Version {doc.version} • Updated {doc.lastUpdated}
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="body1"
+                      color="text.secondary"
+                      sx={{ mb: 2 }}
+                    >
+                      {doc.description}
+                    </Typography>
+                    {doc.languages && (
+                      <Box sx={{ mb: 2 }}>
+                        <Typography variant="caption" color="text.secondary">
+                          Available in:
+                        </Typography>
+                        <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: 'wrap' }}>
+                          {doc.languages.map(lang => (
+                            <Chip
+                              key={lang}
+                              label={lang}
+                              size="small"
+                              variant="outlined"
+                            />
+                          ))}
+                        </Stack>
+                      </Box>
+                    )}
+                    <Button
+                      component="a"
+                      href={doc.url}
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      startIcon={<LinkIcon />}
+                      sx={{
+                        fontWeight: 600,
+                        textTransform: 'none'
+                      }}
+                    >
+                      View Documentation
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
             ))}
-          </div>
-        </section>
+          </Grid>
+        </Box>
 
         {/* Community Forum Section */}
-        <section>
-          <div className={styles.communitySection}>
-            <div className={styles.communityContent}>
-              <div className={styles.communityInfo}>
-                <h2 className={styles.communityTitle}>{resourceData.communityForum.title}</h2>
-                <p className={styles.communityDescription}>{resourceData.communityForum.description}</p>
-                <div className={styles.communityStats}>
-                  <div className={styles.communityStat}>
-                    <svg className={styles.statIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {resourceData.communityForum.stats}
-                  </div>
-                  <div className={styles.communityStat}>
-                    <svg className={styles.statIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {resourceData.communityForum.activeDiscussions}
-                  </div>
-                  <div className={styles.communityStat}>
-                    <svg className={styles.statIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {resourceData.communityForum.newMembers}
-                  </div>
-                </div>
-                {resourceData.communityForum.features && (
-                  <div className={styles.communityFeatures}>
-                    <h4 className={styles.featuresTitle}>Community Features:</h4>
-                    <ul className={styles.featuresList}>
-                      {resourceData.communityForum.features.map((feature, index) => (
-                        <li key={index} className={styles.featureItem}>
-                          <svg className={styles.featureIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-              <div className={styles.communityAction}>
-                <a href={resourceData.communityForum.url} className={styles.communityButton}>
+        <Box
+          sx={{
+            backgroundColor: theme.palette.grey[100],
+            borderRadius: 2,
+            p: { xs: 3, md: 6 },
+            mb: { xs: 8, md: 10 }
+          }}
+        >
+          <Grid container spacing={4} alignItems="center">
+            <Grid item xs={12} md={7}>
+              <Typography
+                variant={isMobile ? 'h5' : 'h4'}
+                gutterBottom
+                sx={{
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2
+                }}
+              >
+                <Groups color="primary" fontSize="large" />
+                {resourceData.communityForum.title}
+              </Typography>
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{ mb: 3 }}
+              >
+                {resourceData.communityForum.description}
+              </Typography>
+              <Stack spacing={2} sx={{ mb: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <CheckCircle color="success" sx={{ mr: 1.5 }} />
+                  <Typography>{resourceData.communityForum.stats}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <CheckCircle color="success" sx={{ mr: 1.5 }} />
+                  <Typography>{resourceData.communityForum.activeDiscussions}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <CheckCircle color="success" sx={{ mr: 1.5 }} />
+                  <Typography>{resourceData.communityForum.newMembers}</Typography>
+                </Box>
+              </Stack>
+              {resourceData.communityForum.features && (
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="subtitle2" gutterBottom>
+                    Community Features:
+                  </Typography>
+                  <Grid container spacing={1}>
+                    {resourceData.communityForum.features.map((feature, index) => (
+                      <Grid item xs={12} sm={6} key={index}>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <CheckCircle color="success" sx={{ mr: 1, fontSize: '1rem' }} />
+                          <Typography variant="body2">{feature}</Typography>
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
+              )}
+            </Grid>
+            <Grid item xs={12} md={5}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: { xs: 'flex-start', md: 'flex-end' }
+                }}
+              >
+                <Button
+                  component="a"
+                  href={resourceData.communityForum.url}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  endIcon={<ArrowForward />}
+                  sx={{
+                    px: 4,
+                    py: 1.5,
+                    fontWeight: 600,
+                    textTransform: 'none'
+                  }}
+                >
                   Join the Community
-                  <svg className={styles.buttonIcon} viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
+    </>
   );
 };
 

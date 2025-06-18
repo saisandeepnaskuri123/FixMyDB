@@ -15,7 +15,9 @@ import {
   ListItemText,
   CircularProgress,
   useMediaQuery,
-  useTheme
+  useTheme,
+  Drawer,
+  Divider
 } from '@mui/material';
 import { 
   Menu as MenuIcon,
@@ -29,6 +31,7 @@ import { searchContent } from '../utils/searchService';
 function NavBar() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -84,24 +87,25 @@ function NavBar() {
         color: 'text.primary',
         borderBottom: '1px solid',
         borderColor: 'divider',
-        py: 1
+        py: isMobile ? 0 : 1
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ minHeight: isMobile ? 64 : 72 }}>
           {/* Logo/Brand */}
           <Typography
-            variant="h6"
+            variant={isMobile ? 'subtitle1' : 'h6'}
             noWrap
             component={Link}
             to="/"
             sx={{
-              mr: 4,
+              mr: isMobile ? 2 : 4,
               fontWeight: 700,
               color: 'primary.main',
               textDecoration: 'none',
               display: 'flex',
-              alignItems: 'center'
+              alignItems: 'center',
+              flexShrink: 0
             }}
           >
             <Box 
@@ -109,10 +113,11 @@ function NavBar() {
               sx={{ 
                 backgroundColor: 'primary.main', 
                 color: 'white',
-                px: 1.5,
-                py: 0.5,
+                px: isMobile ? 1 : 1.5,
+                py: isMobile ? 0.3 : 0.5,
                 borderRadius: 1,
-                mr: 1
+                mr: 1,
+                fontSize: isMobile ? '0.875rem' : '1rem'
               }}
             >
               FixMyDB
@@ -131,6 +136,8 @@ function NavBar() {
                     sx={{
                       mx: 1,
                       color: 'text.primary',
+                      fontWeight: 500,
+                      fontSize: '0.9375rem',
                       '&:hover': {
                         color: 'primary.main',
                         backgroundColor: 'transparent'
@@ -143,7 +150,7 @@ function NavBar() {
               </Box>
 
               {/* Search Bar - Desktop */}
-              <Box sx={{ width: 300, mx: 2, position: 'relative' }}>
+              <Box sx={{ width: isSmallMobile ? '100%' : 300, mx: 2, position: 'relative' }}>
                 <TextField
                   fullWidth
                   size="small"
@@ -154,7 +161,7 @@ function NavBar() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SearchIcon />
+                        <SearchIcon fontSize="small" />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -164,12 +171,17 @@ function NavBar() {
                             onClick={handleSearchClose} 
                             size="small"
                             edge="end"
+                            sx={{ p: 0.5 }}
                           >
-                            {isSearching ? <CircularProgress size={20} /> : <CloseIcon />}
+                            {isSearching ? <CircularProgress size={18} /> : <CloseIcon fontSize="small" />}
                           </IconButton>
                         )}
                       </InputAdornment>
                     ),
+                    sx: {
+                      fontSize: '0.875rem',
+                      height: 38
+                    }
                   }}
                 />
                 {searchOpen && searchResults.length > 0 && (
@@ -180,13 +192,13 @@ function NavBar() {
                       top: '100%',
                       left: 0,
                       right: 0,
-                      zIndex: theme.zIndex.modal,
+                      zIndex: theme.zIndex.modal + 1,
                       mt: 1,
                       maxHeight: 400,
                       overflow: 'auto'
                     }}
                   >
-                    <List>
+                    <List dense>
                       {searchResults.map((result) => (
                         <ListItem 
                           key={result.id} 
@@ -202,6 +214,8 @@ function NavBar() {
                           <ListItemText
                             primary={result.title}
                             secondary={result.type}
+                            primaryTypographyProps={{ fontSize: '0.875rem' }}
+                            secondaryTypographyProps={{ fontSize: '0.75rem' }}
                           />
                         </ListItem>
                       ))}
@@ -213,15 +227,18 @@ function NavBar() {
           )}
 
           {/* Right-side buttons/actions */}
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto' }}>
             {!isMobile && (
               <>
                 <Button
                   variant="outlined"
-                  startIcon={<PhoneIcon />}
+                  startIcon={<PhoneIcon fontSize="small" />}
                   sx={{
                     mr: 2,
                     borderWidth: '2px',
+                    px: 2,
+                    py: 0.8,
+                    fontSize: '0.8125rem',
                     '&:hover': {
                       borderWidth: '2px'
                     }
@@ -235,7 +252,10 @@ function NavBar() {
                   component={Link}
                   to="/contact"
                   sx={{
-                    minWidth: 120
+                    minWidth: 120,
+                    px: 2,
+                    py: 0.8,
+                    fontSize: '0.8125rem'
                   }}
                 >
                   Get Consultation
@@ -247,23 +267,23 @@ function NavBar() {
             {isMobile && (
               <>
                 <IconButton
-                  size="large"
+                  size="medium"
                   aria-label="search"
                   onClick={() => setSearchOpen(!searchOpen)}
                   color="inherit"
-                  sx={{ mr: 1 }}
+                  sx={{ mr: 0.5 }}
                 >
-                  <SearchIcon />
+                  <SearchIcon fontSize={isSmallMobile ? 'small' : 'medium'} />
                 </IconButton>
                 <IconButton
-                  size="large"
+                  size="medium"
                   aria-label="menu"
                   aria-controls="mobile-menu"
                   aria-haspopup="true"
                   onClick={toggleMobileMenu}
                   color="inherit"
                 >
-                  <MenuIcon />
+                  <MenuIcon fontSize={isSmallMobile ? 'small' : 'medium'} />
                 </IconButton>
               </>
             )}
@@ -279,10 +299,11 @@ function NavBar() {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                size="small"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon />
+                      <SearchIcon fontSize="small" />
                     </InputAdornment>
                   ),
                   endAdornment: (
@@ -292,27 +313,40 @@ function NavBar() {
                           onClick={handleSearchClose} 
                           size="small"
                           edge="end"
+                          sx={{ p: 0.5 }}
                         >
-                          {isSearching ? <CircularProgress size={20} /> : <CloseIcon />}
+                          {isSearching ? <CircularProgress size={18} /> : <CloseIcon fontSize="small" />}
                         </IconButton>
                       )}
                     </InputAdornment>
                   ),
+                  sx: {
+                    fontSize: '0.875rem',
+                    height: 38
+                  }
                 }}
               />
               {searchResults.length > 0 && (
                 <Paper elevation={3} sx={{ mt: 1, maxHeight: 300, overflow: 'auto' }}>
-                  <List>
+                  <List dense>
                     {searchResults.map((result) => (
                       <ListItem 
                         key={result.id} 
                         component={Link} 
                         to={result.path}
                         onClick={handleSearchClose}
+                        sx={{
+                          py: 0.75,
+                          '&:hover': {
+                            backgroundColor: 'action.hover'
+                          }
+                        }}
                       >
                         <ListItemText
                           primary={result.title}
                           secondary={result.type}
+                          primaryTypographyProps={{ fontSize: '0.875rem' }}
+                          secondaryTypographyProps={{ fontSize: '0.75rem' }}
                         />
                       </ListItem>
                     ))}
@@ -322,59 +356,76 @@ function NavBar() {
             </Box>
           </Box>
         )}
-
-        {/* Mobile Menu */}
-        {isMobile && mobileMenuOpen && (
-          <Box 
-            sx={{ 
-              p: 2,
-              borderTop: '1px solid',
-              borderColor: 'divider'
-            }}
-          >
-            {navItems.map((item) => (
-              <Button
-                key={item.label}
-                component={Link}
-                to={item.path}
-                fullWidth
-                sx={{
-                  justifyContent: 'flex-start',
-                  px: 3,
-                  py: 1.5,
-                  my: 0.5,
-                  color: 'text.primary',
-                  '&:hover': {
-                    color: 'primary.main',
-                    backgroundColor: 'action.hover'
-                  }
-                }}
-              >
-                {item.label}
-              </Button>
-            ))}
-            <Box sx={{ display: 'flex', mt: 2 }}>
-              <Button
-                variant="outlined"
-                fullWidth
-                startIcon={<PhoneIcon />}
-                sx={{ mr: 1 }}
-              >
-                Call
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                component={Link}
-                to="/contact"
-              >
-                Contact
-              </Button>
-            </Box>
-          </Box>
-        )}
       </Container>
+
+      {/* Mobile Menu Drawer */}
+      <Drawer
+        anchor="right"
+        open={mobileMenuOpen}
+        onClose={toggleMobileMenu}
+        PaperProps={{
+          sx: {
+            width: isSmallMobile ? '100%' : 320,
+            p: 2,
+            boxSizing: 'border-box'
+          }
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
+          <IconButton onClick={toggleMobileMenu}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        
+        <Divider sx={{ mb: 2 }} />
+        
+        <List>
+          {navItems.map((item) => (
+            <ListItem 
+              key={item.label} 
+              component={Link} 
+              to={item.path}
+              onClick={toggleMobileMenu}
+              sx={{
+                px: 2,
+                py: 1.5,
+                color: 'text.primary',
+                '&:hover': {
+                  color: 'primary.main',
+                  backgroundColor: 'action.hover'
+                }
+              }}
+            >
+              <ListItemText 
+                primary={item.label} 
+                primaryTypographyProps={{ fontWeight: 500 }}
+              />
+            </ListItem>
+          ))}
+        </List>
+        
+        <Box sx={{ p: 2, mt: 'auto' }}>
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<PhoneIcon />}
+            sx={{ mb: 2 }}
+            href="tel:+917675028957"
+          >
+            Call Us Now
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            component={Link}
+            to="/contact"
+            onClick={toggleMobileMenu}
+          >
+            Get Free Consultation
+          </Button>
+        </Box>
+      </Drawer>
     </AppBar>
   );
 }

@@ -1,4 +1,4 @@
-import { Box, Typography, Card, CardContent, Grid, Container, useTheme, Button, Fade } from '@mui/material';
+import { Box, Typography, Card, CardContent, Grid, Container, useTheme, Button, Fade, useMediaQuery } from '@mui/material';
 import { 
   Speed as PerformanceIcon,
   Security as SecurityIcon,
@@ -6,12 +6,19 @@ import {
   Cloud as CloudIcon,
   ArrowForward
 } from '@mui/icons-material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function ServicesSection() {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
   const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation when component mounts
+    setVisible(true);
+  }, []);
 
   const services = [
     {
@@ -24,7 +31,8 @@ function ServicesSection() {
         "Configuration analysis",
         "Benchmarking"
       ],
-      cta: "Boost Performance"
+      cta: "Boost Performance",
+      color: theme.palette.primary.main
     },
     {
       icon: <SecurityIcon fontSize="large" />,
@@ -36,7 +44,8 @@ function ServicesSection() {
         "Encryption setup",
         "Compliance checks"
       ],
-      cta: "Secure Your DB"
+      cta: "Secure Your DB",
+      color: theme.palette.error.main
     },
     {
       icon: <ManagedIcon fontSize="large" />,
@@ -48,7 +57,8 @@ function ServicesSection() {
         "Backup management",
         "Emergency support"
       ],
-      cta: "Get Managed"
+      cta: "Get Managed",
+      color: theme.palette.success.main
     },
     {
       icon: <CloudIcon fontSize="large" />,
@@ -60,7 +70,8 @@ function ServicesSection() {
         "Architecture review",
         "Migration support"
       ],
-      cta: "Optimize Cloud"
+      cta: "Optimize Cloud",
+      color: theme.palette.warning.main
     }
   ];
 
@@ -68,7 +79,7 @@ function ServicesSection() {
     <Box 
       id="services"
       sx={{ 
-        py: { xs: 6, md: 10 }, 
+        py: { xs: 6, sm: 8, md: 10 }, 
         backgroundColor: 'background.default',
         position: 'relative',
         overflow: 'hidden',
@@ -84,26 +95,39 @@ function ServicesSection() {
             ? 'rgba(25, 118, 210, 0.05)' 
             : 'rgba(25, 118, 210, 0.1)',
           zIndex: 0
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          bottom: -150,
+          left: -150,
+          width: 300,
+          height: 300,
+          borderRadius: '50%',
+          background: theme.palette.mode === 'light' 
+            ? 'rgba(25, 118, 210, 0.03)' 
+            : 'rgba(25, 118, 210, 0.07)',
+          zIndex: 0
         }
       }}
-      onMouseEnter={() => setVisible(true)}
     >
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
         <Typography 
-          variant="h2" 
+          variant={isMobile ? 'h3' : 'h2'}
           align="center" 
           sx={{ 
-            mb: { xs: 4, md: 6 },
+            mb: { xs: 4, sm: 5, md: 6 },
             fontWeight: 800,
-            color: 'text.primary'
+            color: 'text.primary',
+            px: isMobile ? 2 : 0
           }}
         >
           Our Specialized Services
         </Typography>
         
-        <Grid container spacing={4}>
+        <Grid container spacing={isMobile ? 3 : 4}>
           {services.map((service, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid item xs={12} sm={6} lg={3} key={index}>
               <Fade in={visible} timeout={(index + 1) * 300}>
                 <Card
                   sx={{
@@ -115,10 +139,14 @@ function ServicesSection() {
                     '&:hover': {
                       transform: 'translateY(-8px)',
                       boxShadow: theme.shadows[8],
-                      borderColor: theme.palette.primary.main,
+                      borderColor: service.color,
                       '& .service-icon': {
                         transform: 'scale(1.1)',
-                        color: theme.palette.primary.dark
+                        color: service.color
+                      },
+                      '& .service-button': {
+                        backgroundColor: service.color,
+                        color: 'white'
                       }
                     },
                     border: '1px solid',
@@ -129,7 +157,7 @@ function ServicesSection() {
                 >
                   <CardContent sx={{ 
                     flexGrow: 1, 
-                    p: 3,
+                    p: isMobile ? 2.5 : 3,
                     display: 'flex',
                     flexDirection: 'column'
                   }}>
@@ -141,7 +169,7 @@ function ServicesSection() {
                       <Box 
                         className="service-icon"
                         sx={{ 
-                          color: 'primary.main',
+                          color: service.color,
                           mr: 2,
                           transition: 'all 0.3s ease'
                         }}
@@ -149,7 +177,7 @@ function ServicesSection() {
                         {service.icon}
                       </Box>
                       <Typography 
-                        variant="h5" 
+                        variant={isMobile ? 'h6' : 'h5'}
                         component="h3"
                         sx={{ 
                           fontWeight: 700,
@@ -159,11 +187,14 @@ function ServicesSection() {
                         {service.title}
                       </Typography>
                     </Box>
-                    <Typography sx={{ 
-                      color: 'text.secondary',
-                      mb: 2,
-                      flexGrow: 1
-                    }}>
+                    <Typography 
+                      variant={isMobile ? 'body2' : 'body1'}
+                      sx={{ 
+                        color: 'text.secondary',
+                        mb: 2,
+                        flexGrow: 1
+                      }}
+                    >
                       {service.description}
                     </Typography>
                     
@@ -178,13 +209,15 @@ function ServicesSection() {
                           }}
                         >
                           <Box sx={{ 
-                            width: 8,
-                            height: 8,
+                            width: 6,
+                            height: 6,
                             borderRadius: '50%',
-                            bgcolor: 'primary.main',
+                            bgcolor: service.color,
                             mr: 1.5
                           }} />
-                          <Typography variant="body2">{feature}</Typography>
+                          <Typography variant={isMobile ? 'caption' : 'body2'}>
+                            {feature}
+                          </Typography>
                         </Box>
                       ))}
                     </Box>
@@ -193,15 +226,21 @@ function ServicesSection() {
                       component={Link}
                       to="/contact"
                       variant="outlined"
-                      color="primary"
+                      color="inherit"
+                      className="service-button"
                       endIcon={<ArrowForward />}
                       sx={{
                         alignSelf: 'flex-start',
                         mt: 'auto',
+                        borderColor: service.color,
+                        color: service.color,
                         '&:hover': {
-                          backgroundColor: 'primary.main',
+                          backgroundColor: service.color,
                           color: 'white'
-                        }
+                        },
+                        fontSize: isMobile ? '0.75rem' : '0.875rem',
+                        py: isMobile ? 0.8 : 1,
+                        px: isMobile ? 1.5 : 2
                       }}
                     >
                       {service.cta}

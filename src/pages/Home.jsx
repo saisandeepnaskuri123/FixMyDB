@@ -1,41 +1,58 @@
-import { Box, Button, Container, Grid, Typography, Card, CardContent, useTheme, Stack } from '@mui/material';
+import { Box, Button, Container, Grid, Typography, Card, CardContent, useTheme, Stack, useMediaQuery } from '@mui/material';
 import { 
   Speed, 
   Security, 
   Storage, 
   Cloud, 
-  SupportAgent,
-  BarChart
+  ArrowForward
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Helmet } from 'react-helmet';
+import { useState, useEffect } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 function Home() {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time for images
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const services = [
     {
-      icon: <Speed fontSize="large" color="primary" sx={{ fontSize: 50 }} />,
+      icon: <Speed fontSize="large" sx={{ fontSize: 50 }} />,
       title: "Performance Tuning",
       description: "Optimize queries and configurations for maximum database speed and efficiency",
-      color: 'primary'
+      color: theme.palette.primary.main
     },
     {
-      icon: <Security fontSize="large" color="primary" sx={{ fontSize: 50 }} />,
+      icon: <Security fontSize="large" sx={{ fontSize: 50 }} />,
       title: "Security Hardening",
       description: "Enterprise-grade security measures to protect your sensitive data",
-      color: 'error'
+      color: theme.palette.error.main
     },
     {
-      icon: <Storage fontSize="large" color="primary" sx={{ fontSize: 50 }} />,
+      icon: <Storage fontSize="large" sx={{ fontSize: 50 }} />,
       title: "24/7 Monitoring",
       description: "Proactive monitoring prevents issues before they impact your business",
-      color: 'warning'
+      color: theme.palette.warning.main
     },
     {
-      icon: <Cloud fontSize="large" color="primary" sx={{ fontSize: 50 }} />,
+      icon: <Cloud fontSize="large" sx={{ fontSize: 50 }} />,
       title: "Cloud Optimization",
       description: "Reduce AWS/GCP costs while improving performance and reliability",
-      color: 'success'
+      color: theme.palette.success.main
     }
   ];
 
@@ -46,8 +63,40 @@ function Home() {
     { value: "40%", label: "Cost Reduction" }
   ];
 
+  const carouselItems = [
+    {
+      image: "/images/mongo2.jpg.jpg",
+      mobileImage: "/images/mongo2-mobile.jpg.jpg",
+      title: "Enterprise Database Solutions",
+      subtitle: "Scalable, secure, and high-performance database management",
+      buttonText: "Explore Solutions",
+      path: "/services"
+    },
+    {
+      image: "/images/mongo1.jpg.png",
+      mobileImage: "/images/mongo1-mobile.jpg.png",
+      title: "24/7 Monitoring & Support",
+      subtitle: "Proactive monitoring to prevent issues before they occur",
+      buttonText: "Learn About Support",
+      path: "/services#support"
+    },
+    {
+      image: "/images/mongo3.jpg.jpg",
+      mobileImage: "/images/mongo3-mobile.jpg.jpg",
+      title: "Cloud Database Optimization",
+      subtitle: "Reduce costs while improving performance and reliability",
+      buttonText: "Cloud Services",
+      path: "/services#cloud"
+    }
+  ];
+
   return (
-    <Box sx={{ backgroundColor: 'background.default' }}>
+    <>
+      <Helmet>
+        <title>FixMyDB | Database Performance & Optimization Experts</title>
+        <meta name="description" content="Professional database management services including performance tuning, security hardening, and cloud optimization." />
+      </Helmet>
+
       {/* Hero Section */}
       <Box 
         sx={{ 
@@ -61,25 +110,26 @@ function Home() {
       >
         <Container maxWidth="lg">
           <Typography 
-            variant="h2" 
+            variant={isMobile ? 'h3' : 'h2'}
             component="h1" 
             gutterBottom 
             sx={{ 
               fontWeight: 800,
               mb: 3,
-              letterSpacing: '0.5px',
-              lineHeight: 1.2
+              lineHeight: 1.2,
+              px: isMobile ? 2 : 0
             }}
           >
             Database Experts at Your Service
           </Typography>
           <Typography 
-            variant="h5" 
+            variant={isMobile ? 'body1' : 'h5'} 
             sx={{ 
               mb: 4, 
               maxWidth: 800,
               mx: 'auto',
-              lineHeight: 1.6
+              lineHeight: 1.6,
+              px: isMobile ? 2 : 0
             }}
           >
             FixMyDB provides specialized database management to optimize performance, 
@@ -94,13 +144,13 @@ function Home() {
             <Button 
               variant="contained" 
               color="secondary" 
-              size="large"
+              size={isMobile ? 'medium' : 'large'}
               component={Link}
               to="/contact"
               sx={{ 
-                px: 6,
+                px: { xs: 4, md: 6 },
                 py: 1.5,
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '0.875rem' : '1rem',
                 fontWeight: 600,
                 borderRadius: 2,
                 textTransform: 'none',
@@ -116,13 +166,13 @@ function Home() {
             <Button 
               variant="outlined" 
               color="inherit" 
-              size="large"
+              size={isMobile ? 'medium' : 'large'}
               component={Link}
               to="/services"
               sx={{ 
-                px: 6,
+                px: { xs: 4, md: 6 },
                 py: 1.5,
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '0.875rem' : '1rem',
                 fontWeight: 600,
                 borderRadius: 2,
                 textTransform: 'none',
@@ -139,6 +189,169 @@ function Home() {
         </Container>
       </Box>
 
+      {/* Enhanced Carousel Section */}
+      {isLoading ? (
+        <Box sx={{ 
+          height: isMobile ? '50vh' : '70vh', 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          backgroundColor: 'background.default'
+        }}>
+          <CircularProgress size={60} />
+        </Box>
+      ) : (
+        <Box sx={{ position: 'relative', height: isMobile ? '50vh' : '70vh', overflow: 'hidden' }}>
+          <Carousel 
+            autoPlay 
+            infiniteLoop 
+            showThumbs={false} 
+            showStatus={false}
+            interval={6000}
+            stopOnHover={false}
+            renderArrowPrev={(onClickHandler, hasPrev, label) => (
+              <Box
+                onClick={onClickHandler}
+                sx={{
+                  position: 'absolute',
+                  zIndex: 2,
+                  top: '50%',
+                  left: 10,
+                  transform: 'translateY(-50%)',
+                  bgcolor: 'rgba(255,255,255,0.7)',
+                  borderRadius: '50%',
+                  width: 40,
+                  height: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    bgcolor: 'rgba(255,255,255,0.9)'
+                  },
+                  [theme.breakpoints.up('md')]: {
+                    width: 50,
+                    height: 50,
+                    left: 20
+                  }
+                }}
+              >
+                <Typography variant="h4" color="primary">‹</Typography>
+              </Box>
+            )}
+            renderArrowNext={(onClickHandler, hasNext, label) => (
+              <Box
+                onClick={onClickHandler}
+                sx={{
+                  position: 'absolute',
+                  zIndex: 2,
+                  top: '50%',
+                  right: 10,
+                  transform: 'translateY(-50%)',
+                  bgcolor: 'rgba(255,255,255,0.7)',
+                  borderRadius: '50%',
+                  width: 40,
+                  height: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    bgcolor: 'rgba(255,255,255,0.9)'
+                  },
+                  [theme.breakpoints.up('md')]: {
+                    width: 50,
+                    height: 50,
+                    right: 20
+                  }
+                }}
+              >
+                <Typography variant="h4" color="primary">›</Typography>
+              </Box>
+            )}
+          >
+            {carouselItems.map((item, index) => (
+              <Box key={index} sx={{ height: isMobile ? '50vh' : '70vh', position: 'relative' }}>
+                <Box
+                  component="img"
+                  src={isMobile ? item.mobileImage : item.image}
+                  alt={item.title}
+                  loading="lazy"
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'brightness(0.7)'
+                  }}
+                />
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    color: 'white',
+                    p: 3,
+                    background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%)'
+                  }}
+                >
+                  <Typography
+                    variant={isMobile ? 'h4' : 'h2'}
+                    sx={{
+                      fontWeight: 800,
+                      mb: 2,
+                      textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                      maxWidth: isMobile ? '90%' : '80%'
+                    }}
+                  >
+                    {item.title}
+                  </Typography>
+                  <Typography
+                    variant={isMobile ? 'body1' : 'h5'}
+                    sx={{
+                      maxWidth: isMobile ? '90%' : '70%',
+                      textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                      mb: 4
+                    }}
+                  >
+                    {item.subtitle}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size={isMobile ? 'medium' : 'large'}
+                    component={Link}
+                    to={item.path}
+                    endIcon={<ArrowForward />}
+                    sx={{
+                      px: { xs: 4, md: 6 },
+                      py: 1.5,
+                      fontSize: isMobile ? '0.875rem' : '1rem',
+                      fontWeight: 600,
+                      borderRadius: 2,
+                      textTransform: 'none',
+                      boxShadow: theme.shadows[4],
+                      '&:hover': {
+                        boxShadow: theme.shadows[6],
+                        backgroundColor: theme.palette.primary.dark
+                      }
+                    }}
+                  >
+                    {item.buttonText}
+                  </Button>
+                </Box>
+              </Box>
+            ))}
+          </Carousel>
+        </Box>
+      )}
+
       {/* Stats Section */}
       <Box sx={{ py: { xs: 6, md: 10 }, backgroundColor: 'background.paper' }}>
         <Container maxWidth="lg">
@@ -148,21 +361,26 @@ function Home() {
                 <Box 
                   textAlign="center"
                   sx={{
-                    p: 3,
+                    p: { xs: 2, md: 3 },
                     borderRadius: 2,
                     height: '100%',
-                    backgroundColor: 'background.default'
+                    backgroundColor: 'background.default',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-5px)',
+                      boxShadow: theme.shadows[4]
+                    }
                   }}
                 >
                   <Typography 
-                    variant="h2" 
+                    variant={isMobile ? 'h3' : 'h2'} 
                     color="primary" 
                     fontWeight={800}
                     sx={{ mb: 1 }}
                   >
                     {stat.value}
                   </Typography>
-                  <Typography variant="h6" color="text.secondary">
+                  <Typography variant={isMobile ? 'body2' : 'h6'} color="text.secondary">
                     {stat.label}
                   </Typography>
                 </Box>
@@ -176,13 +394,14 @@ function Home() {
       <Box sx={{ py: { xs: 6, md: 10 }, backgroundColor: 'background.default' }}>
         <Container maxWidth="lg">
           <Typography 
-            variant="h3" 
+            variant={isMobile ? 'h3' : 'h2'}
             align="center" 
             gutterBottom 
             sx={{ 
               fontWeight: 800,
               mb: { xs: 4, md: 8 },
-              color: 'text.primary'
+              color: 'text.primary',
+              px: isMobile ? 2 : 0
             }}
           >
             Our Specialized Services
@@ -204,7 +423,7 @@ function Home() {
                     '&:hover': {
                       transform: 'translateY(-8px)',
                       boxShadow: theme.shadows[8],
-                      borderColor: theme.palette[service.color].main
+                      borderColor: service.color
                     }
                   }}
                 >
@@ -212,22 +431,22 @@ function Home() {
                     sx={{ 
                       flexGrow: 1, 
                       textAlign: 'center',
-                      p: 4,
+                      p: { xs: 3, md: 4 },
                       '&:last-child': {
-                        pb: 4
+                        pb: { xs: 3, md: 4 }
                       }
                     }}
                   >
                     <Box 
                       sx={{ 
                         mb: 3,
-                        color: `${service.color}.main`
+                        color: service.color
                       }}
                     >
                       {service.icon}
                     </Box>
                     <Typography 
-                      variant="h5" 
+                      variant={isMobile ? 'h5' : 'h5'} 
                       gutterBottom 
                       sx={{ 
                         fontWeight: 700,
@@ -236,7 +455,7 @@ function Home() {
                     >
                       {service.title}
                     </Typography>
-                    <Typography color="text.secondary">
+                    <Typography variant={isMobile ? 'body2' : 'body1'} color="text.secondary">
                       {service.description}
                     </Typography>
                   </CardContent>
@@ -248,13 +467,14 @@ function Home() {
             <Button 
               variant="outlined" 
               color="primary" 
-              size="large"
+              size={isMobile ? 'medium' : 'large'}
               component={Link}
               to="/services"
+              endIcon={<ArrowForward />}
               sx={{ 
-                px: 6,
+                px: { xs: 4, md: 6 },
                 py: 1.5,
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '0.875rem' : '1rem',
                 fontWeight: 600,
                 borderRadius: 2,
                 textTransform: 'none',
@@ -281,22 +501,24 @@ function Home() {
       >
         <Container maxWidth="lg">
           <Typography 
-            variant="h2" 
+            variant={isMobile ? 'h3' : 'h2'}
             gutterBottom 
             sx={{ 
               fontWeight: 800,
-              mb: 3
+              mb: 3,
+              px: isMobile ? 2 : 0
             }}
           >
             Ready to Optimize Your Database?
           </Typography>
           <Typography 
-            variant="h5" 
+            variant={isMobile ? 'body1' : 'h5'} 
             sx={{ 
               mb: 6,
               maxWidth: 700,
               mx: 'auto',
-              lineHeight: 1.6
+              lineHeight: 1.6,
+              px: isMobile ? 2 : 0
             }}
           >
             Our certified database administrators are ready to analyze your database 
@@ -305,13 +527,13 @@ function Home() {
           <Button 
             variant="contained" 
             color="secondary" 
-            size="large"
+            size={isMobile ? 'medium' : 'large'}
             component={Link}
             to="/contact"
             sx={{ 
-              px: 8,
+              px: { xs: 4, md: 8 },
               py: 1.5,
-              fontSize: '1.1rem',
+              fontSize: isMobile ? '0.875rem' : '1rem',
               fontWeight: 600,
               borderRadius: 2,
               textTransform: 'none',
@@ -326,7 +548,7 @@ function Home() {
           </Button>
         </Container>
       </Box>
-    </Box>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Avatar, Typography, Chip, Box, Grid, Fade } from '@mui/material';
+import { Avatar, Typography, Chip, Box, Grid, Fade, useMediaQuery } from '@mui/material';
 import { Groups as TeamIcon } from '@mui/icons-material';
 
 const teamMembers = [
@@ -25,74 +25,114 @@ const teamMembers = [
   }
 ];
 
-export default function TeamSection({ visible, isMobile, theme }) {
+export default function TeamSection({ visible, theme }) {
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
   return (
     <Fade in={visible} timeout={isMobile ? 700 : 1400}>
-      <Box>
+      <Box sx={{ px: { xs: 2, sm: 3 } }}>
         <Typography 
-          variant={isMobile ? 'h4' : 'h3'}
+          variant={isMobile ? 'h4' : isTablet ? 'h3' : 'h2'}
           align="center" 
           gutterBottom 
           sx={{ 
             fontWeight: 700,
-            mb: 6,
+            mb: { xs: 4, sm: 6 },
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            color: 'text.primary'
           }}
         >
-          <TeamIcon sx={{ mr: 2, fontSize: isMobile ? 30 : 40 }} />
+          <TeamIcon sx={{ 
+            mr: 2, 
+            fontSize: isMobile ? 30 : isTablet ? 36 : 40,
+            color: 'primary.main'
+          }} />
           Meet Our Core Team
         </Typography>
-        <Grid container spacing={isMobile ? 2 : 4}>
+        <Grid container spacing={isMobile ? 2 : isTablet ? 3 : 4} justifyContent="center">
           {teamMembers.map((member, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Box 
                 textAlign="center" 
-                p={isMobile ? 2 : 4}
+                p={{ xs: 2, sm: 3, md: 4 }}
                 sx={{
                   border: '1px solid',
                   borderColor: 'divider',
-                  borderRadius: 2,
-                  height: '100%'
+                  borderRadius: { xs: 2, sm: 3 },
+                  height: '100%',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-5px)',
+                    boxShadow: theme.shadows[4],
+                    borderColor: 'primary.main'
+                  }
                 }}
               >
                 <Avatar 
                   src={member.avatar} 
                   sx={{ 
-                    width: isMobile ? 100 : 160, 
-                    height: isMobile ? 100 : 160, 
+                    width: { xs: 100, sm: 120, md: 160 }, 
+                    height: { xs: 100, sm: 120, md: 160 }, 
                     mx: 'auto',
-                    mb: 3,
+                    mb: { xs: 2, sm: 3 },
                     border: '3px solid',
-                    borderColor: 'primary.main'
+                    borderColor: 'primary.main',
+                    boxShadow: theme.shadows[2]
                   }} 
                 />
-                <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom sx={{ fontWeight: 600 }}>
+                <Typography 
+                  variant={isMobile ? 'h6' : isTablet ? 'h5' : 'h4'} 
+                  gutterBottom 
+                  sx={{ 
+                    fontWeight: 600,
+                    mb: { xs: 1, sm: 2 },
+                    color: 'text.primary'
+                  }}
+                >
                   {member.name}
                 </Typography>
                 <Typography 
                   color="primary" 
                   variant={isMobile ? 'body1' : 'h6'} 
                   sx={{ 
-                    mb: 2,
+                    mb: { xs: 1.5, sm: 2 },
                     fontWeight: 500
                   }}
                 >
                   {member.role}
                 </Typography>
-                <Typography variant="body2" sx={{ mb: 3 }}>
+                <Typography 
+                  variant="body1" 
+                  sx={{ 
+                    mb: { xs: 2, sm: 3 },
+                    color: 'text.secondary',
+                    lineHeight: 1.6
+                  }}
+                >
                   {member.bio}
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', flexWrap: 'wrap' }}>
+                <Box sx={{ 
+                  display: 'flex', 
+                  gap: 1, 
+                  justifyContent: 'center', 
+                  flexWrap: 'wrap',
+                  mt: 'auto'
+                }}>
                   {member.expertise.map((skill, i) => (
                     <Chip 
                       key={i}
                       label={skill}
-                      size="small"
+                      size={isMobile ? 'small' : 'medium'}
                       sx={{
                         backgroundColor: 'primary.light',
-                        color: 'primary.contrastText'
+                        color: 'primary.contrastText',
+                        fontWeight: 500,
+                        '&:hover': {
+                          backgroundColor: 'primary.main'
+                        }
                       }}
                     />
                   ))}

@@ -12,7 +12,8 @@ import {
   useTheme,
   Chip,
   Stack,
-  Divider
+  Divider,
+  useMediaQuery
 } from '@mui/material';
 import { 
   ExpandMore,
@@ -31,10 +32,12 @@ import { Link } from 'react-router-dom';
 
 function Services() {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
   const services = [
     {
-      icon: <Speed fontSize="large" />,
+      icon: <Speed fontSize={isMobile ? "medium" : "large"} />,
       title: "Performance Optimization",
       description: "Expert tuning for maximum database speed and efficiency",
       features: [
@@ -47,7 +50,7 @@ function Services() {
       color: 'primary'
     },
     {
-      icon: <Security fontSize="large" />,
+      icon: <Security fontSize={isMobile ? "medium" : "large"} />,
       title: "Security Hardening",
       description: "Enterprise-grade database protection",
       features: [
@@ -60,7 +63,7 @@ function Services() {
       color: 'error'
     },
     {
-      icon: <Storage fontSize="large" />,
+      icon: <Storage fontSize={isMobile ? "medium" : "large"} />,
       title: "Managed Database Services",
       description: "24/7 monitoring and maintenance",
       features: [
@@ -73,7 +76,7 @@ function Services() {
       color: 'warning'
     },
     {
-      icon: <Cloud fontSize="large" />,
+      icon: <Cloud fontSize={isMobile ? "medium" : "large"} />,
       title: "Cloud Database Solutions",
       description: "Optimized cloud database infrastructure",
       features: [
@@ -86,7 +89,7 @@ function Services() {
       color: 'info'
     },
     {
-      icon: <Assessment fontSize="large" />,
+      icon: <Assessment fontSize={isMobile ? "medium" : "large"} />,
       title: "Database Audits",
       description: "Comprehensive health check for your databases",
       features: [
@@ -99,7 +102,7 @@ function Services() {
       color: 'success'
     },
     {
-      icon: <Build fontSize="large" />,
+      icon: <Build fontSize={isMobile ? "medium" : "large"} />,
       title: "Emergency Support",
       description: "Critical issue resolution when you need it most",
       features: [
@@ -114,14 +117,14 @@ function Services() {
   ];
 
   const databaseTypes = [
-    { name: "MySQL", icon: <Dns />, color: "primary" },
-    { name: "PostgreSQL", icon: <Dns />, color: "secondary" },
-    { name: "MongoDB", icon: <Storage />, color: "success" },
-    { name: "Redis", icon: <QueryBuilder />, color: "error" },
-    { name: "Amazon RDS", icon: <Cloud />, color: "warning" },
-    { name: "Microsoft SQL", icon: <Dns />, color: "info" },
-    { name: "MariaDB", icon: <Dns />, color: "primary" },
-    { name: "Oracle", icon: <MonetizationOn />, color: "secondary" }
+    { name: "MySQL", icon: <Dns fontSize={isMobile ? "small" : "medium"} />, color: "primary" },
+    { name: "PostgreSQL", icon: <Dns fontSize={isMobile ? "small" : "medium"} />, color: "secondary" },
+    { name: "MongoDB", icon: <Storage fontSize={isMobile ? "small" : "medium"} />, color: "success" },
+    { name: "Redis", icon: <QueryBuilder fontSize={isMobile ? "small" : "medium"} />, color: "error" },
+    { name: "Amazon RDS", icon: <Cloud fontSize={isMobile ? "small" : "medium"} />, color: "warning" },
+    { name: "Microsoft SQL", icon: <Dns fontSize={isMobile ? "small" : "medium"} />, color: "info" },
+    { name: "MariaDB", icon: <Dns fontSize={isMobile ? "small" : "medium"} />, color: "primary" },
+    { name: "Oracle", icon: <MonetizationOn fontSize={isMobile ? "small" : "medium"} />, color: "secondary" }
   ];
 
   return (
@@ -131,7 +134,7 @@ function Services() {
         sx={{ 
           background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
           color: 'white',
-          py: { xs: 8, md: 12 },
+          py: { xs: 6, sm: 8, md: 12 },
           textAlign: 'center',
           position: 'relative',
           overflow: 'hidden'
@@ -139,25 +142,27 @@ function Services() {
       >
         <Container maxWidth="lg">
           <Typography 
-            variant="h2" 
+            variant={isMobile ? "h3" : "h2"} 
             component="h1" 
             gutterBottom 
             sx={{ 
               fontWeight: 800,
               mb: 3,
-              letterSpacing: '0.5px',
-              lineHeight: 1.2
+              letterSpacing: { xs: 'normal', md: '0.5px' },
+              lineHeight: 1.2,
+              px: { xs: 1, sm: 0 }
             }}
           >
             Database Services That Deliver Results
           </Typography>
           <Typography 
-            variant="h5" 
+            variant={isMobile ? "body1" : "h5"} 
             sx={{ 
               mb: 4, 
               maxWidth: 800,
               mx: 'auto',
-              lineHeight: 1.6
+              lineHeight: 1.6,
+              px: { xs: 2, sm: 0 }
             }}
           >
             Comprehensive solutions tailored to your database needs - from optimization 
@@ -166,13 +171,13 @@ function Services() {
           <Button 
             variant="contained" 
             color="secondary" 
-            size="large"
+            size={isMobile ? "medium" : "large"}
             component={Link}
             to="/contact"
             sx={{ 
-              px: 6,
+              px: { xs: 4, sm: 6 },
               py: 1.5,
-              fontSize: '1.1rem',
+              fontSize: isMobile ? '1rem' : '1.1rem',
               fontWeight: 600,
               borderRadius: 2,
               textTransform: 'none',
@@ -190,36 +195,39 @@ function Services() {
       </Box>
 
       {/* Supported Databases */}
-      <Box sx={{ py: { xs: 6, md: 8 }, backgroundColor: 'background.paper' }}>
+      <Box sx={{ py: { xs: 4, sm: 6, md: 8 }, backgroundColor: 'background.paper' }}>
         <Container>
           <Typography 
-            variant="h3" 
+            variant={isMobile ? "h4" : "h3"} 
             align="center" 
             gutterBottom 
             sx={{ 
               fontWeight: 700,
-              mb: { xs: 4, md: 6 },
-              color: 'text.primary'
+              mb: { xs: 3, sm: 4, md: 6 },
+              color: 'text.primary',
+              px: { xs: 2, sm: 0 }
             }}
           >
             Supported Database Technologies
           </Typography>
           <Grid container spacing={2} justifyContent="center">
             {databaseTypes.map((db, index) => (
-              <Grid item key={index}>
+              <Grid item key={index} xs={6} sm={4} md={3} lg="auto">
                 <Chip
                   icon={db.icon}
                   label={db.name}
                   color={db.color}
                   variant="outlined"
                   sx={{ 
-                    px: 3,
-                    py: 1.5,
-                    fontSize: '1rem',
+                    px: { xs: 1, sm: 3 },
+                    py: { xs: 0.5, sm: 1.5 },
+                    fontSize: isMobile ? '0.875rem' : '1rem',
                     fontWeight: 500,
                     borderWidth: 2,
+                    width: { xs: '100%', lg: 'auto' },
                     '& .MuiChip-icon': {
-                      color: `${db.color}.main`
+                      color: `${db.color}.main`,
+                      ml: { xs: 0, sm: '4px' }
                     }
                   }}
                 />
@@ -230,42 +238,49 @@ function Services() {
       </Box>
 
       {/* Services Grid */}
-      <Box sx={{ py: { xs: 6, md: 10 }, backgroundColor: 'background.default' }}>
+      <Box sx={{ py: { xs: 4, sm: 6, md: 10 }, backgroundColor: 'background.default' }}>
         <Container>
           <Typography 
-            variant="h3" 
+            variant={isMobile ? "h4" : "h3"} 
             align="center" 
             gutterBottom 
             sx={{ 
               fontWeight: 700,
-              mb: { xs: 6, md: 8 },
-              color: 'text.primary'
+              mb: { xs: 4, sm: 6, md: 8 },
+              color: 'text.primary',
+              px: { xs: 2, sm: 0 }
             }}
           >
             Our Database Services
           </Typography>
-          <Grid container spacing={{ xs: 3, md: 4 }}>
+          <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
             {services.map((service, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <Card 
-                  elevation={3}
+                  elevation={isMobile ? 1 : 3}
                   sx={{ 
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    borderRadius: 3,
+                    borderRadius: { xs: 2, sm: 3 },
                     overflow: 'hidden',
                     transition: 'all 0.3s ease',
                     border: '1px solid',
                     borderColor: 'divider',
                     '&:hover': {
-                      transform: 'translateY(-8px)',
-                      boxShadow: theme.shadows[8],
+                      transform: isMobile ? 'none' : 'translateY(-8px)',
+                      boxShadow: isMobile ? theme.shadows[2] : theme.shadows[8],
                       borderColor: theme.palette[service.color].main
                     }
                   }}
                 >
-                  <CardContent sx={{ flexGrow: 1, p: 4 }}>
+                  <CardContent sx={{ 
+                    flexGrow: 1, 
+                    p: { xs: 3, sm: 4 },
+                    '&:last-child': {
+                      pb: { xs: 3, sm: 4 }
+                    }
+                  }}>
                     <Box 
                       sx={{ 
                         display: 'flex',
@@ -275,21 +290,22 @@ function Services() {
                     >
                       <Box 
                         sx={{ 
-                          mr: 3,
+                          mr: 2,
                           color: `${service.color}.main`,
                           backgroundColor: `${service.color}.light`,
                           borderRadius: '50%',
-                          width: 60,
-                          height: 60,
+                          width: { xs: 50, sm: 60 },
+                          height: { xs: 50, sm: 60 },
                           display: 'flex',
                           alignItems: 'center',
-                          justifyContent: 'center'
+                          justifyContent: 'center',
+                          flexShrink: 0
                         }}
                       >
                         {service.icon}
                       </Box>
                       <Typography 
-                        variant="h5" 
+                        variant={isMobile ? "h6" : "h5"} 
                         component="h3"
                         sx={{ 
                           fontWeight: 700,
@@ -328,7 +344,8 @@ function Services() {
                               alignItems: 'center',
                               justifyContent: 'center',
                               mr: 2,
-                              mt: '2px'
+                              mt: '2px',
+                              flexShrink: 0
                             }}
                           >
                             <Box 
@@ -346,17 +363,18 @@ function Services() {
                       ))}
                     </Box>
                   </CardContent>
-                  <Box sx={{ p: 3, pt: 0 }}>
+                  <Box sx={{ p: { xs: 2, sm: 3 }, pt: 0 }}>
                     <Button 
                       variant="contained" 
                       color={service.color}
                       fullWidth
                       component={Link}
                       to="/contact"
+                      size={isMobile ? "medium" : "large"}
                       sx={{ 
-                        py: 1.5,
+                        py: 1,
                         borderRadius: 2,
-                        fontSize: '1rem',
+                        fontSize: isMobile ? '0.875rem' : '1rem',
                         fontWeight: 600,
                         textTransform: 'none',
                         boxShadow: 'none',
@@ -377,16 +395,17 @@ function Services() {
       </Box>
 
       {/* FAQ Section */}
-      <Box sx={{ py: { xs: 6, md: 10 }, backgroundColor: 'background.paper' }}>
+      <Box sx={{ py: { xs: 4, sm: 6, md: 10 }, backgroundColor: 'background.paper' }}>
         <Container maxWidth="md">
           <Typography 
-            variant="h3" 
+            variant={isMobile ? "h4" : "h3"} 
             align="center" 
             gutterBottom 
             sx={{ 
               fontWeight: 700,
-              mb: { xs: 4, md: 6 },
-              color: 'text.primary'
+              mb: { xs: 3, sm: 4, md: 6 },
+              color: 'text.primary',
+              px: { xs: 2, sm: 0 }
             }}
           >
             Frequently Asked Questions
@@ -429,14 +448,14 @@ function Services() {
                   sx={{ 
                     backgroundColor: 'background.default',
                     '& .MuiAccordionSummary-content': {
-                      my: 2
+                      my: { xs: 1, sm: 2 }
                     },
                     '&:hover': {
                       backgroundColor: 'action.hover'
                     }
                   }}
                 >
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                  <Typography variant={isMobile ? "body1" : "subtitle1"} sx={{ fontWeight: 600 }}>
                     {item.question}
                   </Typography>
                 </AccordionSummary>
@@ -456,47 +475,50 @@ function Services() {
         sx={{ 
           background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
           color: 'white',
-          py: { xs: 8, md: 12 },
+          py: { xs: 6, sm: 8, md: 12 },
           textAlign: 'center'
         }}
       >
         <Container maxWidth="lg">
           <Typography 
-            variant="h3" 
+            variant={isMobile ? "h3" : "h2"} 
             gutterBottom 
             sx={{ 
               fontWeight: 800,
-              mb: 3
+              mb: 3,
+              px: { xs: 2, sm: 0 }
             }}
           >
             Ready to Transform Your Database Performance?
           </Typography>
           <Typography 
-            variant="h5" 
+            variant={isMobile ? "body1" : "h5"} 
             sx={{ 
-              mb: 6,
+              mb: { xs: 4, sm: 6 },
               maxWidth: 700,
               mx: 'auto',
-              lineHeight: 1.6
+              lineHeight: 1.6,
+              px: { xs: 2, sm: 0 }
             }}
           >
             Contact us today for a free initial consultation and database assessment.
           </Typography>
           <Stack 
             direction={{ xs: 'column', sm: 'row' }} 
-            spacing={3} 
+            spacing={2} 
             justifyContent="center"
+            sx={{ px: { xs: 2, sm: 0 } }}
           >
             <Button 
               variant="contained" 
               color="secondary" 
-              size="large"
+              size={isMobile ? "medium" : "large"}
               component={Link}
               to="/contact"
               sx={{ 
-                px: 6,
+                px: { xs: 4, sm: 6 },
                 py: 1.5,
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '1rem' : '1.1rem',
                 fontWeight: 600,
                 borderRadius: 2,
                 textTransform: 'none',
@@ -512,13 +534,13 @@ function Services() {
             <Button 
               variant="outlined" 
               color="inherit" 
-              size="large"
+              size={isMobile ? "medium" : "large"}
               component={Link}
               to="/about"
               sx={{ 
-                px: 6,
+                px: { xs: 4, sm: 6 },
                 py: 1.5,
-                fontSize: '1.1rem',
+                fontSize: isMobile ? '1rem' : '1.1rem',
                 fontWeight: 600,
                 borderRadius: 2,
                 textTransform: 'none',

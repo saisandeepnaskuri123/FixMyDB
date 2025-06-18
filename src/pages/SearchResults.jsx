@@ -12,7 +12,8 @@ import {
   Divider,
   Paper,
   useTheme,
-  Button
+  Button,
+  useMediaQuery
 } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { searchContent } from '../utils/searchService';
@@ -24,6 +25,10 @@ function SearchResults() {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  
+  // Responsive breakpoints
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
   useEffect(() => {
     if (query) {
@@ -45,10 +50,13 @@ function SearchResults() {
   }, [query]);
 
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
-      <Box sx={{ mb: 6 }}>
+    <Container maxWidth="lg" sx={{ 
+      py: isMobile ? 4 : 6,
+      px: isMobile ? 2 : 3
+    }}>
+      <Box sx={{ mb: isMobile ? 4 : 6 }}>
         <Typography 
-          variant="h3" 
+          variant={isMobile ? "h4" : "h3"} 
           gutterBottom 
           sx={{ 
             fontWeight: 700,
@@ -58,30 +66,30 @@ function SearchResults() {
             mb: 2
           }}
         >
-          <SearchIcon fontSize="large" color="primary" />
+          <SearchIcon fontSize={isMobile ? "medium" : "large"} color="primary" />
           Search Results
         </Typography>
         
-        <Typography variant="h5" color="text.secondary">
+        <Typography variant={isMobile ? "body1" : "h5"} color="text.secondary">
           Showing results for: <Box component="span" sx={{ color: 'primary.main', fontWeight: 500 }}>"{query}"</Box>
         </Typography>
       </Box>
 
       {isLoading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', my: 10 }}>
-          <CircularProgress size={60} thickness={4} color="primary" />
+        <Box sx={{ display: 'flex', justifyContent: 'center', my: isMobile ? 6 : 10 }}>
+          <CircularProgress size={isMobile ? 40 : 60} thickness={4} color="primary" />
         </Box>
       ) : error ? (
         <Paper 
           elevation={0} 
           sx={{ 
-            p: 4, 
+            p: isMobile ? 2 : 4, 
             textAlign: 'center',
             backgroundColor: 'background.paper',
-            borderRadius: 3
+            borderRadius: 2
           }}
         >
-          <Typography variant="h5" color="error" gutterBottom>
+          <Typography variant={isMobile ? "h6" : "h5"} color="error" gutterBottom>
             {error}
           </Typography>
           <Typography variant="body1" sx={{ mb: 3 }}>
@@ -92,6 +100,7 @@ function SearchResults() {
             color="primary"
             onClick={() => window.history.back()}
             sx={{ mt: 2 }}
+            size={isMobile ? "small" : "medium"}
           >
             Go Back
           </Button>
@@ -101,7 +110,7 @@ function SearchResults() {
           elevation={0} 
           sx={{ 
             backgroundColor: 'background.paper',
-            borderRadius: 3,
+            borderRadius: 2,
             overflow: 'hidden'
           }}
         >
@@ -113,8 +122,8 @@ function SearchResults() {
                   component="a" 
                   href={result.path}
                   sx={{
-                    px: 4,
-                    py: 3,
+                    px: isMobile ? 2 : 4,
+                    py: isMobile ? 2 : 3,
                     transition: 'background-color 0.2s',
                     '&:hover': {
                       backgroundColor: 'action.hover'
@@ -124,10 +133,10 @@ function SearchResults() {
                   <ListItemText
                     primary={
                       <Typography 
-                        variant="h6" 
+                        variant={isMobile ? "subtitle1" : "h6"} 
                         sx={{ 
                           fontWeight: 600,
-                          mb: 1
+                          mb: 0.5
                         }}
                       >
                         {result.title}
@@ -138,21 +147,31 @@ function SearchResults() {
                         <Typography 
                           variant="body2" 
                           color="text.secondary"
-                          sx={{ mb: 1 }}
+                          sx={{ 
+                            mb: 1,
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden'
+                          }}
                         >
                           {result.description || 'No description available'}
                         </Typography>
-                        <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Box sx={{ 
+                          display: 'flex', 
+                          gap: 1,
+                          flexWrap: isMobile ? 'wrap' : 'nowrap'
+                        }}>
                           <Chip 
                             label={result.type} 
-                            size="small" 
+                            size={isMobile ? "small" : "medium"} 
                             color="primary"
                             variant="outlined"
                           />
                           {result.category && (
                             <Chip 
                               label={result.category} 
-                              size="small" 
+                              size={isMobile ? "small" : "medium"} 
                               color="secondary"
                               variant="outlined"
                             />
@@ -164,7 +183,7 @@ function SearchResults() {
                   />
                 </ListItem>
                 {index < results.length - 1 && (
-                  <Divider variant="middle" component="li" />
+                  <Divider variant={isMobile ? "fullWidth" : "middle"} component="li" />
                 )}
               </Box>
             ))}
@@ -174,13 +193,13 @@ function SearchResults() {
         <Paper 
           elevation={0} 
           sx={{ 
-            p: 4, 
+            p: isMobile ? 2 : 4, 
             textAlign: 'center',
             backgroundColor: 'background.paper',
-            borderRadius: 3
+            borderRadius: 2
           }}
         >
-          <Typography variant="h5" gutterBottom>
+          <Typography variant={isMobile ? "h6" : "h5"} gutterBottom>
             No results found
           </Typography>
           <Typography variant="body1" sx={{ mb: 3 }}>
@@ -190,6 +209,7 @@ function SearchResults() {
             variant="contained" 
             color="primary"
             onClick={() => window.history.back()}
+            size={isMobile ? "small" : "medium"}
           >
             Try Again
           </Button>
