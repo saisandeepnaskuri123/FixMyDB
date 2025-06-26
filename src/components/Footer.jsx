@@ -11,7 +11,13 @@ import {
   ListItemText,
   IconButton,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  Fade,
+  Grow,
+  Zoom,
+  Slide,
+  Paper,
+  Tooltip
 } from '@mui/material';
 import { 
   Facebook, 
@@ -22,6 +28,13 @@ import {
   LocationOn,
   ArrowForward
 } from '@mui/icons-material';
+import { keyframes } from '@emotion/react';
+
+const pulseAnimation = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+`;
 
 function Footer() {
   const theme = useTheme();
@@ -88,362 +101,471 @@ function Footer() {
     <Box 
       component="footer" 
       sx={{ 
-        backgroundColor: 'background.paper',
+        backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.background.paper,
         color: 'text.secondary',
         pt: isMobile ? 6 : 10,
         pb: isMobile ? 3 : 4,
         borderTop: `1px solid ${theme.palette.divider}`,
+        position: 'relative',
+        overflow: 'hidden',
+        '&:before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '4px',
+          background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`
+        }
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={isMobile ? 3 : { xs: 4, md: 8 }}>
-          {/* Services Column */}
-          <Grid item xs={12} sm={6} md={3}>
-            <Typography 
-              variant={isMobile ? 'subtitle1' : 'h6'} 
-              gutterBottom 
-              sx={{ 
-                fontWeight: 700, 
-                color: 'text.primary',
-                display: 'flex',
-                alignItems: 'center',
-                mb: 2
-              }}
-            >
-              Our Services
-              <ArrowForward sx={{ 
-                ml: 1, 
-                fontSize: isMobile ? 16 : 20, 
-                color: 'primary.main',
-                transition: 'transform 0.3s ease',
-                '&:hover': {
-                  transform: 'translateX(4px)'
-                }
-              }} />
-            </Typography>
-            <List dense disablePadding>
-              {services.map((service, index) => (
-                <ListItem 
-                  key={index} 
-                  disableGutters 
-                  disablePadding 
-                  sx={{ 
-                    py: 0.5,
-                    '&:hover': {
-                      '& .MuiListItemText-primary': {
-                        color: 'primary.main'
-                      }
-                    }
-                  }}
-                >
-                  <ListItemIcon sx={{ 
-                    minWidth: isMobile ? 24 : 32,
-                    color: 'primary.main',
-                    fontSize: '0.75rem'
-                  }}>
-                    ›
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Link 
-                        href="#" 
-                        underline="none" 
-                        color="inherit"
-                        sx={{
-                          fontWeight: 500,
-                          fontSize: isMobile ? '0.875rem' : '1rem',
-                          transition: 'all 0.2s ease',
-                          '&:hover': {
-                            color: 'primary.main',
-                            transform: 'translateX(4px)'
-                          }
-                        }}
-                      >
-                        {service}
-                      </Link>
-                    }
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Grid>
-
-          {/* Resources Column */}
-          <Grid item xs={12} sm={6} md={3}>
-            <Typography 
-              variant={isMobile ? 'subtitle1' : 'h6'} 
-              gutterBottom 
-              sx={{ 
-                fontWeight: 700, 
-                color: 'text.primary',
-                display: 'flex',
-                alignItems: 'center',
-                mb: 2
-              }}
-            >
-              Resources
-              <ArrowForward sx={{ 
-                ml: 1, 
-                fontSize: isMobile ? 16 : 20, 
-                color: 'primary.main',
-                transition: 'transform 0.3s ease',
-                '&:hover': {
-                  transform: 'translateX(4px)'
-                }
-              }} />
-            </Typography>
-            <List dense disablePadding>
-              {resources.map((resource, index) => (
-                <ListItem 
-                  key={index} 
-                  disableGutters 
-                  disablePadding 
-                  sx={{ 
-                    py: 0.5,
-                    '&:hover': {
-                      '& .MuiListItemText-primary': {
-                        color: 'primary.main'
-                      }
-                    }
-                  }}
-                >
-                  <ListItemIcon sx={{ 
-                    minWidth: isMobile ? 24 : 32,
-                    color: 'primary.main',
-                    fontSize: '0.75rem'
-                  }}>
-                    ›
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Link 
-                        href="#" 
-                        underline="none" 
-                        color="inherit"
-                        sx={{
-                          fontWeight: 500,
-                          fontSize: isMobile ? '0.875rem' : '1rem',
-                          transition: 'all 0.2s ease',
-                          '&:hover': {
-                            color: 'primary.main',
-                            transform: 'translateX(4px)'
-                          }
-                        }}
-                      >
-                        {resource}
-                      </Link>
-                    }
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Grid>
-
-          {/* Company Column */}
-          <Grid item xs={12} sm={6} md={3}>
-            <Typography 
-              variant={isMobile ? 'subtitle1' : 'h6'} 
-              gutterBottom 
-              sx={{ 
-                fontWeight: 700, 
-                color: 'text.primary',
-                display: 'flex',
-                alignItems: 'center',
-                mb: 2
-              }}
-            >
-              Company
-              <ArrowForward sx={{ 
-                ml: 1, 
-                fontSize: isMobile ? 16 : 20, 
-                color: 'primary.main',
-                transition: 'transform 0.3s ease',
-                '&:hover': {
-                  transform: 'translateX(4px)'
-                }
-              }} />
-            </Typography>
-            <List dense disablePadding>
-              {companyLinks.map((item, index) => (
-                <ListItem 
-                  key={index} 
-                  disableGutters 
-                  disablePadding 
-                  sx={{ 
-                    py: 0.5,
-                    '&:hover': {
-                      '& .MuiListItemText-primary': {
-                        color: 'primary.main'
-                      }
-                    }
-                  }}
-                >
-                  <ListItemIcon sx={{ 
-                    minWidth: isMobile ? 24 : 32,
-                    color: 'primary.main',
-                    fontSize: '0.75rem'
-                  }}>
-                    ›
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={
-                      <Link 
-                        href="#" 
-                        underline="none" 
-                        color="inherit"
-                        sx={{
-                          fontWeight: 500,
-                          fontSize: isMobile ? '0.875rem' : '1rem',
-                          transition: 'all 0.2s ease',
-                          '&:hover': {
-                            color: 'primary.main',
-                            transform: 'translateX(4px)'
-                          }
-                        }}
-                      >
-                        {item}
-                      </Link>
-                    }
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Grid>
-
-          {/* Contact Column */}
-          <Grid item xs={12} sm={6} md={3}>
-            <Typography 
-              variant={isMobile ? 'subtitle1' : 'h6'} 
-              gutterBottom 
-              sx={{ 
-                fontWeight: 700, 
-                color: 'text.primary',
-                mb: 2
-              }}
-            >
-              Contact Us
-            </Typography>
-            <List dense disablePadding>
-              {contactInfo.map((contact, index) => (
-                <ListItem 
-                  key={index} 
-                  disableGutters 
-                  disablePadding 
-                  sx={{ 
-                    py: 0.5,
-                    alignItems: 'flex-start'
-                  }}
-                >
-                  <ListItemIcon sx={{ 
-                    minWidth: isMobile ? 24 : 32,
-                    color: 'primary.main',
-                    mt: '2px'
-                  }}>
-                    {contact.icon}
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary={
-                      <Link 
-                        href={contact.href} 
-                        underline="hover" 
-                        color="inherit"
-                        sx={{
-                          fontWeight: 500,
-                          fontSize: isMobile ? '0.875rem' : '1rem',
-                          transition: 'color 0.2s ease',
-                          '&:hover': {
-                            color: 'primary.main'
-                          }
-                        }}
-                      >
-                        {contact.text}
-                      </Link>
-                    } 
-                    primaryTypographyProps={{ 
-                      sx: { 
-                        lineHeight: 1.4 
-                      } 
-                    }}
-                  />
-                </ListItem>
-              ))}
-            </List>
-
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="body2" sx={{ fontWeight: 500, mb: 1 }}>
-                Follow Us
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                {socialLinks.map((social, index) => (
-                  <IconButton
-                    key={index}
-                    href={social.url}
-                    aria-label={social.label}
-                    size={isMobile ? 'small' : 'medium'}
+        <Grow in={true} timeout={800}>
+          <Grid container spacing={isMobile ? 3 : { xs: 4, md: 8 }}>
+            {/* Services Column */}
+            <Grid item xs={12} sm={6} md={3}>
+              <Slide in={true} direction="up" timeout={800}>
+                <Box>
+                  <Typography 
+                    variant={isMobile ? 'subtitle1' : 'h6'} 
+                    gutterBottom 
                     sx={{ 
-                      color: 'text.secondary',
-                      backgroundColor: 'action.hover',
-                      '&:hover': {
-                        color: 'primary.main',
-                        backgroundColor: 'rgba(25, 118, 210, 0.08)'
-                      },
-                      transition: 'all 0.2s ease'
+                      fontWeight: 700, 
+                      color: 'text.primary',
+                      display: 'flex',
+                      alignItems: 'center',
+                      mb: 2,
+                      position: 'relative',
+                      '&:after': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        bottom: -8,
+                        left: 0,
+                        width: '40px',
+                        height: '3px',
+                        background: theme.palette.primary.main,
+                        borderRadius: '2px'
+                      }
                     }}
                   >
-                    {social.icon}
-                  </IconButton>
-                ))}
-              </Box>
-            </Box>
+                    Our Services
+                    <ArrowForward sx={{ 
+                      ml: 1, 
+                      fontSize: isMobile ? 16 : 20, 
+                      color: 'primary.main',
+                      transition: 'transform 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateX(4px)'
+                      }
+                    }} />
+                  </Typography>
+                  <List dense disablePadding>
+                    {services.map((service, index) => (
+                      <Fade in={true} key={index} timeout={800} style={{ transitionDelay: `${index * 100}ms` }}>
+                        <ListItem 
+                          disableGutters 
+                          disablePadding 
+                          sx={{ 
+                            py: 0.5,
+                            '&:hover': {
+                              '& .MuiListItemText-primary': {
+                                color: 'primary.main'
+                              },
+                              '& .MuiListItemIcon-root': {
+                                transform: 'translateX(4px)'
+                              }
+                            }
+                          }}
+                        >
+                          <ListItemIcon sx={{ 
+                            minWidth: isMobile ? 24 : 32,
+                            color: 'primary.main',
+                            fontSize: '0.75rem',
+                            transition: 'transform 0.2s ease'
+                          }}>
+                            ›
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={
+                              <Link 
+                                href="#" 
+                                underline="none" 
+                                color="inherit"
+                                sx={{
+                                  fontWeight: 500,
+                                  fontSize: isMobile ? '0.875rem' : '1rem',
+                                  transition: 'all 0.2s ease',
+                                  '&:hover': {
+                                    color: 'primary.main',
+                                    transform: 'translateX(4px)'
+                                  }
+                                }}
+                              >
+                                {service}
+                              </Link>
+                            }
+                          />
+                        </ListItem>
+                      </Fade>
+                    ))}
+                  </List>
+                </Box>
+              </Slide>
+            </Grid>
+
+            {/* Resources Column */}
+            <Grid item xs={12} sm={6} md={3}>
+              <Slide in={true} direction="up" timeout={800} style={{ transitionDelay: '100ms' }}>
+                <Box>
+                  <Typography 
+                    variant={isMobile ? 'subtitle1' : 'h6'} 
+                    gutterBottom 
+                    sx={{ 
+                      fontWeight: 700, 
+                      color: 'text.primary',
+                      display: 'flex',
+                      alignItems: 'center',
+                      mb: 2,
+                      position: 'relative',
+                      '&:after': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        bottom: -8,
+                        left: 0,
+                        width: '40px',
+                        height: '3px',
+                        background: theme.palette.primary.main,
+                        borderRadius: '2px'
+                      }
+                    }}
+                  >
+                    Resources
+                    <ArrowForward sx={{ 
+                      ml: 1, 
+                      fontSize: isMobile ? 16 : 20, 
+                      color: 'primary.main',
+                      transition: 'transform 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateX(4px)'
+                      }
+                    }} />
+                  </Typography>
+                  <List dense disablePadding>
+                    {resources.map((resource, index) => (
+                      <Fade in={true} key={index} timeout={800} style={{ transitionDelay: `${index * 100 + 100}ms` }}>
+                        <ListItem 
+                          disableGutters 
+                          disablePadding 
+                          sx={{ 
+                            py: 0.5,
+                            '&:hover': {
+                              '& .MuiListItemText-primary': {
+                                color: 'primary.main'
+                              },
+                              '& .MuiListItemIcon-root': {
+                                transform: 'translateX(4px)'
+                              }
+                            }
+                          }}
+                        >
+                          <ListItemIcon sx={{ 
+                            minWidth: isMobile ? 24 : 32,
+                            color: 'primary.main',
+                            fontSize: '0.75rem',
+                            transition: 'transform 0.2s ease'
+                          }}>
+                            ›
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={
+                              <Link 
+                                href="#" 
+                                underline="none" 
+                                color="inherit"
+                                sx={{
+                                  fontWeight: 500,
+                                  fontSize: isMobile ? '0.875rem' : '1rem',
+                                  transition: 'all 0.2s ease',
+                                  '&:hover': {
+                                    color: 'primary.main',
+                                    transform: 'translateX(4px)'
+                                  }
+                                }}
+                              >
+                                {resource}
+                              </Link>
+                            }
+                          />
+                        </ListItem>
+                      </Fade>
+                    ))}
+                  </List>
+                </Box>
+              </Slide>
+            </Grid>
+
+            {/* Company Column */}
+            <Grid item xs={12} sm={6} md={3}>
+              <Slide in={true} direction="up" timeout={800} style={{ transitionDelay: '200ms' }}>
+                <Box>
+                  <Typography 
+                    variant={isMobile ? 'subtitle1' : 'h6'} 
+                    gutterBottom 
+                    sx={{ 
+                      fontWeight: 700, 
+                      color: 'text.primary',
+                      display: 'flex',
+                      alignItems: 'center',
+                      mb: 2,
+                      position: 'relative',
+                      '&:after': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        bottom: -8,
+                        left: 0,
+                        width: '40px',
+                        height: '3px',
+                        background: theme.palette.primary.main,
+                        borderRadius: '2px'
+                      }
+                    }}
+                  >
+                    Company
+                    <ArrowForward sx={{ 
+                      ml: 1, 
+                      fontSize: isMobile ? 16 : 20, 
+                      color: 'primary.main',
+                      transition: 'transform 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateX(4px)'
+                      }
+                    }} />
+                  </Typography>
+                  <List dense disablePadding>
+                    {companyLinks.map((item, index) => (
+                      <Fade in={true} key={index} timeout={800} style={{ transitionDelay: `${index * 100 + 200}ms` }}>
+                        <ListItem 
+                          disableGutters 
+                          disablePadding 
+                          sx={{ 
+                            py: 0.5,
+                            '&:hover': {
+                              '& .MuiListItemText-primary': {
+                                color: 'primary.main'
+                              },
+                              '& .MuiListItemIcon-root': {
+                                transform: 'translateX(4px)'
+                              }
+                            }
+                          }}
+                        >
+                          <ListItemIcon sx={{ 
+                            minWidth: isMobile ? 24 : 32,
+                            color: 'primary.main',
+                            fontSize: '0.75rem',
+                            transition: 'transform 0.2s ease'
+                          }}>
+                            ›
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={
+                              <Link 
+                                href="#" 
+                                underline="none" 
+                                color="inherit"
+                                sx={{
+                                  fontWeight: 500,
+                                  fontSize: isMobile ? '0.875rem' : '1rem',
+                                  transition: 'all 0.2s ease',
+                                  '&:hover': {
+                                    color: 'primary.main',
+                                    transform: 'translateX(4px)'
+                                  }
+                                }}
+                              >
+                                {item}
+                              </Link>
+                            }
+                          />
+                        </ListItem>
+                      </Fade>
+                    ))}
+                  </List>
+                </Box>
+              </Slide>
+            </Grid>
+
+            {/* Contact Column */}
+            <Grid item xs={12} sm={6} md={3}>
+              <Slide in={true} direction="up" timeout={800} style={{ transitionDelay: '300ms' }}>
+                <Box>
+                  <Typography 
+                    variant={isMobile ? 'subtitle1' : 'h6'} 
+                    gutterBottom 
+                    sx={{ 
+                      fontWeight: 700, 
+                      color: 'text.primary',
+                      mb: 2,
+                      position: 'relative',
+                      '&:after': {
+                        content: '""',
+                        display: 'block',
+                        position: 'absolute',
+                        bottom: -8,
+                        left: 0,
+                        width: '40px',
+                        height: '3px',
+                        background: theme.palette.primary.main,
+                        borderRadius: '2px'
+                      }
+                    }}
+                  >
+                    Contact Us
+                  </Typography>
+                  <List dense disablePadding>
+                    {contactInfo.map((contact, index) => (
+                      <Fade in={true} key={index} timeout={800} style={{ transitionDelay: `${index * 100 + 300}ms` }}>
+                        <ListItem 
+                          disableGutters 
+                          disablePadding 
+                          sx={{ 
+                            py: 0.5,
+                            alignItems: 'flex-start',
+                            '&:hover': {
+                              '& .MuiListItemIcon-root': {
+                                transform: 'scale(1.1)',
+                                color: 'primary.main'
+                              }
+                            }
+                          }}
+                        >
+                          <ListItemIcon sx={{ 
+                            minWidth: isMobile ? 24 : 32,
+                            color: 'primary.main',
+                            mt: '2px',
+                            transition: 'all 0.2s ease'
+                          }}>
+                            {contact.icon}
+                          </ListItemIcon>
+                          <ListItemText 
+                            primary={
+                              <Link 
+                                href={contact.href} 
+                                underline="hover" 
+                                color="inherit"
+                                sx={{
+                                  fontWeight: 500,
+                                  fontSize: isMobile ? '0.875rem' : '1rem',
+                                  transition: 'color 0.2s ease',
+                                  '&:hover': {
+                                    color: 'primary.main'
+                                  }
+                                }}
+                              >
+                                {contact.text}
+                              </Link>
+                            } 
+                            primaryTypographyProps={{ 
+                              sx: { 
+                                lineHeight: 1.4 
+                              } 
+                            }}
+                          />
+                        </ListItem>
+                      </Fade>
+                    ))}
+                  </List>
+
+                  <Box sx={{ mt: 2 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500, mb: 1 }}>
+                      Follow Us
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      {socialLinks.map((social, index) => (
+                        <Tooltip key={index} title={social.label} arrow>
+                          <IconButton
+                            href={social.url}
+                            aria-label={social.label}
+                            size={isMobile ? 'small' : 'medium'}
+                            sx={{ 
+                              color: 'text.secondary',
+                              backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : 'rgba(0,0,0,0.05)',
+                              '&:hover': {
+                                color: 'primary.main',
+                                backgroundColor: 'rgba(25, 118, 210, 0.08)',
+                                animation: `${pulseAnimation} 0.5s ease`
+                              },
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            {social.icon}
+                          </IconButton>
+                        </Tooltip>
+                      ))}
+                    </Box>
+                  </Box>
+                </Box>
+              </Slide>
+            </Grid>
           </Grid>
-        </Grid>
+        </Grow>
 
-        <Divider sx={{ 
-          my: isMobile ? 4 : 6, 
-          borderColor: 'divider',
-        }} />
+        <Zoom in={true} timeout={800} style={{ transitionDelay: '500ms' }}>
+          <Divider sx={{ 
+            my: isMobile ? 4 : 6, 
+            borderColor: 'divider',
+            borderBottomWidth: 1,
+            opacity: 0.8
+          }} />
+        </Zoom>
 
-        <Box sx={{ 
-          display: 'flex', 
-          flexDirection: isMobile ? 'column-reverse' : 'row', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          gap: 2
-        }}>
-          <Typography variant="body2" sx={{ 
-            color: 'text.disabled',
-            fontSize: isMobile ? '0.75rem' : '0.875rem',
-            textAlign: isMobile ? 'center' : 'left'
-          }}>
-            © {currentYear} FixMyDB. All rights reserved.
-          </Typography>
+        <Fade in={true} timeout={800} style={{ transitionDelay: '600ms' }}>
           <Box sx={{ 
             display: 'flex', 
-            gap: isMobile ? 1.5 : 3,
-            flexWrap: 'wrap',
-            justifyContent: isMobile ? 'center' : 'flex-end'
+            flexDirection: isMobile ? 'column-reverse' : 'row', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            gap: 2
           }}>
-            {legalLinks.map((link, index) => (
-              <Link 
-                key={index}
-                href={link.url}
-                variant="body2"
-                underline="hover"
-                sx={{ 
-                  color: 'text.secondary',
-                  fontWeight: 500,
-                  fontSize: isMobile ? '0.75rem' : '0.875rem',
-                  '&:hover': {
-                    color: 'primary.main'
-                  },
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                {link.text}
-              </Link>
-            ))}
+            <Typography variant="body2" sx={{ 
+              color: 'text.disabled',
+              fontSize: isMobile ? '0.75rem' : '0.875rem',
+              textAlign: isMobile ? 'center' : 'left'
+            }}>
+              © {currentYear} FixMyDB. All rights reserved.
+            </Typography>
+            <Box sx={{ 
+              display: 'flex', 
+              gap: isMobile ? 1.5 : 3,
+              flexWrap: 'wrap',
+              justifyContent: isMobile ? 'center' : 'flex-end'
+            }}>
+              {legalLinks.map((link, index) => (
+                <Link 
+                  key={index}
+                  href={link.url}
+                  variant="body2"
+                  underline="hover"
+                  sx={{ 
+                    color: 'text.secondary',
+                    fontWeight: 500,
+                    fontSize: isMobile ? '0.75rem' : '0.875rem',
+                    '&:hover': {
+                      color: 'primary.main',
+                      textDecoration: 'underline'
+                    },
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {link.text}
+                </Link>
+              ))}
+            </Box>
           </Box>
-        </Box>
+        </Fade>
       </Container>
     </Box>
   );

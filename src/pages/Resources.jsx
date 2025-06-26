@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
   Box, 
   Typography, 
@@ -9,7 +9,6 @@ import {
   Button, 
   Container,
   Stack,
-  Divider,
   useTheme,
   useMediaQuery
 } from '@mui/material';
@@ -30,145 +29,133 @@ import { Helmet } from 'react-helmet';
 const Resources = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
   const resourceData = {
     technicalBlog: [
       {
         id: 1,
-        title: "React 18 Performance Optimization",
-        description: "Learn advanced techniques to optimize your React applications with Concurrent Features and the new Suspense API.",
-        url: "/blog/react-performance",
-        date: "June 15, 2023",
-        readTime: "12 min read",
-        tags: ["React", "Frontend"]
+        title: "Optimizing Database Performance",
+        description: "Learn advanced techniques to improve your database query performance.",
+        date: "May 15, 2023",
+        readTime: "8 min read",
+        tags: ["Database", "Performance", "SQL"],
+        url: "#"
       },
       {
         id: 2,
-        title: "Node.js Microservices Architecture",
-        description: "Best practices for building scalable microservices with Node.js, Docker, and Kubernetes in production environments.",
-        url: "/blog/nodejs-microservices",
-        date: "July 2, 2023",
-        readTime: "15 min read",
-        tags: ["Node.js", "Backend"]
+        title: "Schema Design Best Practices",
+        description: "Essential patterns for designing scalable database schemas.",
+        date: "April 28, 2023",
+        readTime: "10 min read",
+        tags: ["Schema", "Design", "NoSQL"],
+        url: "#"
       },
       {
         id: 3,
-        title: "TypeScript Best Practices 2023",
-        description: "Modern TypeScript patterns and type safety techniques for large-scale applications.",
-        url: "/blog/typescript-best-practices",
-        date: "August 10, 2023",
-        readTime: "10 min read",
-        tags: ["TypeScript", "Fullstack"]
+        title: "Migration Strategies for Large Databases",
+        description: "How to smoothly migrate terabyte-scale databases with minimal downtime.",
+        date: "March 10, 2023",
+        readTime: "12 min read",
+        tags: ["Migration", "Big Data", "ETL"],
+        url: "#"
       }
     ],
     webinarsEvents: [
       {
         id: 1,
-        title: "Next.js 13 Workshop",
-        date: "September 15, 2023",
-        time: "1:00 PM EST",
-        description: "Hands-on workshop covering the new App Router, Server Components, and Data Fetching in Next.js 13.",
-        registrationLink: "/events/nextjs-workshop",
-        featured: true,
-        speaker: "Sarah Johnson",
-        duration: "2 hours"
+        title: "Database Optimization Workshop",
+        date: "June 20, 2023",
+        time: "2:00 PM EST",
+        duration: "2 hours",
+        speaker: "Dr. Sarah Johnson",
+        description: "Interactive workshop covering indexing strategies and query optimization.",
+        registrationLink: "#",
+        featured: true
       },
       {
         id: 2,
-        title: "Cloud Native Architecture",
-        date: "October 5, 2023",
-        time: "10:00 AM EST",
-        description: "Building scalable cloud-native applications with AWS, Terraform, and Kubernetes.",
-        registrationLink: "/events/cloud-architecture",
-        speaker: "Michael Chen",
-        duration: "1.5 hours"
-      },
-      {
-        id: 3,
-        title: "Web3 Development Fundamentals",
-        date: "November 8, 2023",
-        time: "3:30 PM EST",
-        description: "Introduction to blockchain development with Ethereum, Solidity, and Hardhat.",
-        registrationLink: "/events/web3-fundamentals",
-        speaker: "David Wilson",
-        duration: "2 hours"
+        title: "Monthly Developer Q&A",
+        date: "July 5, 2023",
+        time: "1:00 PM EST",
+        duration: "1 hour",
+        description: "Bring your database questions to our engineering team.",
+        registrationLink: "#"
       }
     ],
     caseStudies: [
       {
         id: 1,
-        title: "FinTech Payment System Scaling",
-        industry: "Financial Services",
-        summary: "How we scaled a payment processing system to handle 5,000 transactions per second with 99.999% availability.",
-        downloadLink: "/case-studies/fintech-scaling",
-        results: "5x throughput improvement",
-        technologies: ["Node.js", "Redis", "Kafka"]
+        title: "E-commerce Platform Scaling",
+        industry: "Retail",
+        summary: "How we helped a major retailer handle 10x traffic during holiday sales.",
+        results: "Reduced query time by 85%",
+        technologies: ["PostgreSQL", "Redis", "Kubernetes"],
+        downloadLink: "#"
       },
       {
         id: 2,
-        title: "Healthcare Data Analytics Platform",
+        title: "Healthcare Data Migration",
         industry: "Healthcare",
-        summary: "Building a HIPAA-compliant data analytics platform processing 10TB of patient data daily.",
-        downloadLink: "/case-studies/healthcare-analytics",
-        results: "80% faster insights delivery",
-        technologies: ["Python", "Spark", "Snowflake"]
+        summary: "Secure migration of sensitive patient records with zero downtime.",
+        results: "100% data integrity maintained",
+        technologies: ["MongoDB", "AWS", "Node.js"],
+        downloadLink: "#"
       },
       {
         id: 3,
-        title: "E-commerce Personalization Engine",
-        industry: "Retail",
-        summary: "Implementing a real-time recommendation system that increased conversion rates by 35%.",
-        downloadLink: "/case-studies/ecommerce-personalization",
-        results: "35% conversion increase",
-        technologies: ["React", "GraphQL", "TensorFlow"]
+        title: "Real-time Analytics Platform",
+        industry: "Finance",
+        summary: "Building a high-frequency trading analytics system.",
+        results: "5ms response time achieved",
+        technologies: ["TimescaleDB", "Go", "Kafka"],
+        downloadLink: "#"
       }
     ],
     documentation: [
       {
         id: 1,
-        title: "API Reference v3.2",
-        version: "v3.2",
-        description: "Complete documentation for all REST API endpoints including authentication, pagination, and error handling.",
-        url: "/docs/api-reference",
-        type: "API",
-        lastUpdated: "3 days ago",
-        languages: ["JavaScript", "Python", "Java"]
+        title: "API Reference",
+        type: "Technical",
+        description: "Complete reference for all API endpoints and parameters.",
+        version: "2.1.3",
+        lastUpdated: "2 weeks ago",
+        languages: ["JavaScript", "Python", "Java"],
+        url: "#"
       },
       {
         id: 2,
         title: "Getting Started Guide",
-        version: "v2.1",
-        description: "Step-by-step instructions to set up your development environment and deploy your first application.",
-        url: "/docs/getting-started",
-        type: "Guide",
-        lastUpdated: "2 weeks ago",
-        languages: ["JavaScript", "TypeScript"]
+        type: "Tutorial",
+        description: "Step-by-step guide to implementing our solution.",
+        version: "1.0.0",
+        lastUpdated: "1 month ago",
+        languages: ["JavaScript", "Python"],
+        url: "#"
       },
       {
         id: 3,
-        title: "Security Best Practices",
-        version: "v1.5",
-        description: "Comprehensive guide to securing your applications and infrastructure following OWASP standards.",
-        url: "/docs/security-guide",
-        type: "Handbook",
-        lastUpdated: "1 month ago",
-        languages: ["All"]
+        title: "Admin Console Manual",
+        type: "User Guide",
+        description: "How to use the admin dashboard features.",
+        version: "3.2.0",
+        lastUpdated: "3 days ago",
+        languages: ["All"],
+        url: "#"
       }
     ],
     communityForum: {
-      title: "Developer Community Hub",
-      description: "Connect with thousands of developers worldwide to share knowledge, ask questions, and collaborate on projects.",
-      url: "/community",
-      stats: "15,200+ members",
-      activeDiscussions: "428 active discussions",
-      newMembers: "120 new members this week",
+      title: "Developer Community",
+      description: "Join thousands of developers discussing best practices, sharing solutions, and helping each other.",
+      stats: "10,000+ active members",
+      activeDiscussions: "50+ daily discussions",
+      newMembers: "100+ new members weekly",
       features: [
-        "Q&A with core team members",
-        "Monthly coding challenges",
-        "Exclusive webinars",
-        "Job board"
-      ]
+        "Expert Q&A",
+        "Code samples",
+        "Troubleshooting help",
+        "Early feature previews"
+      ],
+      url: "#"
     }
   };
 
@@ -207,11 +194,32 @@ const Resources = () => {
               mb: 4,
               maxWidth: 800,
               mx: 'auto',
-              lineHeight: 1.6
+              lineHeight: 1.6,
+              opacity: 0.9
             }}
           >
             Everything you need to build, learn, and grow as a developer
           </Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            size="large"
+            endIcon={<ArrowForward />}
+            sx={{
+              px: 4,
+              py: 1.5,
+              fontWeight: 700,
+              borderRadius: 2,
+              boxShadow: '0 4px 14px rgba(0,0,0,0.2)',
+              '&:hover': {
+                transform: 'translateY(-2px)',
+                boxShadow: '0 6px 20px rgba(0,0,0,0.25)'
+              },
+              transition: 'all 0.3s ease'
+            }}
+          >
+            Explore Resources
+          </Button>
         </Container>
       </Box>
 
@@ -219,50 +227,26 @@ const Resources = () => {
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 } }}>
         {/* Technical Blog Section */}
         <Box sx={{ mb: { xs: 8, md: 10 } }}>
-          <Box 
-            sx={{ 
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              justifyContent: 'space-between',
-              alignItems: { xs: 'flex-start', sm: 'center' },
-              mb: 4
-            }}
-          >
-            <Box sx={{ mb: { xs: 2, sm: 0 } }}>
-              <Typography
-                variant={isMobile ? 'h5' : 'h4'}
-                sx={{
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2
-                }}
-              >
-                <Article color="primary" fontSize="large" />
-                Technical Articles
-              </Typography>
-              <Typography color="text.secondary">
-                Latest insights and tutorials from our engineering team
-              </Typography>
-            </Box>
-            <Button
-              component="a"
-              href="/blog"
-              variant="text"
-              color="primary"
-              endIcon={<ArrowForward />}
+          <Box sx={{ mb: 4 }}>
+            <Typography
+              variant={isMobile ? 'h5' : 'h4'}
               sx={{
-                fontWeight: 600,
-                textTransform: 'none',
-                fontSize: '1rem'
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2
               }}
             >
-              View all articles
-            </Button>
+              <Article color="primary" fontSize="large" />
+              Technical Articles
+            </Typography>
+            <Typography color="text.secondary">
+              Latest insights and tutorials from our engineering team
+            </Typography>
           </Box>
 
           <Grid container spacing={3}>
-            {resourceData.technicalBlog.map(blog => (
+            {resourceData.technicalBlog.map((blog) => (
               <Grid item xs={12} sm={6} md={4} key={blog.id}>
                 <Card
                   sx={{
@@ -289,38 +273,28 @@ const Resources = () => {
                       <Typography
                         variant="body2"
                         color="text.secondary"
-                        sx={{ ml: 1.5, display: 'flex', alignItems: 'center' }}
+                        sx={{ ml: 1.5 }}
                       >
                         • {blog.readTime}
                       </Typography>
                     </Box>
-                    <Typography
-                      variant="h6"
-                      component="h3"
-                      gutterBottom
-                      sx={{ fontWeight: 600 }}
-                    >
+                    <Typography variant="h6" component="h3" gutterBottom>
                       {blog.title}
                     </Typography>
-                    <Typography
-                      variant="body1"
-                      color="text.secondary"
-                      sx={{ mb: 2 }}
-                    >
+                    <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
                       {blog.description}
                     </Typography>
-                    {blog.tags && (
-                      <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-                        {blog.tags.map(tag => (
-                          <Chip
-                            key={tag}
-                            label={tag}
-                            size="small"
-                            variant="outlined"
-                          />
-                        ))}
-                      </Stack>
-                    )}
+                    <Stack direction="row" spacing={1} sx={{ mb: 2, flexWrap: 'wrap' }}>
+                      {blog.tags.map(tag => (
+                        <Chip
+                          key={tag}
+                          label={tag}
+                          size="small"
+                          variant="outlined"
+                          sx={{ borderRadius: 1 }}
+                        />
+                      ))}
+                    </Stack>
                     <Button
                       component="a"
                       href={blog.url}
@@ -328,11 +302,6 @@ const Resources = () => {
                       color="primary"
                       size="small"
                       endIcon={<ArrowForward />}
-                      sx={{
-                        fontWeight: 600,
-                        textTransform: 'none',
-                        pl: 0
-                      }}
                     >
                       Read article
                     </Button>
@@ -345,55 +314,31 @@ const Resources = () => {
 
         {/* Webinars & Events Section */}
         <Box sx={{ mb: { xs: 8, md: 10 } }}>
-          <Box 
-            sx={{ 
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              justifyContent: 'space-between',
-              alignItems: { xs: 'flex-start', sm: 'center' },
-              mb: 4
-            }}
-          >
-            <Box sx={{ mb: { xs: 2, sm: 0 } }}>
-              <Typography
-                variant={isMobile ? 'h5' : 'h4'}
-                sx={{
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2
-                }}
-              >
-                <Event color="primary" fontSize="large" />
-                Webinars & Events
-              </Typography>
-              <Typography color="text.secondary">
-                Upcoming learning opportunities and networking events
-              </Typography>
-            </Box>
-            <Button
-              component="a"
-              href="/events"
-              variant="text"
-              color="primary"
-              endIcon={<ArrowForward />}
+          <Box sx={{ mb: 4 }}>
+            <Typography
+              variant={isMobile ? 'h5' : 'h4'}
               sx={{
-                fontWeight: 600,
-                textTransform: 'none',
-                fontSize: '1rem'
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2
               }}
             >
-              View all events
-            </Button>
+              <Event color="primary" fontSize="large" />
+              Webinars & Events
+            </Typography>
+            <Typography color="text.secondary">
+              Upcoming learning opportunities and networking events
+            </Typography>
           </Box>
 
           <Grid container spacing={3}>
-            {resourceData.webinarsEvents.map(event => (
+            {resourceData.webinarsEvents.map((event) => (
               <Grid item xs={12} key={event.id}>
                 <Card
                   sx={{
                     borderLeft: event.featured ? `4px solid ${theme.palette.secondary.main}` : 'none',
-                    boxShadow: theme.shadows[2],
+                    boxShadow: theme.shadows[1],
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-3px)',
@@ -402,28 +347,12 @@ const Resources = () => {
                   }}
                 >
                   <CardContent>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: { xs: 'column', md: 'row' },
-                        justifyContent: 'space-between'
-                      }}
-                    >
+                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between' }}>
                       <Box sx={{ mb: { xs: 2, md: 0 } }}>
                         {event.featured && (
-                          <Chip
-                            label="Featured Event"
-                            color="secondary"
-                            size="small"
-                            sx={{ mb: 1 }}
-                          />
+                          <Chip label="Featured Event" color="secondary" size="small" sx={{ mb: 1 }} />
                         )}
-                        <Typography
-                          variant="h6"
-                          component="h3"
-                          gutterBottom
-                          sx={{ fontWeight: 600 }}
-                        >
+                        <Typography variant="h6" component="h3" gutterBottom>
                           {event.title}
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
@@ -450,11 +379,7 @@ const Resources = () => {
                         variant="contained"
                         color="primary"
                         size="large"
-                        sx={{
-                          alignSelf: { md: 'center' },
-                          mt: { xs: 2, md: 0 },
-                          minWidth: 160
-                        }}
+                        sx={{ alignSelf: { md: 'center' }, mt: { xs: 2, md: 0 } }}
                       >
                         Register Now
                       </Button>
@@ -468,63 +393,42 @@ const Resources = () => {
 
         {/* Case Studies Section */}
         <Box sx={{ mb: { xs: 8, md: 10 } }}>
-          <Box 
-            sx={{ 
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              justifyContent: 'space-between',
-              alignItems: { xs: 'flex-start', sm: 'center' },
-              mb: 4
-            }}
-          >
-            <Box sx={{ mb: { xs: 2, sm: 0 } }}>
-              <Typography
-                variant={isMobile ? 'h5' : 'h4'}
-                sx={{
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2
-                }}
-              >
-                <Description color="primary" fontSize="large" />
-                Case Studies
-              </Typography>
-              <Typography color="text.secondary">
-                Real-world examples of our solutions in action
-              </Typography>
-            </Box>
-            <Button
-              component="a"
-              href="/case-studies"
-              variant="text"
-              color="primary"
-              endIcon={<ArrowForward />}
+          <Box sx={{ mb: 4 }}>
+            <Typography
+              variant={isMobile ? 'h5' : 'h4'}
               sx={{
-                fontWeight: 600,
-                textTransform: 'none',
-                fontSize: '1rem'
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2
               }}
             >
-              View all case studies
-            </Button>
+              <Description color="primary" fontSize="large" />
+              Case Studies
+            </Typography>
+            <Typography color="text.secondary">
+              Real-world examples of our solutions in action
+            </Typography>
           </Box>
 
           <Grid container spacing={3}>
-            {resourceData.caseStudies.map(caseStudy => (
+            {resourceData.caseStudies.map((caseStudy) => (
               <Grid item xs={12} sm={6} md={4} key={caseStudy.id}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: theme.shadows[6]
-                    }
-                  }}
-                >
+                <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <Box
+                    sx={{
+                      height: 120,
+                      background: `linear-gradient(45deg, ${theme.palette.primary.light}, ${theme.palette.secondary.light})`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'white',
+                      fontSize: 24,
+                      fontWeight: 700
+                    }}
+                  >
+                    {caseStudy.industry.charAt(0)}
+                  </Box>
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Chip
                       label={caseStudy.industry}
@@ -533,19 +437,10 @@ const Resources = () => {
                       variant="outlined"
                       sx={{ mb: 2 }}
                     />
-                    <Typography
-                      variant="h6"
-                      component="h3"
-                      gutterBottom
-                      sx={{ fontWeight: 600 }}
-                    >
+                    <Typography variant="h6" component="h3" gutterBottom>
                       {caseStudy.title}
                     </Typography>
-                    <Typography
-                      variant="body1"
-                      color="text.secondary"
-                      sx={{ mb: 2 }}
-                    >
+                    <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
                       {caseStudy.summary}
                     </Typography>
                     {caseStudy.results && (
@@ -556,23 +451,6 @@ const Resources = () => {
                         </Typography>
                       </Box>
                     )}
-                    {caseStudy.technologies && (
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="caption" color="text.secondary">
-                          Tech Stack:
-                        </Typography>
-                        <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: 'wrap' }}>
-                          {caseStudy.technologies.map(tech => (
-                            <Chip
-                              key={tech}
-                              label={tech}
-                              size="small"
-                              variant="outlined"
-                            />
-                          ))}
-                        </Stack>
-                      </Box>
-                    )}
                     <Button
                       component="a"
                       href={caseStudy.downloadLink}
@@ -580,10 +458,6 @@ const Resources = () => {
                       color="primary"
                       size="small"
                       startIcon={<Download />}
-                      sx={{
-                        fontWeight: 600,
-                        textTransform: 'none'
-                      }}
                     >
                       Download Case Study
                     </Button>
@@ -596,78 +470,36 @@ const Resources = () => {
 
         {/* Documentation Section */}
         <Box sx={{ mb: { xs: 8, md: 10 } }}>
-          <Box 
-            sx={{ 
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              justifyContent: 'space-between',
-              alignItems: { xs: 'flex-start', sm: 'center' },
-              mb: 4
-            }}
-          >
-            <Box sx={{ mb: { xs: 2, sm: 0 } }}>
-              <Typography
-                variant={isMobile ? 'h5' : 'h4'}
-                sx={{
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2
-                }}
-              >
-                <Description color="primary" fontSize="large" />
-                Documentation
-              </Typography>
-              <Typography color="text.secondary">
-                Comprehensive guides and API references
-              </Typography>
-            </Box>
-            <Button
-              component="a"
-              href="/docs"
-              variant="text"
-              color="primary"
-              endIcon={<ArrowForward />}
+          <Box sx={{ mb: 4 }}>
+            <Typography
+              variant={isMobile ? 'h5' : 'h4'}
               sx={{
-                fontWeight: 600,
-                textTransform: 'none',
-                fontSize: '1rem'
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2
               }}
             >
-              View all documentation
-            </Button>
+              <Description color="primary" fontSize="large" />
+              Documentation
+            </Typography>
+            <Typography color="text.secondary">
+              Comprehensive guides and API references
+            </Typography>
           </Box>
 
           <Grid container spacing={3}>
-            {resourceData.documentation.map(doc => (
+            {resourceData.documentation.map((doc) => (
               <Grid item xs={12} sm={6} md={4} key={doc.id}>
-                <Card
-                  sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: theme.shadows[6]
-                    }
-                  }}
-                >
+                <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                   <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography
-                      variant="overline"
-                      color="text.secondary"
-                      display="block"
-                      gutterBottom
-                    >
+                    <Typography variant="overline" color="text.secondary" display="block" gutterBottom>
                       {doc.type}
                     </Typography>
-                    <Typography
-                      variant="h6"
-                      component="h3"
-                      gutterBottom
-                      sx={{ fontWeight: 600 }}
-                    >
+                    <Box sx={{ fontSize: 40, color: 'text.secondary', mb: 2 }}>
+                      <Description fontSize="inherit" />
+                    </Box>
+                    <Typography variant="h6" component="h3" gutterBottom>
                       {doc.title}
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -676,30 +508,9 @@ const Resources = () => {
                         Version {doc.version} • Updated {doc.lastUpdated}
                       </Typography>
                     </Box>
-                    <Typography
-                      variant="body1"
-                      color="text.secondary"
-                      sx={{ mb: 2 }}
-                    >
+                    <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
                       {doc.description}
                     </Typography>
-                    {doc.languages && (
-                      <Box sx={{ mb: 2 }}>
-                        <Typography variant="caption" color="text.secondary">
-                          Available in:
-                        </Typography>
-                        <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: 'wrap' }}>
-                          {doc.languages.map(lang => (
-                            <Chip
-                              key={lang}
-                              label={lang}
-                              size="small"
-                              variant="outlined"
-                            />
-                          ))}
-                        </Stack>
-                      </Box>
-                    )}
                     <Button
                       component="a"
                       href={doc.url}
@@ -707,10 +518,6 @@ const Resources = () => {
                       color="primary"
                       size="small"
                       startIcon={<LinkIcon />}
-                      sx={{
-                        fontWeight: 600,
-                        textTransform: 'none'
-                      }}
                     >
                       View Documentation
                     </Button>
@@ -724,32 +531,19 @@ const Resources = () => {
         {/* Community Forum Section */}
         <Box
           sx={{
-            backgroundColor: theme.palette.grey[100],
-            borderRadius: 2,
+            background: `linear-gradient(135deg, ${theme.palette.grey[100]} 0%, ${theme.palette.grey[50]} 100%)`,
+            borderRadius: 4,
             p: { xs: 3, md: 6 },
             mb: { xs: 8, md: 10 }
           }}
         >
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={7}>
-              <Typography
-                variant={isMobile ? 'h5' : 'h4'}
-                gutterBottom
-                sx={{
-                  fontWeight: 700,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 2
-                }}
-              >
-                <Groups color="primary" fontSize="large" />
+              <Typography variant={isMobile ? 'h5' : 'h4'} gutterBottom sx={{ fontWeight: 700 }}>
+                <Groups color="primary" fontSize="large" sx={{ mr: 2 }} />
                 {resourceData.communityForum.title}
               </Typography>
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                sx={{ mb: 3 }}
-              >
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
                 {resourceData.communityForum.description}
               </Typography>
               <Stack spacing={2} sx={{ mb: 3 }}>
@@ -766,31 +560,9 @@ const Resources = () => {
                   <Typography>{resourceData.communityForum.newMembers}</Typography>
                 </Box>
               </Stack>
-              {resourceData.communityForum.features && (
-                <Box sx={{ mb: 3 }}>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Community Features:
-                  </Typography>
-                  <Grid container spacing={1}>
-                    {resourceData.communityForum.features.map((feature, index) => (
-                      <Grid item xs={12} sm={6} key={index}>
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <CheckCircle color="success" sx={{ mr: 1, fontSize: '1rem' }} />
-                          <Typography variant="body2">{feature}</Typography>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Box>
-              )}
             </Grid>
             <Grid item xs={12} md={5}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: { xs: 'flex-start', md: 'flex-end' }
-                }}
-              >
+              <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', md: 'flex-end' } }}>
                 <Button
                   component="a"
                   href={resourceData.communityForum.url}
@@ -802,7 +574,8 @@ const Resources = () => {
                     px: 4,
                     py: 1.5,
                     fontWeight: 600,
-                    textTransform: 'none'
+                    textTransform: 'none',
+                    borderRadius: 2
                   }}
                 >
                   Join the Community

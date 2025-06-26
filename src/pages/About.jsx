@@ -7,7 +7,9 @@ import {
   Fade, 
   Button,
   CircularProgress,
-  useMediaQuery
+  useMediaQuery,
+  Grow,
+  Zoom
 } from '@mui/material';
 import { 
   Speed as PerformanceIcon,
@@ -15,14 +17,32 @@ import {
   Settings as MaintenanceIcon,
   SupportAgent as SupportIcon,
   Phone as PhoneIcon,
-  Email as EmailIcon
+  Email as EmailIcon,
+  ArrowForward as ArrowForwardIcon
 } from '@mui/icons-material';
 import { useState, lazy, Suspense } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { motion } from 'framer-motion';
 
 // Lazy load heavy components
 const TeamSection = lazy(() => import('./TeamSection'));
 const StatsSection = lazy(() => import('./StatsSection'));
+
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
 
 function About() {
   const theme = useTheme();
@@ -75,7 +95,12 @@ function About() {
       <Container maxWidth="lg">
         {/* Hero Section */}
         <Box ref={heroRef} sx={{ mb: { xs: 6, md: 10 } }}>
-          <Fade in={heroInView} timeout={500}>
+          <motion.div
+            initial="hidden"
+            animate={heroInView ? "visible" : "hidden"}
+            variants={fadeInUp}
+            transition={{ duration: 0.6 }}
+          >
             <Box textAlign="center">
               <Typography 
                 variant={isMobile ? 'h3' : 'h2'}
@@ -84,7 +109,11 @@ function About() {
                   fontWeight: 800,
                   color: 'primary.main',
                   mb: 3,
-                  px: isMobile ? 2 : 0
+                  px: isMobile ? 2 : 0,
+                  background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  display: 'inline-block'
                 }}
               >
                 About FixMyDB
@@ -102,7 +131,7 @@ function About() {
                 Database performance experts saving businesses millions in infrastructure costs through optimized solutions
               </Typography>
             </Box>
-          </Fade>
+          </motion.div>
         </Box>
 
         {/* Stats Section - Lazy loaded */}
@@ -123,135 +152,212 @@ function About() {
 
         {/* Mission Section */}
         <Box ref={missionRef} sx={{ mb: { xs: 6, md: 10 } }}>
-          <Fade in={missionInView} timeout={600}>
+          <motion.div
+            initial="hidden"
+            animate={missionInView ? "visible" : "hidden"}
+            variants={staggerContainer}
+          >
             <Grid container spacing={{ xs: 4, md: 6 }} alignItems="center">
               <Grid item xs={12} md={6} order={{ xs: 2, md: 1 }}>
-                <Typography 
-                  variant={isMobile ? 'h4' : 'h3'}
-                  gutterBottom 
-                  sx={{ 
-                    fontWeight: 700, 
-                    mb: 3,
-                    color: 'text.primary'
-                  }}
-                >
-                  Our Mission
-                </Typography>
-                <Typography 
-                  variant={isMobile ? 'body1' : 'h6'} 
-                  paragraph 
-                  sx={{ 
-                    mb: 3,
-                    color: 'text.secondary'
-                  }}
-                >
-                  To make database management painless, secure, and cost-effective for growing businesses.
-                </Typography>
-                <Typography 
-                  paragraph 
-                  sx={{ 
-                    mb: 2,
-                    color: 'text.secondary'
-                  }}
-                >
-                  Founded in 2018, FixMyDB emerged from seeing companies struggle with poorly optimized databases 
-                  that drained resources and slowed growth.
-                </Typography>
+                <motion.div variants={fadeInUp}>
+                  <Typography 
+                    variant={isMobile ? 'h4' : 'h3'}
+                    gutterBottom 
+                    sx={{ 
+                      fontWeight: 700, 
+                      mb: 3,
+                      color: 'text.primary'
+                    }}
+                  >
+                    Our Mission
+                  </Typography>
+                  <Typography 
+                    variant={isMobile ? 'body1' : 'h6'} 
+                    paragraph 
+                    sx={{ 
+                      mb: 3,
+                      color: 'text.secondary'
+                    }}
+                  >
+                    To make database management painless, secure, and cost-effective for growing businesses.
+                  </Typography>
+                  <Typography 
+                    paragraph 
+                    sx={{ 
+                      mb: 2,
+                      color: 'text.secondary'
+                    }}
+                  >
+                    Founded in 2018, FixMyDB emerged from seeing companies struggle with poorly optimized databases 
+                    that drained resources and slowed growth.
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    endIcon={<ArrowForwardIcon />}
+                    sx={{
+                      mt: 2,
+                      px: 4,
+                      py: 1.5,
+                      fontWeight: 600,
+                      '&:hover': {
+                        transform: 'translateX(5px)',
+                        backgroundColor: 'primary.light',
+                        boxShadow: theme.shadows[2]
+                      },
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    Learn More
+                  </Button>
+                </motion.div>
               </Grid>
               <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
-                <Box
-                  sx={{
-                    borderRadius: 4,
-                    overflow: 'hidden',
-                    position: 'relative',
-                    aspectRatio: '16/9',
-                    boxShadow: theme.shadows[4]
-                  }}
-                >
-                  <img 
-                    src={isMobile ? '/images/db-team-mobile.png' : '/images/db-team-desktop.png'}
-                    alt="FixMyDB team working"
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      display: 'block'
+                <motion.div variants={fadeInUp}>
+                  <Box
+                    sx={{
+                      borderRadius: 4,
+                      overflow: 'hidden',
+                      position: 'relative',
+                      aspectRatio: '16/9',
+                      boxShadow: theme.shadows[8],
+                      '&:hover img': {
+                        transform: 'scale(1.05)'
+                      }
                     }}
-                  />
-                </Box>
+                  >
+                    <img 
+                      src={isMobile ? '/images/db-team-mobile.png' : '/images/db-team-desktop.png'}
+                      alt="FixMyDB team working"
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        transition: 'transform 0.5s ease'
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: `linear-gradient(135deg, ${theme.palette.primary.main}20, ${theme.palette.secondary.main}20)`,
+                        mixBlendMode: 'multiply'
+                      }}
+                    />
+                  </Box>
+                </motion.div>
               </Grid>
             </Grid>
-          </Fade>
+          </motion.div>
         </Box>
 
         {/* Values Section */}
         <Box ref={valuesRef} sx={{ mb: { xs: 6, md: 10 } }}>
-          <Fade in={valuesInView} timeout={700}>
+          <motion.div
+            initial="hidden"
+            animate={valuesInView ? "visible" : "hidden"}
+            variants={staggerContainer}
+          >
             <Box>
-              <Typography 
-                variant={isMobile ? 'h4' : 'h3'}
-                align="center" 
-                gutterBottom 
-                sx={{ 
-                  fontWeight: 700, 
-                  mb: { xs: 4, md: 6 },
-                  color: 'text.primary'
-                }}
-              >
-                Why Choose FixMyDB
-              </Typography>
+              <motion.div variants={fadeInUp}>
+                <Typography 
+                  variant={isMobile ? 'h4' : 'h3'}
+                  align="center" 
+                  gutterBottom 
+                  sx={{ 
+                    fontWeight: 700, 
+                    mb: { xs: 4, md: 6 },
+                    color: 'text.primary'
+                  }}
+                >
+                  Why Choose FixMyDB
+                </Typography>
+              </motion.div>
               <Grid container spacing={{ xs: 3, md: 4 }}>
                 {values.map((item, index) => (
                   <Grid item xs={12} sm={6} md={3} key={index}>
-                    <Box 
-                      textAlign="center" 
-                      p={{ xs: 2, md: 3 }}
-                      sx={{
-                        height: '100%',
-                        border: '1px solid',
-                        borderColor: 'divider',
-                        borderRadius: 2,
-                        transition: 'all 0.3s ease',
-                        '&:hover': {
-                          transform: 'translateY(-5px)',
-                          boxShadow: theme.shadows[4],
-                          borderColor: 'primary.main'
-                        }
-                      }}
-                    >
-                      <Box sx={{ 
-                        color: 'primary.main', 
-                        mb: 2,
-                        height: isMobile ? 40 : 50,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}>
-                        {item.icon}
-                      </Box>
-                      <Typography 
-                        variant={isMobile ? 'h6' : 'h5'} 
-                        sx={{ 
-                          mb: 2, 
-                          fontWeight: 600,
-                          color: 'text.primary'
+                    <motion.div variants={fadeInUp}>
+                      <Box 
+                        textAlign="center" 
+                        p={{ xs: 2, md: 3 }}
+                        sx={{
+                          height: '100%',
+                          border: '1px solid',
+                          borderColor: 'divider',
+                          borderRadius: 4,
+                          transition: 'all 0.3s ease',
+                          backgroundColor: 'background.paper',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          '&:hover': {
+                            transform: 'translateY(-8px)',
+                            boxShadow: theme.shadows[6],
+                            borderColor: 'primary.main',
+                            '&:after': {
+                              width: '100%'
+                            }
+                          },
+                          '&:after': {
+                            content: '""',
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            width: '0%',
+                            height: 4,
+                            backgroundColor: 'primary.main',
+                            transition: 'width 0.3s ease'
+                          }
                         }}
                       >
-                        {item.title}
-                      </Typography>
-                      <Typography 
-                        variant={isMobile ? 'body2' : 'body1'} 
-                        color="text.secondary"
-                      >
-                        {item.description}
-                      </Typography>
-                    </Box>
+                        <Box sx={{ 
+                          color: 'primary.main', 
+                          mb: 2,
+                          height: isMobile ? 40 : 50,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          transition: 'transform 0.3s ease',
+                          '&:hover': {
+                            transform: 'scale(1.1)'
+                          }
+                        }}>
+                          {item.icon}
+                        </Box>
+                        <Typography 
+                          variant={isMobile ? 'h6' : 'h5'} 
+                          sx={{ 
+                            mb: 2, 
+                            fontWeight: 600,
+                            color: 'text.primary'
+                          }}
+                        >
+                          {item.title}
+                        </Typography>
+                        <Typography 
+                          variant={isMobile ? 'body2' : 'body1'} 
+                          color="text.secondary"
+                          sx={{
+                            transition: 'color 0.3s ease',
+                            '&:hover': {
+                              color: 'text.primary'
+                            }
+                          }}
+                        >
+                          {item.description}
+                        </Typography>
+                      </Box>
+                    </motion.div>
                   </Grid>
                 ))}
               </Grid>
             </Box>
-          </Fade>
+          </motion.div>
         </Box>
 
         {/* Team Section - Lazy loaded */}
@@ -270,15 +376,41 @@ function About() {
         </Box>
 
         {/* Contact CTA */}
-        <Fade in={contactInView} timeout={800}>
+        <motion.div
+          initial="hidden"
+          animate={contactInView ? "visible" : "hidden"}
+          variants={fadeInUp}
+        >
           <Box 
             sx={{ 
               p: { xs: 3, md: 6 },
               borderRadius: 4,
-              backgroundColor: 'primary.main',
+              background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`,
               color: 'primary.contrastText',
               textAlign: 'center',
-              boxShadow: theme.shadows[6]
+              boxShadow: theme.shadows[10],
+              position: 'relative',
+              overflow: 'hidden',
+              '&:before': {
+                content: '""',
+                position: 'absolute',
+                top: -50,
+                right: -50,
+                width: 200,
+                height: 200,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(255,255,255,0.1)'
+              },
+              '&:after': {
+                content: '""',
+                position: 'absolute',
+                bottom: -80,
+                left: -80,
+                width: 200,
+                height: 200,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(255,255,255,0.1)'
+              }
             }}
           >
             <Typography 
@@ -287,7 +419,9 @@ function About() {
               sx={{ 
                 fontWeight: 700, 
                 mb: 3,
-                color: 'primary.contrastText'
+                color: 'primary.contrastText',
+                position: 'relative',
+                zIndex: 1
               }}
             >
               Ready to Optimize Your Database?
@@ -298,7 +432,9 @@ function About() {
                 mb: 4, 
                 mx: 'auto',
                 maxWidth: 800,
-                color: 'primary.contrastText'
+                color: 'primary.contrastText',
+                position: 'relative',
+                zIndex: 1
               }}
             >
               Our experts are ready to analyze your database and provide customized solutions.
@@ -307,7 +443,9 @@ function About() {
               display: 'flex', 
               gap: 2, 
               justifyContent: 'center', 
-              flexDirection: isMobile ? 'column' : 'row' 
+              flexDirection: isMobile ? 'column' : 'row',
+              position: 'relative',
+              zIndex: 1
             }}>
               <Button
                 variant="contained"
@@ -322,7 +460,7 @@ function About() {
                   fontWeight: 600,
                   '&:hover': {
                     transform: 'translateY(-2px)',
-                    boxShadow: theme.shadows[4]
+                    boxShadow: theme.shadows[6]
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -343,8 +481,9 @@ function About() {
                   borderWidth: 2,
                   '&:hover': {
                     borderWidth: 2,
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    transform: 'translateY(-2px)'
+                    backgroundColor: 'rgba(255,255,255,0.2)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: theme.shadows[2]
                   },
                   transition: 'all 0.3s ease'
                 }}
@@ -353,7 +492,7 @@ function About() {
               </Button>
             </Box>
           </Box>
-        </Fade>
+        </motion.div>
       </Container>
     </Box>
   );
