@@ -122,7 +122,7 @@ function Home() {
   const carouselItems = [
     {
       image: "/images/mongo2.jpg.jpg",
-      mobileImage: "/images/mongo2-mobile.jpg,jpg",
+      mobileImage: "/images/mongo2-mobile.jpg.jpg",
       title: "Enterprise Database Solutions",
       subtitle: "Scalable, secure, and high-performance database management",
       buttonText: "Explore Solutions",
