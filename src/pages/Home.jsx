@@ -16,7 +16,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Helmet } from 'react-helmet';
 import { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 // Animation variants
 const fadeInUp = {
@@ -55,7 +55,6 @@ const cardHover = {
 function Home() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -121,8 +120,8 @@ function Home() {
 
   const carouselItems = [
     {
-      image: "/images/mongo2.jpg.jpg",
-      mobileImage: "/images/mongo2-mobile.jpg.jpg",
+      image: "/images/mongo2.png",
+      mobileImage: "/images/mongo2-mobile.png",
       title: "Enterprise Database Solutions",
       subtitle: "Scalable, secure, and high-performance database management",
       buttonText: "Explore Solutions",
@@ -137,8 +136,8 @@ function Home() {
       path: "/services#support"
     },
     {
-      image: "/images/mongo3.jpg.jpg",
-      mobileImage: "/images/mongo3-mobile.jpg.jpg",
+      image: "/images/mongo3.jpg",
+      mobileImage: "/images/mongo3-mobile.jpg",
       title: "Cloud Database Optimization",
       subtitle: "Reduce costs while improving performance and reliability",
       buttonText: "Cloud Services",

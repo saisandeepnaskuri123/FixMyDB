@@ -16,19 +16,15 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
-  Chip,
   Stack,
   useMediaQuery,
-  Grow,
-  Fade,
-  Slide,
-  Zoom
+  Snackbar,
+  Alert
 } from '@mui/material';
 import { 
   Email, 
   Phone, 
   LocationOn, 
-  Schedule,
   Send,
   WhatsApp,
   SupportAgent
@@ -37,18 +33,18 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import CircularProgress from '@mui/material/CircularProgress';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 function Contact() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     company: '',
     phone: '',
-    database: '',
+    database: 'mysql',
     message: '',
     contactMethod: 'email',
     urgency: 'standard'
@@ -56,7 +52,15 @@ function Contact() {
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({
+    success: false,
+    message: ''
+  });
+
+  // Replace these with your actual EmailJS credentials
+  const EMAILJS_SERVICE_ID = 'service_d1gdhcq';
+  const EMAILJS_TEMPLATE_ID = 'template_i3jldws';
+  const EMAILJS_PUBLIC_KEY = 'ywdTfGVncI0hQuA-j';
 
   const validate = () => {
     const newErrors = {};
@@ -80,28 +84,58 @@ function Contact() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          company: formData.company,
+          phone: formData.phone,
+          database: formData.database,
+          message: formData.message,
+          contact_method: formData.contactMethod,
+          urgency: formData.urgency
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+
+      setSubmitStatus({
+        success: true,
+        message: 'Thank you! Your message has been sent. We will contact you shortly.'
+      });
+      
+      // Reset form
       setFormData({
         name: '',
         email: '',
         company: '',
         phone: '',
-        database: '',
+        database: 'mysql',
         message: '',
         contactMethod: 'email',
         urgency: 'standard'
       });
-    }, 1500);
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      setSubmitStatus({
+        success: false,
+        message: 'Failed to send message. Please try again later or contact us directly.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSubmitStatus(prev => ({ ...prev, message: '' }));
   };
 
   return (
@@ -112,6 +146,22 @@ function Contact() {
       </Helmet>
 
       <Box sx={{ backgroundColor: 'background.default' }}>
+        {/* Snackbar for showing messages */}
+        <Snackbar
+          open={!!submitStatus.message}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert 
+            onClose={handleCloseSnackbar} 
+            severity={submitStatus.success ? 'success' : 'error'}
+            sx={{ width: '100%' }}
+          >
+            {submitStatus.message}
+          </Alert>
+        </Snackbar>
+
         {/* Hero Section */}
         <Box 
           sx={{ 
@@ -280,25 +330,6 @@ function Contact() {
                       Send Us a Message
                     </Typography>
                     
-                    <Fade in={submitSuccess} timeout={500}>
-                      <Box 
-                        sx={{ 
-                          backgroundColor: 'success.light',
-                          color: 'success.dark',
-                          p: 2,
-                          mb: 3,
-                          borderRadius: 2,
-                          display: 'flex',
-                          alignItems: 'center',
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
-                        }}
-                      >
-                        <Typography variant="body1">
-                          Thank you! Your message has been sent. We'll contact you shortly.
-                        </Typography>
-                      </Box>
-                    </Fade>
-
                     <form onSubmit={handleSubmit}>
                       <Grid container spacing={3}>
                         <Grid item xs={12} sm={6}>

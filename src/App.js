@@ -6,7 +6,7 @@ import Services from './pages/Services';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import SearchResults from './pages/SearchResults';
-import Resources from './pages/Resources';
+
 
 
 function App() {
@@ -19,7 +19,6 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<SearchResults />} />
-        <Route path="/Resources" element={<Resources />} />
       </Routes>
       <Footer />
     </Router>

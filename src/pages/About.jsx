@@ -4,12 +4,9 @@ import {
   Box, 
   Grid, 
   useTheme, 
-  Fade, 
   Button,
   CircularProgress,
-  useMediaQuery,
-  Grow,
-  Zoom
+  useMediaQuery
 } from '@mui/material';
 import { 
   Speed as PerformanceIcon,
@@ -20,7 +17,7 @@ import {
   Email as EmailIcon,
   ArrowForward as ArrowForwardIcon
 } from '@mui/icons-material';
-import { useState, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 
@@ -47,7 +44,6 @@ const staggerContainer = {
 function About() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
   
   // Intersection observers for scroll animations
   const [heroRef, heroInView] = useInView({ threshold: 0.1, triggerOnce: true });

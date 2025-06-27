@@ -66,7 +66,6 @@ function NavBar() {
     { label: 'Home', path: '/' },
     { label: 'Services', path: '/services' },
     { label: 'About', path: '/about' },
-    { label: 'Resources', path: '/resources' },
     { label: 'Contact', path: '/contact' }
   ];
 
@@ -105,55 +104,56 @@ function NavBar() {
   return (
     <AppBar 
       position="sticky"
-      elevation={0}
+      elevation={4}
       sx={{ 
-        backgroundColor: 'background.paper',
+        backgroundColor: '#fdba74', // orange-300 equivalent
         color: 'text.primary',
-        borderBottom: '1px solid',
-        borderColor: 'divider',
         py: isMobile ? 0 : 1,
-        backdropFilter: 'blur(8px)',
-        background: 'rgba(255, 255, 255, 0.8)',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         transition: 'all 0.3s ease',
-        '&:hover': {
-          background: 'rgba(255, 255, 255, 0.95)'
-        }
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ minHeight: isMobile ? 64 : 72 }}>
+        <Toolbar disableGutters sx={{ 
+          minHeight: isMobile ? 64 : 72,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '1rem'
+        }}>
           {/* Logo/Brand */}
-         <motion.div 
-  whileHover={{ scale: 1.05 }}
-  whileTap={{ scale: 0.95 }}
->
-  <Typography
-    variant={isMobile ? 'subtitle1' : 'h6'}
-    noWrap
-    component={Link}
-    to="/"
-    sx={{
-      mr: isMobile ? 2 : 4,
-      fontWeight: 700,
-      color: 'primary.main',
-      textDecoration: 'none',
-      display: 'flex',
-      alignItems: 'center',
-      flexShrink: 0
-    }}
-  >
-    <Box 
-      component="img"
-      src="/images/fixmydb_logo2.jpeg"
-      alt=""
-      sx={{
-        height: isMobile ? 24 : 30,
-        width: 'auto',
-        mr: 1
-      }}
-    />
-  </Typography>
-</motion.div>
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Typography
+              variant={isMobile ? 'subtitle1' : 'h6'}
+              noWrap
+              component={Link}
+              to="/"
+              sx={{
+                mr: isMobile ? 2 : 4,
+                fontWeight: 700,
+                color: 'primary.main',
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                flexShrink: 0
+              }}
+            >
+              <Box 
+                component="img"
+                src="/images/logo1.jpeg"
+                alt=""
+                sx={{
+                  height: isMobile ? 24 : 30,
+                  width: 'auto',
+                  mr: 1
+                }}
+              /><Box component="span" sx={{ color: 'black' }}>fixmydb</Box>
+
+            </Typography>
+          </motion.div>
 
           {/* Desktop Navigation */}
           {!isMobile && (
@@ -236,6 +236,7 @@ function NavBar() {
                         borderRadius: '10px',
                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         transition: 'all 0.3s ease',
+                        backgroundColor: 'background.paper',
                         '&:focus-within': {
                           boxShadow: '0 4px 8px rgba(0,0,0,0.15)'
                         }
@@ -317,11 +318,13 @@ function NavBar() {
                       py: 0.8,
                       fontSize: '0.8125rem',
                       borderRadius: '8px',
+                      backgroundColor: 'background.paper',
                       '&:hover': {
                         borderWidth: '2px',
                         boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
                       }
                     }}
+                    href="tel:+917675028957"
                   >
                     Call Us
                   </Button>
@@ -423,7 +426,8 @@ function NavBar() {
                     sx: {
                       fontSize: '0.875rem',
                       height: 38,
-                      borderRadius: '10px'
+                      borderRadius: '10px',
+                      backgroundColor: 'background.paper'
                     }
                   }}
                 />
@@ -539,7 +543,8 @@ function NavBar() {
               sx={{ 
                 mb: 2,
                 borderRadius: '8px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                backgroundColor: 'background.paper'
               }}
               href="tel:+917675028957"
             >
