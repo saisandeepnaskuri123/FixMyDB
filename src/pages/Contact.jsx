@@ -165,8 +165,9 @@ function Contact() {
         {/* Hero Section */}
         <Box 
           sx={{ 
-            background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-            color: 'white',
+            //background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+            backgroundColor: '#fed7aa', // bg-orange-200 (solid color)
+            color: 'Black',
             py: { xs: 8, md: 12 },
             textAlign: 'center',
             position: 'relative',
@@ -231,27 +232,31 @@ function Contact() {
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
                   <Button
-                    variant="outlined"
-                    color="inherit"
-                    size={isMobile ? 'medium' : 'large'}
-                    startIcon={<WhatsApp />}
-                    href="https://wa.me/917675028957"
-                    target="_blank"
-                    sx={{ 
-                      px: { xs: 3, md: 4 },
-                      py: 1.5,
-                      fontWeight: 600,
-                      whiteSpace: 'nowrap',
-                      borderWidth: 2,
-                      borderRadius: '12px',
-                      '&:hover': {
-                        borderWidth: 2,
-                        backgroundColor: 'rgba(255,255,255,0.1)'
-                      }
-                    }}
-                  >
-                    WhatsApp Chat
-                  </Button>
+                        variant="outlined"
+                        color="inherit"
+                        size={isMobile ? 'medium' : 'large'}
+                        startIcon={<WhatsApp />}
+                        href="https://wa.me/917675028957"
+                        target="_blank"
+                        sx={{ 
+                          px: { xs: 3, md: 4 },
+                          py: 1.5,
+                          fontWeight: 600,
+                          whiteSpace: 'nowrap',
+                          borderWidth: 2,
+                          borderRadius: '12px',
+                          borderColor: '#25D366', // WhatsApp green border
+                          color: '#25D366', // WhatsApp green text
+                          '&:hover': {
+                            borderWidth: 2,
+                            backgroundColor: '#25D366', // Solid green background on hover
+                            color: 'white', // White text on hover
+                            borderColor: '#25D366', // Ensure border stays green
+                          }
+                        }}
+                      >
+                        WhatsApp Us
+                      </Button>
                 </motion.div>
               </Stack>
             </Container>
@@ -810,8 +815,9 @@ function Contact() {
         {/* CTA Section */}
         <Box 
           sx={{ 
-            background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-            color: 'white',
+            //background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
+            backgroundColor: '#fed7aa', // bg-orange-200 (solid color)
+            color: 'Black',
             py: { xs: 8, md: 12 },
             textAlign: 'center',
             position: 'relative',
@@ -879,8 +885,8 @@ function Contact() {
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Button 
-                    variant="outlined" 
-                    color="inherit" 
+                    variant="outlined"
+                    color="inherit"
                     size={isMobile ? 'medium' : 'large'}
                     startIcon={<WhatsApp />}
                     href="https://wa.me/917675028957"
@@ -893,9 +899,13 @@ function Contact() {
                       borderRadius: '12px',
                       textTransform: 'none',
                       borderWidth: 2,
+                      borderColor: '#25D366', // WhatsApp green border
+                      color: '#25D366', // WhatsApp green text
                       '&:hover': {
+                        backgroundColor: '#25D366', // Solid green background on hover
+                        color: 'white', // White text on hover
+                        borderColor: '#25D366', // Keep border green
                         borderWidth: 2,
-                        backgroundColor: 'rgba(255,255,255,0.1)'
                       }
                     }}
                   >

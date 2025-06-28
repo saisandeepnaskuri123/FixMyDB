@@ -150,7 +150,7 @@ function NavBar() {
                   width: 'auto',
                   mr: 1
                 }}
-              /><Box component="span" sx={{ color: 'black' }}>fixmydb</Box>
+              /><Box component="span" sx={{ color: 'black' }}>FixMyDB</Box>
 
             </Typography>
           </motion.div>

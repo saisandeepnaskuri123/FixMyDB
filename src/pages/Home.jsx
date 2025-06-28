@@ -159,8 +159,9 @@ function Home() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         sx={{ 
-          background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-          color: 'white',
+          //background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+          backgroundColor: '#fed7aa', // bg-orange-200 (solid color)
+          color: 'Black',
           py: { xs: 8, md: 12 },
           textAlign: 'center',
           position: 'relative',
@@ -699,8 +700,9 @@ function Home() {
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
         sx={{ 
-          background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-          color: 'white',
+          backgroundColor: '#fed7aa', // bg-orange-200 (solid color)
+         // background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
+          color: 'black',
           py: { xs: 8, md: 12 },
           textAlign: 'center'
         }}

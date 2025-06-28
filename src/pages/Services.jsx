@@ -154,8 +154,9 @@ function Services() {
       {/* Hero Section */}
       <Box 
         sx={{ 
-          background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
-          color: 'white',
+          //background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+          backgroundColor: '#fed7aa', // bg-orange-200 (solid color)
+          color: 'Black',
           py: { xs: 6, sm: 8, md: 12 },
           textAlign: 'center',
           position: 'relative',
@@ -560,8 +561,9 @@ function Services() {
       {/* CTA Section */}
       <Box 
         sx={{ 
-          background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
-          color: 'white',
+          //background: `linear-gradient(to right, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
+          backgroundColor: '#fed7aa', // bg-orange-200 (solid color)
+          color: 'Black',
           py: { xs: 6, sm: 8, md: 12 },
           textAlign: 'center',
           position: 'relative',
